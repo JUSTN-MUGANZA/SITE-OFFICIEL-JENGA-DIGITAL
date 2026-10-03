@@ -12,6 +12,11 @@ export const NAV_LINKS = [
   { href: "/", label: "Accueil" },
   { href: "/a-propos", label: "À propos" },
   { href: "/services", label: "Services" },
-  { href: "/realisations", label: "Réalisations" },
+  { href: "/realisations", label: "Projets" },
+  { href: "/equipe", label: "Équipe" },
+  { href: "/temoignages", label: "Témoignages" },
   { href: "/faq", label: "FAQ" },
+  { href: "/contact", label: "Contact" },
 ] as const;
+
+export const DEFAULT_TAGLINE = "Des solutions digitales pour un avenir meilleur.";

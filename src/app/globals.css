@@ -1,20 +1,26 @@
 @import "tailwindcss";
 
-/* Charte JENGA Digital, tirée du logo : bleu marine, bleu moyen, bleu ciel. */
+/* Charte JENGA Digital (maquette Stitch) : bleu profond + bleu électrique. */
 :root {
   --background: #ffffff;
-  --foreground: #0b1b2e;
-  --muted: #f1f6fb;
-  --muted-foreground: #5b6b7f;
-  --border: #dde6f0;
-  --brand: #0a4a80;
+  --foreground: #0b1630;
+  --muted: #f3f6fc;
+  --muted-foreground: #5a6785;
+  --border: #e1e8f5;
+  --brand: #1467f0;
   --brand-foreground: #ffffff;
-  --brand-mid: #3373b0;
-  --accent: #00a8ff;
-  --accent-light: #7fc8ec;
-  --ink: #06223d;
+  --brand-mid: #2f80ff;
+  --brand-soft: #e9f1ff;
+  --accent: #3d9bff;
+  --accent-light: #8cc4ff;
+  --ink: #071a3d;
+  --navy-950: #030c22;
+  --navy-900: #061633;
+  --navy-800: #0a2452;
+  --navy-700: #0f3478;
   --danger: #dc2626;
   --success: #16a34a;
+  --warning: #f59e0b;
 }
 
 @theme inline {
@@ -26,12 +32,18 @@
   --color-brand: var(--brand);
   --color-brand-foreground: var(--brand-foreground);
   --color-brand-mid: var(--brand-mid);
+  --color-brand-soft: var(--brand-soft);
   --color-accent: var(--accent);
   --color-accent-light: var(--accent-light);
   --color-ink: var(--ink);
+  --color-navy-950: var(--navy-950);
+  --color-navy-900: var(--navy-900);
+  --color-navy-800: var(--navy-800);
+  --color-navy-700: var(--navy-700);
   --color-danger: var(--danger);
   --color-success: var(--success);
-  --font-sans: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  --color-warning: var(--warning);
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, monospace;
 }
 
@@ -40,22 +52,38 @@ body {
   color: var(--foreground);
 }
 
+/* Fond des bandeaux sombres : bleu nuit avec halos bleu électrique. */
+.navy-surface {
+  background-color: var(--navy-900);
+  background-image:
+    radial-gradient(60rem 30rem at 85% 10%, rgb(20 103 240 / 0.35), transparent 60%),
+    radial-gradient(40rem 25rem at 0% 100%, rgb(61 155 255 / 0.18), transparent 60%),
+    linear-gradient(180deg, var(--navy-950), var(--navy-900));
+}
+
 .brand-gradient {
-  background-image: linear-gradient(135deg, var(--ink) 0%, var(--brand) 45%, var(--brand-mid) 75%, var(--accent) 100%);
+  background-image: linear-gradient(120deg, var(--navy-900) 0%, var(--navy-800) 45%, var(--brand) 100%);
 }
 
 .text-gradient {
-  background-image: linear-gradient(90deg, var(--accent-light), var(--accent));
+  background-image: linear-gradient(90deg, var(--brand-mid), var(--accent));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
-/* Apparition douce au chargement des sections. */
+/* Quadrillage discret des visuels techniques. */
+.tech-grid {
+  background-image:
+    linear-gradient(rgb(140 196 255 / 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(140 196 255 / 0.07) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(14px);
   }
   to {
     opacity: 1;
@@ -63,8 +91,22 @@ body {
   }
 }
 
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
 .animate-rise {
-  animation: rise 0.6s ease-out both;
+  animation: rise 0.7s ease-out both;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -72,6 +114,7 @@ body {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
 }

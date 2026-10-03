@@ -1,10 +1,10 @@
-import { ArrowLeft, ExternalLink } from "lucide-react";
+import { Building2, CalendarDays, CheckCircle2, Code2, ExternalLink, Tag } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CtaBand } from "@/components/site/cards";
-import { JsonLd, PageHero } from "@/components/site/section";
+import { container, JsonLd, PageHero } from "@/components/site/section";
+import { MediaFrame } from "@/components/site/visuals";
 import { fr, getPublicServices } from "@/lib/content/public";
 import { getLiveBySlug } from "@/lib/content/repository";
 import { siteUrl } from "@/lib/site";
@@ -22,86 +22,124 @@ export async function generateMetadata({ params }: PageProps<"/realisations/[slu
   };
 }
 
+/** Sépare le texte en paragraphes de présentation et en liste de fonctionnalités (lignes « - … »). */
+function splitBody(text: string) {
+  const features: string[] = [];
+  const paragraphs: string[] = [];
+  for (const block of text.split(/\n{2,}/)) {
+    const lines = block.split("\n");
+    if (lines.every((l) => /^\s*[-•*]\s+/.test(l))) features.push(...lines.map((l) => l.replace(/^\s*[-•*]\s+/, "")));
+    else paragraphs.push(block);
+  }
+  return { features, paragraphs };
+}
+
 export default async function ProjectPage({ params }: PageProps<"/realisations/[slug]">) {
   const { slug } = await params;
   const project = await getLiveBySlug("projects", slug);
   if (!project) notFound();
   const services = (await getPublicServices()).filter((s) => project.serviceIds.includes(s.id));
   const url = siteUrl();
+  const { features, paragraphs } = splitBody(fr(project.body) || fr(project.summary));
 
   const facts = [
-    { label: "Client", value: project.client },
-    { label: "Secteur", value: project.sector },
-    { label: "Année", value: project.year ? String(project.year) : "" },
+    { icon: Tag, label: "Catégorie", value: services.map((s) => fr(s.title)).join(", ") || project.sector },
+    { icon: Code2, label: "Technologies", value: project.technologies.join(", ") },
+    { icon: CalendarDays, label: "Année", value: project.year ? String(project.year) : "" },
+    { icon: Building2, label: "Client", value: project.client },
   ].filter((f) => f.value);
 
   return (
     <>
-      <PageHero eyebrow="Réalisation" title={fr(project.title)} intro={fr(project.summary)} />
-      <article className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-        <Link href="/realisations" className="inline-flex items-center gap-1 text-sm font-semibold text-brand-mid hover:text-brand">
-          <ArrowLeft className="size-4" aria-hidden /> Toutes les réalisations
-        </Link>
-        {project.coverImage ? (
-          <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-3xl bg-muted shadow-lg">
-            <Image src={project.coverImage} alt={project.coverAlt || fr(project.title)} fill priority sizes="(min-width: 1152px) 1152px, 100vw" className="object-cover" />
-          </div>
-        ) : null}
-        <div className="mt-12 grid gap-12 lg:grid-cols-[2fr_1fr]">
-          <div className="space-y-5 text-lg leading-relaxed text-ink/90">
-            {(fr(project.body) || fr(project.summary)).split(/\n{2,}/).map((para, i) => (
+      <PageHero
+        title={fr(project.title)}
+        intro={fr(project.summary)}
+        crumbs={[{ href: "/", label: "Accueil" }, { href: "/realisations", label: "Projets" }, { label: fr(project.title) }]}
+      />
+      <article className={`grid gap-10 py-16 sm:py-20 lg:grid-cols-[1.7fr_1fr] ${container}`}>
+        <div className="min-w-0">
+          <MediaFrame
+            src={project.coverImage}
+            alt={project.coverAlt || fr(project.title)}
+            priority
+            sizes="(min-width: 1024px) 60vw, 100vw"
+            className="aspect-[16/10] rounded-3xl shadow-2xl shadow-navy-950/15"
+          />
+          <h2 className="mt-12 text-2xl font-bold text-ink">Présentation</h2>
+          <div className="mt-4 space-y-4 leading-relaxed text-muted-foreground">
+            {paragraphs.map((para, i) => (
               <p key={i} className="whitespace-pre-line">
                 {para}
               </p>
             ))}
           </div>
-          <aside className="h-fit space-y-6 rounded-2xl border border-border bg-muted p-6">
-            {facts.length > 0 ? (
-              <dl className="space-y-3">
-                {facts.map((f) => (
-                  <div key={f.label}>
-                    <dt className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{f.label}</dt>
-                    <dd className="font-semibold text-ink">{f.value}</dd>
-                  </div>
+          {features.length > 0 ? (
+            <>
+              <h2 className="mt-10 text-2xl font-bold text-ink">Fonctionnalités principales</h2>
+              <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+                {features.map((f) => (
+                  <li key={f} className="flex gap-3 text-sm text-ink/85">
+                    <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-brand" aria-hidden />
+                    {f}
+                  </li>
                 ))}
-              </dl>
-            ) : null}
-            {services.length > 0 ? (
-              <div>
-                <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Services</h2>
-                <ul className="mt-2 flex flex-wrap gap-2">
-                  {services.map((s) => (
-                    <li key={s.id}>
-                      <Link href={`/services/${s.slug}`} className="inline-flex rounded-full bg-background px-3 py-1 text-sm font-medium text-brand-mid hover:text-brand">
-                        {fr(s.title)}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
-            {project.technologies.length > 0 ? (
-              <div>
-                <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Technologies</h2>
-                <p className="mt-2 text-sm text-ink">{project.technologies.join(", ")}</p>
-              </div>
-            ) : null}
-            {project.liveUrl ? (
-              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 rounded-xl bg-brand px-4 py-3 font-semibold text-white hover:bg-brand-mid">
-                Voir le site <ExternalLink className="size-4" aria-hidden />
-              </a>
-            ) : null}
-          </aside>
+              </ul>
+            </>
+          ) : null}
+          {project.technologies.length > 0 ? (
+            <>
+              <h2 className="mt-10 text-lg font-semibold text-ink">Technologies utilisées</h2>
+              <ul className="mt-4 flex flex-wrap gap-2">
+                {project.technologies.map((t) => (
+                  <li key={t} className="rounded-full bg-brand-soft px-3.5 py-1.5 text-xs font-semibold text-brand">
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : null}
         </div>
-        {project.gallery.length > 0 ? (
-          <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {project.gallery.map((img) => (
-              <div key={img.url} className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-muted">
-                <Image src={img.url} alt={img.alt || fr(project.title)} fill sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="object-cover" />
-              </div>
-            ))}
-          </div>
-        ) : null}
+        <aside className="space-y-6 lg:sticky lg:top-28 lg:h-fit">
+          {facts.length > 0 ? (
+            <dl className="space-y-5 rounded-3xl border border-border bg-white p-6 shadow-xl shadow-navy-950/5">
+              {facts.map(({ icon: Icon, label, value }) => (
+                <div key={label} className="flex gap-4">
+                  <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-brand">
+                    <Icon className="size-5" aria-hidden />
+                  </span>
+                  <div className="min-w-0">
+                    <dt className="text-xs font-medium uppercase tracking-wider text-muted-foreground">{label}</dt>
+                    <dd className="font-semibold text-ink">{value}</dd>
+                  </div>
+                </div>
+              ))}
+            </dl>
+          ) : null}
+          {project.gallery.length > 0 ? (
+            <div className="rounded-3xl border border-border bg-white p-6 shadow-xl shadow-navy-950/5">
+              <h2 className="font-semibold text-ink">Galerie</h2>
+              <ul className="mt-4 grid grid-cols-2 gap-3">
+                {project.gallery.map((img) => (
+                  <li key={img.url}>
+                    <a href={img.url} target="_blank" rel="noopener noreferrer" className="relative block aspect-[4/3] overflow-hidden rounded-xl bg-muted">
+                      <Image src={img.url} alt={img.alt || fr(project.title)} fill sizes="12rem" className="object-cover transition hover:scale-105" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+          {project.liveUrl ? (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 rounded-full bg-brand px-4 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand/30 transition hover:bg-brand-mid"
+            >
+              Voir le site en ligne <ExternalLink className="size-4" aria-hidden />
+            </a>
+          ) : null}
+        </aside>
       </article>
       <CtaBand />
       <JsonLd

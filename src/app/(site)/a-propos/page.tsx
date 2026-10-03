@@ -1,99 +1,129 @@
+import { ArrowRight, Check, Eye, Target, Gem } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
-import { CtaBand, TeamCard, TestimonialCard } from "@/components/site/cards";
-import { PageHero, SectionHeading } from "@/components/site/section";
-import { fr } from "@/lib/content/public";
-import { getHome, listLive } from "@/lib/content/repository";
+import Link from "next/link";
+import { btnPrimary, CtaBand } from "@/components/site/cards";
+import { container, PageHero, SectionHeading } from "@/components/site/section";
+import { ServiceIcon } from "@/components/site/service-icon";
+import { MediaFrame, TechLines } from "@/components/site/visuals";
+import { fr, getPublicServices } from "@/lib/content/public";
+import { getHome } from "@/lib/content/repository";
 
 export const metadata: Metadata = {
   title: "À propos",
-  description: "Découvrez JENGA Digital, son histoire, son équipe et sa façon de construire des projets digitaux solides.",
+  description: "JENGA Digital, agence digitale au service de votre réussite : notre mission, notre vision, nos valeurs et notre expertise.",
   alternates: { canonical: "/a-propos" },
 };
 
-const VALUES = [
-  { title: "Écoute", text: "Nous partons de vos objectifs et de vos clients, pas de la technique." },
-  { title: "Qualité", text: "Un travail soigné, testé et documenté, fait pour durer." },
-  { title: "Transparence", text: "Des devis clairs, des délais tenus et un contact direct." },
-  { title: "Innovation", text: "Les bonnes technologies au service de votre croissance." },
-];
+const VALUES = ["Innovation", "Professionnalisme", "Créativité", "Fiabilité", "Collaboration"];
 
 export default async function AboutPage() {
-  const [home, history, team, testimonials] = await Promise.all([getHome(), listLive("history"), listLive("team"), listLive("testimonials")]);
-  const steps = [...history].sort((a, b) => a.year - b.year);
+  const [home, services] = await Promise.all([getHome(), getPublicServices()]);
 
   return (
     <>
-      <PageHero eyebrow="À propos" title="Une agence digitale qui construit avec vous" intro="Jenga signifie « construire ». Nous bâtissons des outils digitaux solides, brique après brique, aux côtés de nos clients." />
+      <PageHero
+        title="À propos de JENGA Digital"
+        intro="Une agence digitale au service de votre réussite."
+        crumbs={[{ href: "/", label: "Accueil" }, { label: "À propos" }]}
+      />
 
-      <section className="mx-auto grid max-w-6xl items-center gap-12 px-4 py-20 sm:px-6 lg:grid-cols-2">
+      <section className={`grid items-center gap-12 py-20 sm:py-24 lg:grid-cols-2 ${container}`}>
         <div>
-          <SectionHeading eyebrow="Qui sommes-nous" title="JENGA Digital" />
-          <p className="mt-5 whitespace-pre-line text-lg leading-relaxed text-muted-foreground">
-            {fr(home.about) ||
-              "Nous accompagnons les entreprises, les indépendants et les organisations dans leur transformation digitale : création de sites web et d'applications, référencement, marketing digital et identité visuelle. Notre objectif est simple : des outils utiles, beaux et faciles à faire vivre."}
-          </p>
+          <SectionHeading eyebrow="Qui sommes-nous ?" title="Construire votre réussite numérique, brique après brique" />
+          <div className="mt-6 space-y-4 leading-relaxed text-muted-foreground">
+            {(
+              fr(home.about) ||
+              "JENGA Digital est une agence digitale spécialisée dans la création de solutions numériques innovantes. Nous accompagnons les entreprises, les organisations et les particuliers dans leur transformation digitale.\n\n« Jenga » veut dire « construire » : comprendre votre activité, poser des bases solides et faire évoluer vos outils digitaux avec vous."
+            )
+              .split(/\n{2,}/)
+              .map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
+          </div>
+          <Link href="/histoire" className={`${btnPrimary} mt-8`}>
+            Découvrir notre histoire <ArrowRight className="size-4" aria-hidden />
+          </Link>
         </div>
-        <div className="flex items-center justify-center rounded-3xl bg-muted p-10">
-          <Image src="/brand/logo-jenga-digital-transparent.png" alt="Logo JENGA Digital" width={640} height={276} className="h-auto w-full max-w-md" />
-        </div>
+        <MediaFrame src={home.hero.image} alt="" sizes="(min-width: 1024px) 50vw, 100vw" className="aspect-[4/3] rounded-3xl shadow-2xl shadow-navy-950/20">
+          <Image src="/brand/logo-jenga-digital-white.png" alt="" width={720} height={310} className="h-20 w-auto drop-shadow-[0_0_30px_rgba(61,155,255,0.5)] sm:h-24" />
+        </MediaFrame>
       </section>
 
       <section className="bg-muted">
-        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-          <SectionHeading eyebrow="Nos valeurs" title="Ce qui guide notre travail" center />
-          <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {VALUES.map((v) => (
-              <li key={v.title} className="rounded-2xl bg-background p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-ink">{v.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{v.text}</p>
-              </li>
-            ))}
-          </ul>
+        <div className={`grid gap-6 py-20 md:grid-cols-3 ${container}`}>
+          <article className="rounded-2xl border border-border bg-white p-7 shadow-sm">
+            <span className="inline-flex size-12 items-center justify-center rounded-xl bg-brand text-white shadow-md shadow-brand/30">
+              <Target className="size-6" aria-hidden />
+            </span>
+            <h2 className="mt-5 text-xl font-semibold text-ink">Mission</h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              Accompagner nos clients dans leur transformation digitale en leur offrant des solutions innovantes, adaptées et durables.
+            </p>
+          </article>
+          <article className="rounded-2xl border border-border bg-white p-7 shadow-sm">
+            <span className="inline-flex size-12 items-center justify-center rounded-xl bg-brand text-white shadow-md shadow-brand/30">
+              <Eye className="size-6" aria-hidden />
+            </span>
+            <h2 className="mt-5 text-xl font-semibold text-ink">Vision</h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              Devenir une référence en Afrique centrale dans les solutions digitales et l&apos;innovation technologique.
+            </p>
+          </article>
+          <article className="rounded-2xl border border-border bg-white p-7 shadow-sm">
+            <span className="inline-flex size-12 items-center justify-center rounded-xl bg-brand text-white shadow-md shadow-brand/30">
+              <Gem className="size-6" aria-hidden />
+            </span>
+            <h2 className="mt-5 text-xl font-semibold text-ink">Valeurs</h2>
+            <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+              {VALUES.map((v) => (
+                <li key={v} className="flex items-center gap-2">
+                  <Check className="size-4 text-brand" aria-hidden />
+                  {v}
+                </li>
+              ))}
+            </ul>
+          </article>
         </div>
       </section>
 
-      {steps.length > 0 ? (
-        <section id="histoire" className="mx-auto max-w-4xl px-4 py-20 sm:px-6">
-          <SectionHeading eyebrow="Notre histoire" title="Les grandes étapes de JENGA Digital" center />
-          <ol className="relative mt-12 space-y-10 border-l-2 border-accent-light pl-8">
-            {steps.map((s) => (
-              <li key={s.id} className="relative">
-                <span className="absolute -left-[2.6rem] top-1 size-4 rounded-full border-4 border-background bg-accent" aria-hidden />
-                <p className="text-sm font-bold text-brand-mid">{s.date || s.year}</p>
-                <h3 className="mt-1 text-xl font-bold text-ink">{fr(s.title)}</h3>
-                {fr(s.description) ? <p className="mt-2 whitespace-pre-line text-muted-foreground">{fr(s.description)}</p> : null}
-              </li>
-            ))}
-          </ol>
-        </section>
-      ) : null}
+      <section className={`py-20 sm:py-24 ${container}`}>
+        <SectionHeading eyebrow="Notre expertise" title="Ce que nous faisons pour vous" />
+        <ul className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+          {services.map((s) => (
+            <li key={s.id}>
+              <Link
+                href={`/services/${s.slug}`}
+                className="flex h-full flex-col items-center gap-3 rounded-2xl border border-border bg-white px-3 py-6 text-center text-sm font-medium text-ink transition hover:-translate-y-1 hover:border-brand/30 hover:shadow-lg"
+              >
+                <span className="inline-flex size-12 items-center justify-center rounded-xl bg-brand-soft text-brand">
+                  <ServiceIcon name={s.icon} className="size-6" />
+                </span>
+                {fr(s.title)}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
 
-      {team.length > 0 ? (
-        <section id="equipe" className="bg-muted">
-          <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-            <SectionHeading eyebrow="Notre équipe" title="Les personnes derrière vos projets" center />
-            <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-              {team.map((m) => (
-                <TeamCard key={m.id} member={m} />
+      {home.stats.length > 0 ? (
+        <section className="navy-surface relative overflow-hidden text-white">
+          <TechLines className="absolute -right-10 top-0 h-full opacity-40" />
+          <div className={`relative py-16 ${container}`}>
+            <h2 className="text-2xl font-bold sm:text-3xl">Nos chiffres clés</h2>
+            <dl className="mt-10 grid grid-cols-2 gap-8 lg:grid-cols-4">
+              {home.stats.map((s, i) => (
+                <div key={i} className="border-l-2 border-brand pl-5">
+                  <dd className="text-4xl font-bold">{s.value}</dd>
+                  <dt className="mt-1 text-sm text-white/70">{fr(s.label)}</dt>
+                </div>
               ))}
-            </div>
+            </dl>
           </div>
         </section>
       ) : null}
 
-      {testimonials.length > 0 ? (
-        <section id="temoignages" className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-          <SectionHeading eyebrow="Témoignages" title="Ce que disent nos clients" center />
-          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {testimonials.map((t) => (
-              <TestimonialCard key={t.id} testimonial={t} />
-            ))}
-          </div>
-        </section>
-      ) : null}
-
-      <CtaBand />
+      <CtaBand title="Ensemble, construisons un avenir digital." text="Contactez-nous dès aujourd'hui et donnez vie à vos projets." />
     </>
   );
 }
