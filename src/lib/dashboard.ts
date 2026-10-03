@@ -51,3 +51,66 @@ export const ACTION_LABELS: Record<string, string> = {
   "user.disable": "a désactivé un utilisateur",
   "user.enable": "a réactivé un utilisateur",
 };
+
+export type RecentContact = {
+  id: string;
+  name: string;
+  email: string;
+  unread: boolean;
+  subject: string;
+  preview: string;
+  at: Date | null;
+};
+
+/** Derniers contacts ayant écrit, avec un aperçu de leur dernier message. */
+export async function getRecentContacts(limit = 4): Promise<RecentContact[]> {
+  try {
+    const snap = await adminDb().collection("contacts").orderBy("lastMessageAt", "desc").limit(limit).get();
+    return await Promise.all(
+      snap.docs.map(async (doc) => {
+        const data = doc.data();
+        const last = await doc.ref.collection("messages").orderBy("createdAt", "desc").limit(1).get().catch(() => null);
+        const message = last?.docs[0]?.data();
+        return {
+          id: doc.id,
+          name: String(data.name ?? ""),
+          email: String(data.email ?? ""),
+          unread: data.status === "new",
+          subject: String(message?.subject || "Formulaire de contact"),
+          preview: String(message?.body ?? "").slice(0, 140),
+          at: data.lastMessageAt?.toDate?.() ?? null,
+        };
+      }),
+    );
+  } catch {
+    return [];
+  }
+}
+
+/** Nouveaux contacts par jour sur les `days` derniers jours (du plus ancien au plus récent). */
+export async function getContactsPerDay(days = 30, now = new Date()): Promise<{ day: Date; count: number }[]> {
+  const start = new Date(now.getFullYear(), now.getMonth(), now.getDate() - (days - 1));
+  const buckets = Array.from({ length: days }, (_, i) => ({ day: new Date(start.getFullYear(), start.getMonth(), start.getDate() + i), count: 0 }));
+  try {
+    const snap = await adminDb().collection("contacts").where("createdAt", ">=", start).select("createdAt").get();
+    for (const doc of snap.docs) {
+      const created: Date | undefined = doc.get("createdAt")?.toDate?.();
+      if (!created) continue;
+      const index = Math.floor((created.getTime() - start.getTime()) / 86_400_000);
+      if (index >= 0 && index < days) buckets[index].count++;
+    }
+  } catch {
+    // Pas de base configurée : courbe vide.
+  }
+  return buckets;
+}
+
+/** Nombre de notifications que cet administrateur n'a pas encore lues. */
+export async function countUnreadNotifications(uid: string): Promise<number> {
+  try {
+    const snap = await adminDb().collection("notifications").orderBy("createdAt", "desc").limit(50).get();
+    return snap.docs.filter((d) => !((d.get("readBy") as string[] | undefined) ?? []).includes(uid)).length;
+  } catch {
+    return 0;
+  }
+}
