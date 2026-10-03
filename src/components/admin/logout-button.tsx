@@ -20,9 +20,9 @@ export function LogoutButton() {
       type="button"
       onClick={logout}
       disabled={pending}
-      className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-muted-foreground transition hover:bg-muted hover:text-foreground disabled:opacity-50"
+      className="flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium text-white/70 transition hover:bg-white/5 hover:text-white disabled:opacity-50"
     >
-      <LogOut className="size-4" aria-hidden />
+      <LogOut className="size-5" aria-hidden />
       {pending ? "Déconnexion…" : "Se déconnecter"}
     </button>
   );
