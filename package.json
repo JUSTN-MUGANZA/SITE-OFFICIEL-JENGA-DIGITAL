@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "firebase:setup": "node scripts/firebase-setup.mts"
   },
   "dependencies": {
     "firebase": "^12.19.0",

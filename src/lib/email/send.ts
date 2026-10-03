@@ -28,12 +28,3 @@ export async function sendEmail(message: EmailMessage): Promise<SendResult> {
   if (error || !data) return { ok: false, error: error?.message ?? "Échec de l'envoi." };
   return { ok: true, id: data.id };
 }
-
-export function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
