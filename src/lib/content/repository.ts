@@ -185,8 +185,8 @@ export async function purgeExpiredTrash(collection: ContentCollection, now = Dat
 
 export const DEFAULT_HOME: HomeContent = homeSchema.parse({
   hero: {
-    title: { fr: "Votre agence digitale" },
-    subtitle: { fr: "Sites web, applications et stratégie digitale pour faire grandir votre activité." },
+    title: { fr: "Construisons ensemble votre réussite digitale" },
+    subtitle: { fr: "Sites web, applications et visibilité en ligne : JENGA Digital conçoit les outils qui font grandir votre activité." },
     ctaLabel: { fr: "Parlons de votre projet" },
   },
 });

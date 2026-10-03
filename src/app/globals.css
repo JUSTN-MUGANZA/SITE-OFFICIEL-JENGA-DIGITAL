@@ -1,14 +1,18 @@
 @import "tailwindcss";
 
-/* Couleurs de marque provisoires : à remplacer par la charte JENGA Digital. */
+/* Charte JENGA Digital, tirée du logo : bleu marine, bleu moyen, bleu ciel. */
 :root {
   --background: #ffffff;
-  --foreground: #0f172a;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
-  --border: #e2e8f0;
-  --brand: #0b5fff;
+  --foreground: #0b1b2e;
+  --muted: #f1f6fb;
+  --muted-foreground: #5b6b7f;
+  --border: #dde6f0;
+  --brand: #0a4a80;
   --brand-foreground: #ffffff;
+  --brand-mid: #3373b0;
+  --accent: #00a8ff;
+  --accent-light: #7fc8ec;
+  --ink: #06223d;
   --danger: #dc2626;
   --success: #16a34a;
 }
@@ -21,15 +25,46 @@
   --color-border: var(--border);
   --color-brand: var(--brand);
   --color-brand-foreground: var(--brand-foreground);
+  --color-brand-mid: var(--brand-mid);
+  --color-accent: var(--accent);
+  --color-accent-light: var(--accent-light);
+  --color-ink: var(--ink);
   --color-danger: var(--danger);
   --color-success: var(--success);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, monospace;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
+}
+
+.brand-gradient {
+  background-image: linear-gradient(135deg, var(--ink) 0%, var(--brand) 45%, var(--brand-mid) 75%, var(--accent) 100%);
+}
+
+.text-gradient {
+  background-image: linear-gradient(90deg, var(--accent-light), var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Apparition douce au chargement des sections. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-rise {
+  animation: rise 0.6s ease-out both;
 }
 
 @media (prefers-reduced-motion: reduce) {

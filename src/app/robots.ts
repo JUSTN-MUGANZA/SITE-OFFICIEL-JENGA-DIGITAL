@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { siteUrl } from "@/lib/site";
 
 /**
  * Moteurs de recherche et assistants IA sont explicitement autorisés,
@@ -20,12 +21,11 @@ const AI_AND_SEARCH_BOTS = [
 
 export default function robots(): MetadataRoute.Robots {
   const disallow = ["/admin", "/api/"];
-  const site = process.env.NEXT_PUBLIC_SITE_URL;
   return {
     rules: [
       ...AI_AND_SEARCH_BOTS.map((userAgent) => ({ userAgent, allow: "/", disallow })),
       { userAgent: "*", allow: "/", disallow },
     ],
-    sitemap: site ? `${site}/sitemap.xml` : undefined,
+    sitemap: `${siteUrl()}/sitemap.xml`,
   };
 }
