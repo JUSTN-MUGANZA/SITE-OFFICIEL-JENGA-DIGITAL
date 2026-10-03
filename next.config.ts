@@ -19,7 +19,11 @@ const nextConfig: NextConfig = {
     ];
   },
   images: {
-    remotePatterns: [{ protocol: "https", hostname: "firebasestorage.googleapis.com" }],
+    remotePatterns: [
+      { protocol: "https", hostname: "firebasestorage.googleapis.com" },
+      // Images envoyées depuis le tableau de bord (Vercel Blob).
+      { protocol: "https", hostname: "*.public.blob.vercel-storage.com" },
+    ],
   },
 };
 
