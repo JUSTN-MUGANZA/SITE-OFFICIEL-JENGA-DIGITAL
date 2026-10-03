@@ -22,3 +22,27 @@ export function readServiceAccount(env: Record<string, string | undefined> = pro
   const privateKey = env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
   return projectId && clientEmail && privateKey ? { projectId, clientEmail, privateKey } : null;
 }
+
+export type CredentialsStatus =
+  | "ok"
+  | "absent"
+  | "json-invalide"
+  | "champs-manquants"
+  | "cle-privee-mal-formee";
+
+/** État lisible des identifiants, pour le diagnostic (ne révèle aucun secret). */
+export function describeServiceAccount(env: Record<string, string | undefined> = process.env): CredentialsStatus {
+  if (env.FIREBASE_SERVICE_ACCOUNT) {
+    let json: Record<string, unknown>;
+    try {
+      json = JSON.parse(env.FIREBASE_SERVICE_ACCOUNT) as Record<string, unknown>;
+    } catch {
+      return "json-invalide";
+    }
+    if (!json.project_id || !json.client_email || !json.private_key) return "champs-manquants";
+    return String(json.private_key).includes("-----BEGIN PRIVATE KEY-----") ? "ok" : "cle-privee-mal-formee";
+  }
+  const account = readServiceAccount(env);
+  if (!account) return "absent";
+  return account.privateKey.includes("-----BEGIN PRIVATE KEY-----") ? "ok" : "cle-privee-mal-formee";
+}

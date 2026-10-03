@@ -8,8 +8,14 @@ export const SETTINGS_TAG = "site-settings";
 async function readSettings(): Promise<SiteSettings> {
   const fallback = process.env.CONTACT_EMAIL ?? "";
   if (!isAdminConfigured()) return withDefaults(undefined, fallback);
-  const snap = await adminDb().collection("settings").doc("site").get();
-  return withDefaults(snap.data() as Partial<SiteSettings> | undefined, fallback);
+  try {
+    const snap = await adminDb().collection("settings").doc("site").get();
+    return withDefaults(snap.data() as Partial<SiteSettings> | undefined, fallback);
+  } catch (error) {
+    // Le site reste en ligne avec les valeurs par défaut si Firestore ne répond pas.
+    console.error("Lecture des paramètres impossible :", error);
+    return withDefaults(undefined, fallback);
+  }
 }
 
 /** Paramètres pour le site public, en cache jusqu'à la prochaine modification. */

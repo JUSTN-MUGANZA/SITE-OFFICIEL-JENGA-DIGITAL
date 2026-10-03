@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { readServiceAccount } from "./credentials";
+import { describeServiceAccount, readServiceAccount } from "./credentials";
 
 describe("readServiceAccount", () => {
   it("lit le JSON complet du compte de service", () => {
@@ -23,5 +23,22 @@ describe("readServiceAccount", () => {
   it("retourne null sans configuration ou avec un JSON invalide", () => {
     expect(readServiceAccount({})).toBeNull();
     expect(readServiceAccount({ FIREBASE_SERVICE_ACCOUNT: "{pas du json" })).toBeNull();
+  });
+});
+
+describe("describeServiceAccount", () => {
+  const key = "-----BEGIN PRIVATE KEY-----\nabc\n-----END PRIVATE KEY-----\n";
+
+  it("signale chaque problème de configuration", () => {
+    expect(describeServiceAccount({})).toBe("absent");
+    expect(describeServiceAccount({ FIREBASE_SERVICE_ACCOUNT: '{"project_id": "p"' })).toBe("json-invalide");
+    expect(describeServiceAccount({ FIREBASE_SERVICE_ACCOUNT: '{"project_id": "p"}' })).toBe("champs-manquants");
+    const bad = JSON.stringify({ project_id: "p", client_email: "c", private_key: "xyz" });
+    expect(describeServiceAccount({ FIREBASE_SERVICE_ACCOUNT: bad })).toBe("cle-privee-mal-formee");
+  });
+
+  it("accepte un fichier JSON complet", () => {
+    const json = JSON.stringify({ project_id: "p", client_email: "c", private_key: key });
+    expect(describeServiceAccount({ FIREBASE_SERVICE_ACCOUNT: json })).toBe("ok");
   });
 });
