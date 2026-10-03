@@ -13,7 +13,7 @@ export default async function LegalNoticePage() {
   const settings = await getSiteSettings();
   return (
     <>
-      <PageHero title="Mentions légales" />
+      <PageHero title="Mentions légales" crumbs={[{ href: "/", label: "Accueil" }, { label: "Mentions légales" }]} />
       <LegalBody updated="octobre 2026">
         <div>
           <h2>Éditeur du site</h2>

@@ -3,7 +3,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CtaBand, ProjectCard } from "@/components/site/cards";
-import { JsonLd, PageHero, SectionHeading } from "@/components/site/section";
+import { container, JsonLd, PageHero, SectionHeading } from "@/components/site/section";
+import { ServiceIcon } from "@/components/site/service-icon";
 import { fr, getPublicService } from "@/lib/content/public";
 import { listLive } from "@/lib/content/repository";
 import { siteUrl } from "@/lib/site";
@@ -29,23 +30,30 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
 
   return (
     <>
-      <PageHero eyebrow="Service" title={fr(service.title)} intro={fr(service.shortDescription)} />
-      <section className="mx-auto grid max-w-6xl gap-12 px-4 py-20 sm:px-6 lg:grid-cols-[2fr_1fr]">
-        <div className="space-y-5 text-lg leading-relaxed text-ink/90">
+      <PageHero
+        title={fr(service.title)}
+        intro={fr(service.shortDescription)}
+        crumbs={[{ href: "/", label: "Accueil" }, { href: "/services", label: "Services" }, { label: fr(service.title) }]}
+      />
+      <section className={`grid gap-12 py-20 lg:grid-cols-[2fr_1fr] ${container}`}>
+        <div className="space-y-5 text-lg leading-relaxed text-ink/85">
+          <span className="inline-flex size-14 items-center justify-center rounded-2xl bg-brand text-white shadow-lg shadow-brand/30">
+            <ServiceIcon name={service.icon} className="size-7" />
+          </span>
           {(fr(service.body) || fr(service.shortDescription)).split(/\n{2,}/).map((para, i) => (
             <p key={i} className="whitespace-pre-line">
               {para}
             </p>
           ))}
         </div>
-        <aside className="h-fit rounded-2xl border border-border bg-muted p-6">
+        <aside className="h-fit rounded-3xl border border-border bg-white p-7 shadow-xl shadow-navy-950/5 lg:sticky lg:top-28">
           {service.deliverables.length > 0 ? (
             <>
-              <h2 className="font-bold text-ink">Ce qui est inclus</h2>
+              <h2 className="font-semibold text-ink">Ce qui est inclus</h2>
               <ul className="mt-4 space-y-3">
                 {service.deliverables.map((d) => (
                   <li key={d} className="flex gap-2 text-sm">
-                    <Check className="mt-0.5 size-4 shrink-0 text-accent" aria-hidden />
+                    <Check className="mt-0.5 size-4 shrink-0 text-brand" aria-hidden />
                     {d}
                   </li>
                 ))}
@@ -53,14 +61,14 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
             </>
           ) : null}
           {service.startingPrice ? <p className="mt-6 text-sm text-muted-foreground">À partir de <strong className="text-ink">{service.startingPrice}</strong></p> : null}
-          <Link href={`/contact?service=${encodeURIComponent(service.slug)}`} className="mt-6 block rounded-xl bg-brand px-4 py-3 text-center font-semibold text-white transition hover:bg-brand-mid">
+          <Link href={`/contact?service=${encodeURIComponent(service.slug)}`} className="mt-6 block rounded-full bg-brand px-4 py-3 text-center text-sm font-semibold text-white shadow-lg shadow-brand/25 transition hover:bg-brand-mid">
             Demander un devis
           </Link>
         </aside>
       </section>
       {projects.length > 0 ? (
         <section className="bg-muted">
-          <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+          <div className={`py-20 ${container}`}>
             <SectionHeading eyebrow="Exemples" title="Projets réalisés avec ce service" />
             <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {projects.map((p) => (

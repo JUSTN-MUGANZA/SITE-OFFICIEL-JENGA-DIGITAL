@@ -185,10 +185,19 @@ export async function purgeExpiredTrash(collection: ContentCollection, now = Dat
 
 export const DEFAULT_HOME: HomeContent = homeSchema.parse({
   hero: {
-    title: { fr: "Construisons ensemble votre réussite digitale" },
-    subtitle: { fr: "Sites web, applications et visibilité en ligne : JENGA Digital conçoit les outils qui font grandir votre activité." },
-    ctaLabel: { fr: "Parlons de votre projet" },
+    title: { fr: "Construisons ensemble votre avenir digital" },
+    subtitle: {
+      fr: "JENGA Digital accompagne les entreprises, organisations et particuliers dans la conception de solutions numériques modernes, performantes et sur mesure.",
+    },
+    ctaLabel: { fr: "Découvrir nos services" },
+    ctaHref: "/services",
   },
+  stats: [
+    { value: "+50", label: { fr: "Projets réalisés" } },
+    { value: "+30", label: { fr: "Clients satisfaits" } },
+    { value: "+5", label: { fr: "Années d'expérience" } },
+    { value: "100%", label: { fr: "Engagement" } },
+  ],
 });
 
 async function readHome(): Promise<HomeContent> {

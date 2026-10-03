@@ -7,10 +7,18 @@ type ServiceOption = { id: string; title: string };
 type Status = { kind: "idle" | "sending" } | { kind: "ok" | "error"; message: string };
 
 const input =
-  "mt-1.5 w-full rounded-xl border border-border bg-white px-4 py-3 text-ink outline-none transition focus:border-brand-mid focus:ring-2 focus:ring-accent/30";
+  "mt-1.5 w-full rounded-xl border border-border bg-muted/60 px-4 py-3 text-sm text-ink outline-none transition placeholder:text-muted-foreground/70 focus:border-brand focus:bg-white focus:ring-4 focus:ring-brand/10";
 const label = "text-sm font-semibold text-ink";
 
-export function ContactForm({ services, initialServiceId = "" }: { services: ServiceOption[]; initialServiceId?: string }) {
+export function ContactForm({
+  services,
+  initialServiceId = "",
+  compact = false,
+}: {
+  services: ServiceOption[];
+  initialServiceId?: string;
+  compact?: boolean;
+}) {
   const startedAt = useRef(0);
   const [status, setStatus] = useState<Status>({ kind: "idle" });
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
@@ -44,16 +52,29 @@ export function ContactForm({ services, initialServiceId = "" }: { services: Ser
           startedAt: startedAt.current || undefined,
         }),
       });
-      const body = (await res.json().catch(() => null)) as { ok?: boolean; message?: string; fieldErrors?: Record<string, string> } | null;
+      const body = (await res.json().catch(() => null)) as {
+        ok?: boolean;
+        message?: string;
+        fieldErrors?: Record<string, string>;
+      } | null;
       if (res.ok && body?.ok) {
         form.reset();
-        setStatus({ kind: "ok", message: body.message ?? "Merci ! Votre message a bien été envoyé." });
+        setStatus({
+          kind: "ok",
+          message: body.message ?? "Merci ! Votre message a bien été envoyé.",
+        });
         return;
       }
       setFieldErrors(body?.fieldErrors ?? {});
-      setStatus({ kind: "error", message: body?.message ?? "L'envoi a échoué. Réessayez dans un instant." });
+      setStatus({
+        kind: "error",
+        message: body?.message ?? "L'envoi a échoué. Réessayez dans un instant.",
+      });
     } catch {
-      setStatus({ kind: "error", message: "Connexion impossible. Vérifiez votre réseau et réessayez." });
+      setStatus({
+        kind: "error",
+        message: "Connexion impossible. Vérifiez votre réseau et réessayez.",
+      });
     }
   }
 
@@ -78,62 +99,85 @@ export function ContactForm({ services, initialServiceId = "" }: { services: Ser
   const describedBy = (name: string) => (fieldErrors[name] ? `${name}-error` : undefined);
 
   return (
-    <form onSubmit={onSubmit} noValidate className="grid gap-5 sm:grid-cols-2">
+    <form onSubmit={onSubmit} noValidate className="relative grid gap-5 sm:grid-cols-2">
       <div>
         <label htmlFor="name" className={label}>
           Nom complet *
         </label>
-        <input id="name" name="name" required autoComplete="name" className={input} aria-invalid={!!fieldErrors.name} aria-describedby={describedBy("name")} />
+        <input
+          id="name"
+          name="name"
+          required
+          autoComplete="name"
+          placeholder="Votre nom"
+          className={input}
+          aria-invalid={!!fieldErrors.name}
+          aria-describedby={describedBy("name")}
+        />
         {error("name")}
       </div>
       <div>
         <label htmlFor="email" className={label}>
           Email *
         </label>
-        <input id="email" name="email" type="email" required autoComplete="email" className={input} aria-invalid={!!fieldErrors.email} aria-describedby={describedBy("email")} />
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          autoComplete="email"
+          placeholder="votre@email.com"
+          className={input}
+          aria-invalid={!!fieldErrors.email}
+          aria-describedby={describedBy("email")}
+        />
         {error("email")}
       </div>
-      <div>
-        <label htmlFor="phone" className={label}>
-          Téléphone
-        </label>
-        <input id="phone" name="phone" type="tel" autoComplete="tel" className={input} />
-      </div>
-      <div>
-        <label htmlFor="company" className={label}>
-          Entreprise
-        </label>
-        <input id="company" name="company" autoComplete="organization" className={input} />
-      </div>
-      <div>
-        <label htmlFor="serviceId" className={label}>
-          Service souhaité
-        </label>
-        <select id="serviceId" name="serviceId" defaultValue={initialServiceId} className={input}>
-          <option value="">Je ne sais pas encore</option>
-          {services.map((s) => (
-            <option key={s.id} value={s.id}>
-              {s.title}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <label htmlFor="subject" className={label}>
-          Sujet
-        </label>
-        <input id="subject" name="subject" className={input} />
-      </div>
+      {compact ? null : (
+        <>
+          <div>
+            <label htmlFor="phone" className={label}>
+              Téléphone
+            </label>
+            <input id="phone" name="phone" type="tel" autoComplete="tel" className={input} />
+          </div>
+          <div>
+            <label htmlFor="company" className={label}>
+              Entreprise
+            </label>
+            <input id="company" name="company" autoComplete="organization" className={input} />
+          </div>
+          <div>
+            <label htmlFor="serviceId" className={label}>
+              Service souhaité
+            </label>
+            <select id="serviceId" name="serviceId" defaultValue={initialServiceId} className={input}>
+              <option value="">Je ne sais pas encore</option>
+              {services.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.title}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label htmlFor="subject" className={label}>
+              Sujet
+            </label>
+            <input id="subject" name="subject" className={input} />
+          </div>
+        </>
+      )}
       <div className="sm:col-span-2">
         <label htmlFor="message" className={label}>
-          Votre projet *
+          Message *
         </label>
         <textarea
           id="message"
           name="message"
           required
-          rows={6}
-          placeholder="Décrivez votre besoin, vos objectifs, vos délais…"
+          rows={compact ? 4 : 6}
+          placeholder="Votre message…"
           className={input}
           aria-invalid={!!fieldErrors.message}
           aria-describedby={describedBy("message")}
@@ -158,10 +202,10 @@ export function ContactForm({ services, initialServiceId = "" }: { services: Ser
         <button
           type="submit"
           disabled={status.kind === "sending"}
-          className="inline-flex items-center gap-2 rounded-full bg-brand px-7 py-3.5 font-semibold text-white shadow-lg shadow-brand/20 transition hover:bg-brand-mid disabled:opacity-60"
+          className="inline-flex items-center gap-2 rounded-full bg-brand px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand/25 transition hover:-translate-y-0.5 hover:bg-brand-mid disabled:translate-y-0 disabled:opacity-60"
         >
           {status.kind === "sending" ? <Loader2 className="size-5 animate-spin" aria-hidden /> : <Send className="size-5" aria-hidden />}
-          {status.kind === "sending" ? "Envoi en cours…" : "Envoyer ma demande"}
+          {status.kind === "sending" ? "Envoi en cours…" : "Envoyer le message"}
         </button>
         <p className="mt-3 text-xs text-muted-foreground">
           Vos informations servent uniquement à répondre à votre demande. Voir notre{" "}

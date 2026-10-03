@@ -1,5 +1,5 @@
 import "server-only";
-import { DEFAULT_FAQS, DEFAULT_SERVICES } from "./defaults";
+import { DEFAULT_FAQS, DEFAULT_HISTORY, DEFAULT_SERVICES } from "./defaults";
 import { getLiveBySlug, listLive } from "./repository";
 import type { Localized } from "./schemas";
 
@@ -20,4 +20,9 @@ export async function getPublicService(slug: string) {
 export async function getPublicFaqs() {
   const live = await listLive("faqs");
   return live.length > 0 ? live : DEFAULT_FAQS;
+}
+
+export async function getPublicHistory() {
+  const live = await listLive("history");
+  return live.length > 0 ? live : DEFAULT_HISTORY;
 }
