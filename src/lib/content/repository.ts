@@ -59,7 +59,8 @@ export async function getForAdmin<C extends ContentCollection>(collection: C, id
 
 async function readLive<C extends ContentCollection>(collection: C): Promise<ContentItem<C>[]> {
   if (!isAdminConfigured()) return [];
-  const snap = await col(collection).where("status", "==", "published").orderBy("order").get();
+  // Tri seul côté Firestore (aucun index composite à créer), filtrage ici : les volumes sont faibles.
+  const snap = await col(collection).orderBy("order").get();
   return snap.docs.map((d) => toItem(collection, d)).filter((item) => isLive(item));
 }
 
