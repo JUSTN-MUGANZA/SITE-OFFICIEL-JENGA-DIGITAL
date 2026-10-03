@@ -1,0 +1,26 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    function canEdit() {
+      return request.auth != null && request.auth.token.role in ['super_admin', 'editor'];
+    }
+
+    // Images du site public (logos, projets, équipe) : lecture publique.
+    match /public/{path=**} {
+      allow read: if true;
+      allow write: if canEdit()
+        && request.resource.size < 8 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+      allow delete: if canEdit();
+    }
+
+    // Fichiers internes : équipe uniquement.
+    match /private/{path=**} {
+      allow read: if request.auth != null && request.auth.token.role in ['super_admin', 'editor', 'sales'];
+      allow write: if false;
+    }
+
+    match /{allPaths=**} { allow read, write: if false; }
+  }
+}

@@ -1,0 +1,46 @@
+rules_version = '2';
+
+// Toutes les écritures passent par le serveur Next.js (Firebase Admin SDK),
+// qui contourne ces règles après avoir vérifié le rôle. Le navigateur ne peut
+// donc jamais écrire directement : il peut seulement lire ce qui le concerne.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function role() {
+      return request.auth != null ? request.auth.token.role : null;
+    }
+    function isStaff() {
+      return role() in ['super_admin', 'editor', 'sales', 'viewer'];
+    }
+    function isPublished() {
+      return resource.data.status == 'published' && resource.data.get('deletedAt', null) == null;
+    }
+
+    // Paramètres du site et page d'accueil : publics en lecture.
+    match /settings/{doc} { allow read: if true; allow write: if false; }
+    match /pages/{doc}    { allow read: if true; allow write: if false; }
+    match /redirects/{doc} { allow read: if true; allow write: if false; }
+
+    // Contenus du site : publics une fois publiés, visibles en brouillon par l'équipe.
+    match /{collection}/{doc} {
+      allow read: if collection in ['projects', 'services', 'team', 'history', 'testimonials', 'faqs']
+        && (isPublished() || isStaff());
+    }
+
+    // Contacts, emails et campagnes : super admin et commercial.
+    match /{collection}/{doc=**} {
+      allow read: if collection in ['contacts', 'campaigns', 'emailTemplates']
+        && role() in ['super_admin', 'sales'];
+    }
+
+    match /notifications/{doc} { allow read: if isStaff(); allow write: if false; }
+    match /stats/{doc}         { allow read: if isStaff(); allow write: if false; }
+    match /users/{uid} {
+      allow read: if role() == 'super_admin' || (request.auth != null && request.auth.uid == uid);
+      allow write: if false;
+    }
+    match /auditLog/{doc} { allow read: if role() == 'super_admin'; allow write: if false; }
+
+    // Tout le reste est fermé.
+    match /{document=**} { allow read, write: if false; }
+  }
+}
