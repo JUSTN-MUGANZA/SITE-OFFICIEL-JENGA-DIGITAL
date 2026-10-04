@@ -181,6 +181,8 @@ export const homeSchema = z.object({
     ctaLabel: localized(40, false),
     ctaHref: z.string().trim().max(200).default("/contact"),
     image: imageUrl.default(""),
+    /** Photos du diaporama de l'en-tête (en plus de `image`). */
+    images: z.array(imageUrl).max(5).default([]),
   }),
   stats: z
     .array(z.object({ value: z.string().trim().max(20), label: localized(60) }))
