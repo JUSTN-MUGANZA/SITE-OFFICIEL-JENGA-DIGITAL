@@ -91,6 +91,8 @@ export const teamMemberSchema = z.object({
   role: localized(100),
   bio: localized(1500, false),
   photo: imageUrl.default(""),
+  location: z.string().trim().max(60).default(""),
+  skills: z.array(z.string().trim().min(1).max(40)).max(10).default([]),
   socials: z
     .object({ linkedin: externalUrl.default(""), x: externalUrl.default(""), github: externalUrl.default(""), website: externalUrl.default("") })
     .default({ linkedin: "", x: "", github: "", website: "" }),

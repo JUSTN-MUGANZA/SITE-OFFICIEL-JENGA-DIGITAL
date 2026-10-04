@@ -125,6 +125,8 @@ export const DEFAULT_TEAM: ContentItem<"team">[] = [
       status: "published",
       name: "Justin Muganza",
       role: { fr: "Fondateur & développeur" },
+      bio: { fr: "Crée des expériences web modernes et interactives, avec une attention particulière aux détails et à l'expérience utilisateur." },
+      skills: ["React", "JavaScript", "HTML5 & CSS3", "Sass", "Figma", "Git & GitHub"],
       photo: "/team/justin-muganza.jpg",
       socials: {
         github: "https://github.com/JUSTN-MUGANZA",
