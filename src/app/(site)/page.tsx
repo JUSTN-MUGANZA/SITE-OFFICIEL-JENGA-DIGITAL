@@ -1,7 +1,7 @@
 import { ArrowRight, ChevronDown, Handshake, Layers, PlayCircle, ShieldCheck } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { btnOutline, btnPrimary, card, CtaBand, ProjectCard, ServiceCard, StatCard, StepCard, TeamCard, TestimonialCard, textLink } from "@/components/site/cards";
+import { btnOutline, btnPrimary, card, CtaBand, ProjectCard, ServiceCard, StatCard, StepCard, TeamGrid, TestimonialCard, textLink } from "@/components/site/cards";
 import { HeroSlideshow, RotatingWords } from "@/components/site/hero-motion";
 import { Chip, container, SectionHeading } from "@/components/site/section";
 import { ServiceIcon } from "@/components/site/service-icon";
@@ -225,6 +225,7 @@ export default async function HomePage() {
       {visible("team") && team.length > 0 ? (
         <section className={`py-20 sm:py-28 ${container}`}>
           <SectionHeading
+            center={team.length < 4}
             eyebrow="Notre équipe"
             title="Des talents engagés à vos côtés"
             action={
@@ -233,11 +234,7 @@ export default async function HomePage() {
               </Link>
             }
           />
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {team.slice(0, 4).map((m) => (
-              <TeamCard key={m.id} member={m} />
-            ))}
-          </div>
+          <TeamGrid team={team.slice(0, 4)} className="mt-12" />
         </section>
       ) : null}
 

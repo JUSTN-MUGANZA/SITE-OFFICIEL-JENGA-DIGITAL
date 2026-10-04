@@ -115,6 +115,19 @@ const TEAM_SOCIALS = [
   { key: "x", label: "X", network: "x" },
 ] as const;
 
+/** Centres incomplete rows so one or two members don't sit alone on the left. */
+export function TeamGrid({ team, className = "mt-12" }: { team: ContentItem<"team">[]; className?: string }) {
+  return (
+    <ul className={`flex flex-wrap justify-center gap-5 ${className}`}>
+      {team.map((m) => (
+        <li key={m.id} className="w-full max-w-sm sm:w-[calc((100%-1.25rem)/2)] lg:w-[calc((100%-3.75rem)/4)]">
+          <TeamCard member={m} />
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export function TeamCard({ member }: { member: ContentItem<"team"> }) {
   return (
     <article className={`group flex h-full flex-col overflow-hidden ${card}`}>

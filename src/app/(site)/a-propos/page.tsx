@@ -2,7 +2,7 @@ import { ArrowRight, Check, Eye, Gem, Target } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { card, CtaBand, StatCard, TeamCard, textLink } from "@/components/site/cards";
+import { card, CtaBand, StatCard, TeamGrid, textLink } from "@/components/site/cards";
 import { container, Eyebrow, PageHero, SectionHeading } from "@/components/site/section";
 import { ServiceIcon } from "@/components/site/service-icon";
 import { MediaFrame } from "@/components/site/visuals";
@@ -173,6 +173,7 @@ export default async function AboutPage() {
       {team.length > 0 ? (
         <section className={`py-20 sm:py-24 ${container}`}>
           <SectionHeading
+            center={team.length < 4}
             eyebrow="Notre équipe"
             title="Les personnes derrière vos projets"
             action={
@@ -181,11 +182,7 @@ export default async function AboutPage() {
               </Link>
             }
           />
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {team.slice(0, 4).map((m) => (
-              <TeamCard key={m.id} member={m} />
-            ))}
-          </div>
+          <TeamGrid team={team.slice(0, 4)} className="mt-10" />
         </section>
       ) : null}
 
