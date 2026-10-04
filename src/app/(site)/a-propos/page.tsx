@@ -6,8 +6,8 @@ import { card, CtaBand, StatCard, TeamCard, textLink } from "@/components/site/c
 import { container, Eyebrow, PageHero, SectionHeading } from "@/components/site/section";
 import { ServiceIcon } from "@/components/site/service-icon";
 import { MediaFrame } from "@/components/site/visuals";
-import { fr, getPublicHistory, getPublicServices } from "@/lib/content/public";
-import { getHome, listLive } from "@/lib/content/repository";
+import { fr, getPublicHistory, getPublicServices, getPublicTeam } from "@/lib/content/public";
+import { getHome } from "@/lib/content/repository";
 
 export const metadata: Metadata = {
   title: "À propos & histoire",
@@ -26,7 +26,7 @@ const VALUES = [
 ];
 
 export default async function AboutPage() {
-  const [home, services, history, team] = await Promise.all([getHome(), getPublicServices(), getPublicHistory(), listLive("team")]);
+  const [home, services, history, team] = await Promise.all([getHome(), getPublicServices(), getPublicHistory(), getPublicTeam()]);
   const about = (fr(home.about) || DEFAULT_ABOUT).split(/\n{2,}/);
   const steps = [...history].sort((a, b) => a.year - b.year);
 

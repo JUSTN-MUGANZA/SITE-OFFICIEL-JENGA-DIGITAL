@@ -6,7 +6,7 @@ import { HeroSlideshow, RotatingWords } from "@/components/site/hero-motion";
 import { Chip, container, SectionHeading } from "@/components/site/section";
 import { ServiceIcon } from "@/components/site/service-icon";
 import { ProjectConsole } from "@/components/site/visuals";
-import { fr, getPublicFaqs, getPublicServices } from "@/lib/content/public";
+import { fr, getPublicFaqs, getPublicServices, getPublicTeam } from "@/lib/content/public";
 import { getHome, listLive } from "@/lib/content/repository";
 import { METHOD } from "@/lib/content/method";
 import { getSiteSettings } from "@/lib/settings/server";
@@ -67,7 +67,7 @@ export default async function HomePage() {
     getPublicServices(),
     listLive("projects"),
     listLive("testimonials"),
-    listLive("team"),
+    getPublicTeam(),
     getPublicFaqs(),
   ]);
   const visible = (key: string) => home.sections.find((s) => s.key === key)?.visible ?? true;

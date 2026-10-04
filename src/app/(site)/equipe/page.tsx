@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { CtaBand, EmptyState, TeamCard } from "@/components/site/cards";
 import { container, PageHero } from "@/components/site/section";
-import { listLive } from "@/lib/content/repository";
+import { getPublicTeam } from "@/lib/content/public";
 
 export const metadata: Metadata = {
   title: "Notre équipe",
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function TeamPage() {
-  const team = await listLive("team");
+  const team = await getPublicTeam();
   return (
     <>
       <PageHero eyebrow="Les personnes derrière JENGA" title="Notre équipe" intro="Développeurs, designers et communicants : les talents qui conçoivent et font vivre vos projets." crumbs={[{ href: "/", label: "Accueil" }, { label: "Équipe" }]} />

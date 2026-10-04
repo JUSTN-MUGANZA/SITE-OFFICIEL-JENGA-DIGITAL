@@ -1,4 +1,4 @@
-import { faqSchema, historyStepSchema, serviceSchema, type ContentItem, type ContentMeta } from "./schemas";
+import { faqSchema, historyStepSchema, serviceSchema, teamMemberSchema, type ContentItem, type ContentMeta } from "./schemas";
 
 /**
  * Contenus affichés tant que rien n'est publié depuis le tableau de bord,
@@ -117,3 +117,21 @@ export const DEFAULT_HISTORY: ContentItem<"history">[] = HISTORY.map((h, i) => (
   ...historyStepSchema.parse({ status: "published", year: h.year, title: { fr: h.title }, description: { fr: h.text } }),
   ...meta(`default-history-${h.year}`, i),
 }));
+
+/** Membres de l'équipe envoyés par JUSTIN, en attendant leur gestion depuis le tableau de bord. */
+export const DEFAULT_TEAM: ContentItem<"team">[] = [
+  {
+    ...teamMemberSchema.parse({
+      status: "published",
+      name: "Justin Muganza",
+      role: { fr: "Fondateur & développeur" },
+      photo: "/team/justin-muganza.jpg",
+      socials: {
+        github: "https://github.com/JUSTN-MUGANZA",
+        linkedin: "https://www.linkedin.com/in/justin-muganza-35a0182b0/",
+        website: "https://lubunga-portfolio.netlify.app/",
+      },
+    }),
+    ...meta("default-team-justin-muganza", 0),
+  },
+];
