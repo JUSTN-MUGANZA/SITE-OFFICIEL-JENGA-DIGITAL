@@ -1,8 +1,8 @@
 import { ArrowRight, ChevronDown, Handshake, Layers, PlayCircle, ShieldCheck } from "lucide-react";
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { btnOutline, btnPrimary, card, CtaBand, ProjectCard, ServiceCard, StatCard, StepCard, TeamCard, TestimonialCard, textLink } from "@/components/site/cards";
+import { HeroSlideshow, RotatingWords } from "@/components/site/hero-motion";
 import { Chip, container, SectionHeading } from "@/components/site/section";
 import { ServiceIcon } from "@/components/site/service-icon";
 import { ProjectConsole } from "@/components/site/visuals";
@@ -45,14 +45,17 @@ const TRUST = [
   { icon: ShieldCheck, label: "Maintenance et sécurité" },
 ];
 
-/** Met en bleu les deux mots du milieu du titre, comme sur la maquette. */
-function HighlightedTitle({ text }: { text: string }) {
+/** Ce que JENGA construit : les mots qui défilent dans le titre. */
+const ROTATING = ["site web", "application mobile", "identité visuelle", "présence en ligne"];
+
+/** Titre de l'accueil : ses deux derniers mots en bleu, qui alternent avec nos métiers. */
+function HeroTitle({ text }: { text: string }) {
   const words = text.trim().split(/\s+/);
   if (words.length < 4) return <>{text}</>;
-  const end = words.length - 1;
+  const tail = words.slice(-2).join(" ");
   return (
     <>
-      {words.slice(0, end - 2).join(" ")} <span className="text-brand">{words.slice(end - 2, end).join(" ")}</span> {words[end]}
+      {words.slice(0, -2).join(" ")} <RotatingWords words={[tail, ...ROTATING.filter((w) => w !== tail)]} className="text-brand" />
     </>
   );
 }
@@ -70,6 +73,7 @@ export default async function HomePage() {
   const visible = (key: string) => home.sections.find((s) => s.key === key)?.visible ?? true;
   const featured = (projects.some((p) => p.featured) ? projects.filter((p) => p.featured) : projects).slice(0, 3);
   const serviceName = new Map(services.map((s) => [s.id, fr(s.title)]));
+  const heroImages = [home.hero.image, ...home.hero.images].filter(Boolean);
 
   return (
     <>
@@ -80,7 +84,7 @@ export default async function HomePage() {
           <div className="animate-rise lg:col-span-7">
             <Chip>Agence digitale & technologies</Chip>
             <h1 className="mt-6 text-[2.6rem] font-extrabold leading-[1.06] tracking-[-0.035em] text-ink sm:text-6xl lg:text-[4.4rem]">
-              <HighlightedTitle text={fr(home.hero.title)} />
+              <HeroTitle text={fr(home.hero.title)} />
             </h1>
             {fr(home.hero.subtitle) ? <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">{fr(home.hero.subtitle)}</p> : null}
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
@@ -101,10 +105,8 @@ export default async function HomePage() {
             </ul>
           </div>
           <div className="lg:col-span-5">
-            {home.hero.image ? (
-              <div className="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-[var(--shadow-lift)]">
-                <Image src={home.hero.image} alt="" fill priority sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
-              </div>
+            {heroImages.length > 0 ? (
+              <HeroSlideshow images={heroImages} />
             ) : (
               <ProjectConsole location="Bukavu, RDC" />
             )}
