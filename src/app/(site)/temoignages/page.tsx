@@ -16,11 +16,11 @@ export default async function TestimonialsPage() {
   const url = siteUrl();
   return (
     <>
-      <PageHero title="Ils nous font confiance" intro="La satisfaction de nos clients est notre plus grande réussite." crumbs={[{ href: "/", label: "Accueil" }, { label: "Témoignages" }]} />
+      <PageHero eyebrow="Témoignages" title="Ils nous font confiance" intro="Ce que nos clients disent de leur collaboration avec nous, avec leurs propres mots." crumbs={[{ href: "/", label: "Accueil" }, { label: "Témoignages" }]} />
       <section className="bg-muted">
         <div className={`py-16 sm:py-20 ${container}`}>
           {testimonials.length > 0 ? (
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
               {testimonials.map((t) => (
                 <TestimonialCard key={t.id} testimonial={t} />
               ))}
@@ -30,7 +30,7 @@ export default async function TestimonialsPage() {
           )}
         </div>
       </section>
-      <CtaBand title="Vous aussi, faites partie de nos clients satisfaits !" text="Parlons de votre projet dès aujourd'hui." />
+      <CtaBand title="Et si votre projet était le prochain ?" />
       {testimonials.length > 0 ? (
         <JsonLd
           data={{

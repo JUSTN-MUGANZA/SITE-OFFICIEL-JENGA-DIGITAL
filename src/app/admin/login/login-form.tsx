@@ -75,7 +75,7 @@ export function LoginForm() {
   }
 
   const input =
-    "w-full rounded-xl border border-border bg-white py-3.5 pl-12 pr-4 text-sm text-ink outline-none transition placeholder:text-muted-foreground focus:border-brand focus:ring-4 focus:ring-brand/10";
+    "w-full rounded-lg border border-border-strong/70 bg-white py-3.5 pl-12 pr-4 text-sm text-ink outline-none transition placeholder:text-muted-foreground focus:border-brand focus:ring-4 focus:ring-brand/10";
 
   return (
     <div className="space-y-5">
@@ -109,7 +109,7 @@ export function LoginForm() {
         <button
           type="submit"
           disabled={pending}
-          className="flex w-full items-center justify-center gap-2 rounded-xl bg-brand py-3.5 font-semibold text-white shadow-lg shadow-brand/30 transition hover:bg-brand-mid disabled:opacity-60"
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-brand py-3.5 font-semibold text-white transition hover:bg-brand-mid hover:shadow-[var(--shadow-electric)] disabled:opacity-60"
         >
           <ArrowRight className="size-5" aria-hidden />
           {pending ? "Connexion…" : "Se connecter"}
@@ -124,7 +124,7 @@ export function LoginForm() {
         type="button"
         disabled={pending}
         onClick={onGoogle}
-        className="flex w-full items-center gap-4 rounded-xl border border-border bg-white px-5 py-3.5 text-left transition hover:border-brand/40 hover:bg-brand-soft/40 disabled:opacity-60"
+        className="flex w-full items-center gap-4 rounded-lg border border-border bg-white px-5 py-3.5 text-left transition hover:border-brand/40 hover:bg-brand-soft/40 disabled:opacity-60"
       >
         <svg viewBox="0 0 48 48" className="size-7 shrink-0" aria-hidden>
           <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5Z" />

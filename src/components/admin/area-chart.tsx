@@ -19,23 +19,23 @@ export function AreaChart({ points, label }: { points: { day: Date; count: numbe
       <svg viewBox={`0 0 ${W} ${H}`} className="h-auto w-full" role="img" aria-label={`${label} : ${total} au total`}>
         <defs>
           <linearGradient id="area-fill" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor="#1467f0" stopOpacity="0.25" />
-            <stop offset="1" stopColor="#1467f0" stopOpacity="0" />
+            <stop offset="0" stopColor="#0052ff" stopOpacity="0.25" />
+            <stop offset="1" stopColor="#0052ff" stopOpacity="0" />
           </linearGradient>
         </defs>
         {[0, 1, 2, 3, 4].map((k) => (
           <g key={k}>
-            <line x1={pad.left} x2={W - pad.right} y1={y(k * step)} y2={y(k * step)} stroke="#e1e8f5" strokeDasharray={k ? "4 4" : undefined} />
+            <line x1={pad.left} x2={W - pad.right} y1={y(k * step)} y2={y(k * step)} stroke="#dfe3f3" strokeDasharray={k ? "4 4" : undefined} />
             <text x={pad.left - 8} y={y(k * step) + 4} textAnchor="end" className="fill-muted-foreground text-[10px]">
               {k * step}
             </text>
           </g>
         ))}
         <path d={area} fill="url(#area-fill)" />
-        <path d={line} fill="none" stroke="#1467f0" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
+        <path d={line} fill="none" stroke="#0052ff" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
         {points.map((p, i) =>
           p.count > 0 ? (
-            <circle key={i} cx={x(i)} cy={y(p.count)} r="3.5" fill="#fff" stroke="#1467f0" strokeWidth="2">
+            <circle key={i} cx={x(i)} cy={y(p.count)} r="3.5" fill="#fff" stroke="#0052ff" strokeWidth="2">
               <title>{`${fmt.format(p.day)} : ${p.count}`}</title>
             </circle>
           ) : null,

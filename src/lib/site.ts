@@ -12,7 +12,7 @@ export const NAV_LINKS = [
   { href: "/", label: "Accueil" },
   { href: "/a-propos", label: "À propos" },
   { href: "/services", label: "Services" },
-  { href: "/realisations", label: "Projets" },
+  { href: "/realisations", label: "Réalisations" },
   { href: "/equipe", label: "Équipe" },
   { href: "/temoignages", label: "Témoignages" },
   { href: "/faq", label: "FAQ" },

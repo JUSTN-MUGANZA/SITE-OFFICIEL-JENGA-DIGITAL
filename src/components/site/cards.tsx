@@ -1,8 +1,9 @@
-import { ArrowRight, ArrowUpRight, Quote, Star } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import type { ContentItem } from "@/lib/content/schemas";
+import { Chip, Tag } from "./section";
 import { SocialIcon } from "./social-icons";
 import { ServiceIcon } from "./service-icon";
 import { Initials, MediaFrame, TechLines } from "./visuals";
@@ -10,68 +11,68 @@ import { Initials, MediaFrame, TechLines } from "./visuals";
 const fr = (v: { fr: string } | undefined) => v?.fr ?? "";
 
 export const btnPrimary =
-  "inline-flex items-center justify-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-brand/25 transition hover:-translate-y-0.5 hover:bg-brand-mid";
-export const btnOutlineLight =
-  "inline-flex items-center justify-center gap-2 rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white transition hover:border-white hover:bg-white/10";
+  "inline-flex items-center justify-center gap-2 rounded-lg bg-brand px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-mid hover:shadow-[var(--shadow-electric)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand";
 export const btnOutline =
-  "inline-flex items-center justify-center gap-2 rounded-full border border-brand/40 px-5 py-2.5 text-sm font-semibold text-brand transition hover:border-brand hover:bg-brand-soft";
+  "inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-white px-5 py-3 text-sm font-semibold text-ink shadow-[var(--shadow-card)] transition hover:border-brand/40 hover:text-brand";
+export const btnOutlineLight =
+  "inline-flex items-center justify-center gap-2 rounded-lg bg-white/10 px-5 py-3 text-sm font-semibold text-white ring-1 ring-white/15 transition hover:bg-white/15";
+export const textLink = "inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition hover:gap-2.5";
 
-/** Carte compacte (accueil). */
-export function ServiceCard({ service }: { service: ContentItem<"services"> }) {
+export const card = "rounded-2xl border border-border bg-white shadow-[var(--shadow-card)]";
+export const cardHover = "transition duration-300 hover:-translate-y-1 hover:border-brand/25 hover:shadow-[var(--shadow-lift)]";
+
+/** Carte de service : icône, texte, livrables en étiquettes. */
+export function ServiceCard({ service, index }: { service: ContentItem<"services">; index?: number }) {
   return (
-    <Link
-      href={`/services/${service.slug}`}
-      className="group flex h-full flex-col rounded-2xl border border-border bg-white p-6 shadow-sm shadow-ink/5 transition hover:-translate-y-1 hover:border-brand/30 hover:shadow-xl hover:shadow-brand/10"
-    >
-      <span className="inline-flex size-12 items-center justify-center rounded-xl bg-brand text-white shadow-md shadow-brand/30">
-        <ServiceIcon name={service.icon} className="size-6" />
+    <Link href={`/services/${service.slug}`} className={`group flex h-full flex-col p-7 sm:p-8 ${card} ${cardHover}`}>
+      <div className="flex items-start justify-between gap-4">
+        <span className="inline-flex size-12 items-center justify-center rounded-xl bg-brand-soft text-brand transition group-hover:bg-brand group-hover:text-white">
+          <ServiceIcon name={service.icon} className="size-6" />
+        </span>
+        {index !== undefined ? <span className="font-display text-sm font-bold text-brand/35">{String(index + 1).padStart(2, "0")}</span> : null}
+      </div>
+      <h3 className="mt-6 text-xl font-bold text-ink">{fr(service.title)}</h3>
+      <p className="mt-2.5 flex-1 text-[15px] leading-relaxed text-muted-foreground">{fr(service.shortDescription)}</p>
+      {service.deliverables.length > 0 ? (
+        <div className="mt-5 flex flex-wrap gap-2">
+          {service.deliverables.slice(0, 4).map((d) => (
+            <Tag key={d}>{d}</Tag>
+          ))}
+        </div>
+      ) : null}
+      <span className={`${textLink} mt-6`}>
+        Découvrir ce service <ArrowRight className="size-4" aria-hidden />
       </span>
-      <h3 className="mt-5 text-lg font-semibold text-ink">{fr(service.title)}</h3>
-      <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{fr(service.shortDescription)}</p>
-      <ArrowRight className="mt-5 size-5 text-brand transition group-hover:translate-x-1" aria-hidden />
-      <span className="sr-only">En savoir plus</span>
     </Link>
   );
 }
 
-/** Carte illustrée (page Services). */
-export function ServiceFeatureCard({ service }: { service: ContentItem<"services"> }) {
-  return (
-    <Link
-      href={`/services/${service.slug}`}
-      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-brand/10"
-    >
-      <MediaFrame src={service.seo.ogImage} alt="" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="aspect-[16/9]">
-        <ServiceIcon name={service.icon} className="size-16 text-accent-light drop-shadow-[0_0_24px_rgba(61,155,255,0.8)]" />
-      </MediaFrame>
-      <div className="relative flex flex-1 flex-col p-6 pt-8">
-        <span className="absolute -top-6 left-6 inline-flex size-12 items-center justify-center rounded-xl bg-brand text-white shadow-lg shadow-brand/40 ring-4 ring-white">
-          <ServiceIcon name={service.icon} className="size-6" />
-        </span>
-        <h3 className="text-lg font-semibold text-ink">{fr(service.title)}</h3>
-        <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{fr(service.shortDescription)}</p>
-        <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-brand">
-          Voir le détail <ArrowRight className="size-4 transition group-hover:translate-x-1" aria-hidden />
-        </span>
-      </div>
-    </Link>
-  );
+/** Variante de la page Services (numérotée). */
+export function ServiceFeatureCard({ service, index }: { service: ContentItem<"services">; index: number }) {
+  return <ServiceCard service={service} index={index} />;
 }
 
 export function ProjectCard({ project, tag }: { project: ContentItem<"projects">; tag?: string }) {
   const label = tag || project.sector;
+  const meta = [project.client, project.technologies.slice(0, 2).join(" · ")].filter(Boolean).join(" • ");
   return (
-    <Link
-      href={`/realisations/${project.slug}`}
-      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-brand/10"
-    >
-      <MediaFrame src={project.coverImage} alt={project.coverAlt || fr(project.title)} sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" className="aspect-[16/10]" />
-      <div className="flex flex-1 flex-col p-5">
-        <div className="flex items-start justify-between gap-3">
-          <h3 className="font-semibold text-ink">{fr(project.title)}</h3>
-          <ArrowUpRight className="size-5 shrink-0 text-brand transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden />
+    <Link href={`/realisations/${project.slug}`} className={`group flex h-full flex-col overflow-hidden ${card} ${cardHover}`}>
+      <div className="relative">
+        <MediaFrame src={project.coverImage} alt={project.coverAlt || fr(project.title)} sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="aspect-[16/10]" />
+        {label ? (
+          <span className="absolute left-4 top-4 rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-ink shadow-sm">{label}</span>
+        ) : null}
+      </div>
+      <div className="flex flex-1 flex-col p-6">
+        {meta ? <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-subtle">{meta}</p> : null}
+        <h3 className="mt-2 text-lg font-bold leading-snug text-ink">{fr(project.title)}</h3>
+        {fr(project.summary) ? <p className="mt-2 line-clamp-2 flex-1 text-sm leading-relaxed text-muted-foreground">{fr(project.summary)}</p> : <span className="flex-1" />}
+        <div className="mt-5 flex items-center justify-between border-t border-border pt-4">
+          <span className="text-xs font-medium text-subtle">{project.year ?? "Étude de cas"}</span>
+          <span className="inline-flex size-8 items-center justify-center rounded-full bg-muted text-ink transition group-hover:bg-brand group-hover:text-white">
+            <ArrowUpRight className="size-4" aria-hidden />
+          </span>
         </div>
-        {label ? <span className="mt-3 inline-flex w-fit rounded-full bg-brand-soft px-3 py-1 text-xs font-medium text-brand">{label}</span> : null}
       </div>
     </Link>
   );
@@ -89,21 +90,20 @@ export function Stars({ rating }: { rating: number }) {
 
 export function TestimonialCard({ testimonial }: { testimonial: ContentItem<"testimonials"> }) {
   return (
-    <figure className="flex h-full flex-col rounded-2xl bg-white p-6 shadow-lg shadow-navy-950/10">
-      <Quote className="size-8 fill-brand-soft text-brand" aria-hidden />
-      <blockquote className="mt-4 flex-1 text-sm leading-relaxed text-ink/80">« {fr(testimonial.quote)} »</blockquote>
+    <figure className={`flex h-full flex-col p-7 ${card}`}>
+      {testimonial.rating ? <Stars rating={testimonial.rating} /> : null}
+      <blockquote className="mt-4 flex-1 text-[15px] italic leading-relaxed text-ink/80">« {fr(testimonial.quote)} »</blockquote>
       <figcaption className="mt-6 flex items-center gap-3 border-t border-border pt-5">
         {testimonial.photo ? (
-          <Image src={testimonial.photo} alt="" width={48} height={48} className="size-12 rounded-full object-cover" />
+          <Image src={testimonial.photo} alt="" width={44} height={44} className="size-11 rounded-full object-cover" />
         ) : (
-          <Initials name={testimonial.author} className="size-12 rounded-full text-sm" />
+          <Initials name={testimonial.author} className="size-11 rounded-full text-sm" />
         )}
-        <div className="min-w-0 flex-1">
-          <p className="truncate font-semibold text-ink">{testimonial.author}</p>
+        <div className="min-w-0">
+          <p className="truncate text-sm font-semibold text-ink">{testimonial.author}</p>
           {testimonial.role || testimonial.company ? (
-            <p className="truncate text-xs text-muted-foreground">{[testimonial.role, testimonial.company].filter(Boolean).join(", ")}</p>
+            <p className="truncate text-xs text-subtle">{[testimonial.role, testimonial.company].filter(Boolean).join(" · ")}</p>
           ) : null}
-          {testimonial.rating ? <div className="mt-1">{<Stars rating={testimonial.rating} />}</div> : null}
         </div>
       </figcaption>
     </figure>
@@ -117,26 +117,26 @@ const TEAM_SOCIALS = [
 
 export function TeamCard({ member }: { member: ContentItem<"team"> }) {
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-brand/10">
-      <div className="relative aspect-[4/4] overflow-hidden bg-brand-soft">
+    <article className={`group flex h-full flex-col overflow-hidden ${card}`}>
+      <div className="relative aspect-square overflow-hidden bg-muted-strong">
         {member.photo ? (
-          <Image src={member.photo} alt={member.name} fill sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 100vw" className="object-cover transition duration-500 group-hover:scale-105" />
+          <Image src={member.photo} alt={member.name} fill sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 100vw" className="object-cover transition duration-500 group-hover:scale-[1.03]" />
         ) : (
           <Initials name={member.name} className="absolute inset-0 text-5xl" />
         )}
       </div>
       <div className="flex flex-1 flex-col p-5">
-        <h3 className="font-semibold text-ink">{member.name}</h3>
+        <h3 className="font-bold text-ink">{member.name}</h3>
         <p className="text-sm font-medium text-brand">{fr(member.role)}</p>
         {fr(member.bio) ? <p className="mt-2 line-clamp-3 flex-1 text-sm text-muted-foreground">{fr(member.bio)}</p> : <span className="flex-1" />}
-        <ul className="mt-4 flex gap-2">
+        <ul className="mt-4 flex gap-2 empty:hidden">
           {TEAM_SOCIALS.filter((s) => member.socials[s.key]).map((s) => (
             <li key={s.key}>
               <a
                 href={member.socials[s.key]}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex size-8 items-center justify-center rounded-full bg-brand-soft text-brand transition hover:bg-brand hover:text-white"
+                className="inline-flex size-8 items-center justify-center rounded-lg bg-muted text-ink transition hover:bg-brand hover:text-white"
               >
                 <SocialIcon network={s.network} className="size-3.5" />
                 <span className="sr-only">
@@ -151,7 +151,7 @@ export function TeamCard({ member }: { member: ContentItem<"team"> }) {
                 href={member.socials.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex size-8 items-center justify-center rounded-full bg-brand-soft text-brand transition hover:bg-brand hover:text-white"
+                className="inline-flex size-8 items-center justify-center rounded-lg bg-muted text-ink transition hover:bg-brand hover:text-white"
               >
                 <ArrowUpRight className="size-3.5" aria-hidden />
                 <span className="sr-only">Site de {member.name}</span>
@@ -164,42 +164,76 @@ export function TeamCard({ member }: { member: ContentItem<"team"> }) {
   );
 }
 
-/** Bandeau d'appel à l'action, en fin de page. */
+/** Chiffre clé : petite étiquette, grand nombre, légende. */
+export function StatCard({ label, value, text }: { label: string; value: string; text?: string }) {
+  return (
+    <div className={`p-6 ${card}`}>
+      <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-brand">{label}</p>
+      <p className="mt-2 font-display text-4xl font-extrabold tracking-tight text-ink">{value}</p>
+      {text ? <p className="mt-2 text-sm text-muted-foreground">{text}</p> : null}
+    </div>
+  );
+}
+
+/** Étape numérotée d'une méthode. */
+export function StepCard({ index, title, text, meta }: { index: number; title: string; text: string; meta?: string }) {
+  return (
+    <div className={`h-full p-6 ${card}`}>
+      <p className="font-display text-4xl font-extrabold text-brand/30">{String(index + 1).padStart(2, "0")}</p>
+      <h3 className="mt-4 text-lg font-bold text-ink">{title}</h3>
+      {meta ? <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.12em] text-brand">{meta}</p> : null}
+      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{text}</p>
+    </div>
+  );
+}
+
+/** Grand panneau nuit d'appel à l'action, en fin de page. */
 export function CtaBand({
-  title = "Prêt à donner vie à votre projet ?",
-  text = "Parlons de vos idées et trouvons ensemble la meilleure solution.",
+  chip = "Parlons de votre projet",
+  title = "Prêt à donner vie à votre prochain projet digital ?",
+  text = "Expliquez-nous votre besoin : nous vous répondons avec une proposition claire et chiffrée.",
   href = "/contact",
-  label = "Nous contacter",
+  label = "Démarrer votre projet",
+  secondary,
 }: {
+  chip?: string;
   title?: ReactNode;
   text?: ReactNode;
   href?: string;
   label?: string;
+  secondary?: { href: string; label: string };
 }) {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-      <div className="navy-surface relative overflow-hidden rounded-3xl px-6 py-10 text-white shadow-2xl shadow-navy-950/20 sm:px-12">
-        <div className="tech-grid absolute inset-0 opacity-50" aria-hidden />
-        <TechLines className="absolute -right-10 -top-10 h-[160%] opacity-60" />
-        <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-          <div>
-            <h2 className="text-2xl font-bold sm:text-3xl">{title}</h2>
-            <p className="mt-2 max-w-xl text-white/75">{text}</p>
+    <section className="mx-auto w-full max-w-[1320px] px-4 py-16 sm:px-6 sm:py-20 lg:px-10">
+      <div className="navy-surface relative overflow-hidden rounded-3xl px-6 py-14 text-center text-white sm:px-12 sm:py-20">
+        <div className="tech-grid-dark absolute inset-0" aria-hidden />
+        <TechLines light className="absolute -right-16 -top-10 h-[140%] opacity-60" />
+        <div className="relative mx-auto max-w-2xl">
+          <Chip light>{chip}</Chip>
+          <h2 className="mt-6 text-3xl font-extrabold leading-tight tracking-[-0.02em] sm:text-[2.75rem]">{title}</h2>
+          <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/70">{text}</p>
+          <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
+            <Link href={href} className={btnPrimary}>
+              {label} <ArrowRight className="size-4" aria-hidden />
+            </Link>
+            {secondary ? (
+              <a href={secondary.href} className={btnOutlineLight}>
+                {secondary.label}
+              </a>
+            ) : null}
           </div>
-          <Link href={href} className={`${btnPrimary} shrink-0`}>
-            {label} <ArrowRight className="size-4" aria-hidden />
-          </Link>
         </div>
       </div>
     </section>
   );
 }
 
-export function EmptyState({ title, text }: { title: string; text: string }) {
+export function EmptyState({ title, text, action }: { title: string; text: string; action?: ReactNode }) {
   return (
-    <div className="rounded-3xl border border-dashed border-brand/30 bg-brand-soft/50 px-6 py-16 text-center">
-      <p className="text-lg font-semibold text-ink">{title}</p>
+    <div className="rounded-2xl border border-dashed border-border-strong bg-white/60 px-6 py-16 text-center">
+      <p className="font-display text-lg font-bold text-ink">{title}</p>
       <p className="mx-auto mt-2 max-w-md text-muted-foreground">{text}</p>
+      {action ? <div className="mt-6">{action}</div> : null}
     </div>
   );
 }

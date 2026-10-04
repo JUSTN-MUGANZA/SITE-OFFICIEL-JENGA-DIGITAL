@@ -7,8 +7,10 @@ type ServiceOption = { id: string; title: string };
 type Status = { kind: "idle" | "sending" } | { kind: "ok" | "error"; message: string };
 
 const input =
-  "mt-1.5 w-full rounded-xl border border-border bg-muted/60 px-4 py-3 text-sm text-ink outline-none transition placeholder:text-muted-foreground/70 focus:border-brand focus:bg-white focus:ring-4 focus:ring-brand/10";
-const label = "text-sm font-semibold text-ink";
+  "mt-1.5 w-full rounded-lg border border-border-strong/70 bg-white px-3.5 py-3 text-sm text-ink outline-none transition placeholder:text-subtle/80 focus:border-brand focus:ring-4 focus:ring-brand/10";
+const label = "text-[13px] font-semibold text-ink";
+const chip =
+  "inline-flex cursor-pointer items-center rounded-lg border border-border bg-muted px-3 py-2 text-[13px] font-semibold text-ink/80 transition hover:border-brand/40 has-[:checked]:border-brand has-[:checked]:bg-brand-soft has-[:checked]:text-brand has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-brand/15";
 
 export function ContactForm({
   services,
@@ -147,24 +149,27 @@ export function ContactForm({
             </label>
             <input id="company" name="company" autoComplete="organization" className={input} />
           </div>
-          <div>
-            <label htmlFor="serviceId" className={label}>
-              Service souhaité
-            </label>
-            <select id="serviceId" name="serviceId" defaultValue={initialServiceId} className={input}>
-              <option value="">Je ne sais pas encore</option>
+          <fieldset className="sm:col-span-2">
+            <legend className={label}>Type de projet</legend>
+            <p className="mt-0.5 text-xs text-subtle">Choisissez le service qui correspond le mieux à votre besoin.</p>
+            <div className="mt-3 flex flex-wrap gap-2">
               {services.map((s) => (
-                <option key={s.id} value={s.id}>
+                <label key={s.id} className={chip}>
+                  <input type="radio" name="serviceId" value={s.id} defaultChecked={s.id === initialServiceId} className="sr-only" />
                   {s.title}
-                </option>
+                </label>
               ))}
-            </select>
-          </div>
-          <div>
+              <label className={chip}>
+                <input type="radio" name="serviceId" value="" defaultChecked={!initialServiceId} className="sr-only" />
+                Je ne sais pas encore
+              </label>
+            </div>
+          </fieldset>
+          <div className="sm:col-span-2">
             <label htmlFor="subject" className={label}>
               Sujet
             </label>
-            <input id="subject" name="subject" className={input} />
+            <input id="subject" name="subject" placeholder="Ex. : refonte de notre site, application de réservation…" className={input} />
           </div>
         </>
       )}
@@ -177,7 +182,7 @@ export function ContactForm({
           name="message"
           required
           rows={compact ? 4 : 6}
-          placeholder="Votre message…"
+          placeholder={compact ? "Votre message…" : "Présentez votre projet : vos objectifs, ce que vous avez déjà, vos délais…"}
           className={input}
           aria-invalid={!!fieldErrors.message}
           aria-describedby={describedBy("message")}
@@ -194,7 +199,7 @@ export function ContactForm({
         J&apos;accepte de recevoir occasionnellement des nouvelles de JENGA Digital. Désinscription possible à tout moment.
       </label>
       {status.kind === "error" ? (
-        <p role="alert" className="rounded-xl bg-danger/10 px-4 py-3 text-sm font-medium text-danger sm:col-span-2">
+        <p role="alert" className="rounded-lg bg-danger/10 px-4 py-3 text-sm font-medium text-danger sm:col-span-2">
           {status.message}
         </p>
       ) : null}
@@ -202,10 +207,10 @@ export function ContactForm({
         <button
           type="submit"
           disabled={status.kind === "sending"}
-          className="inline-flex items-center gap-2 rounded-full bg-brand px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand/25 transition hover:-translate-y-0.5 hover:bg-brand-mid disabled:translate-y-0 disabled:opacity-60"
+          className={`inline-flex items-center justify-center gap-2 rounded-lg bg-brand px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-brand-mid hover:shadow-[var(--shadow-electric)] disabled:opacity-60 ${compact ? "" : "w-full"}`}
         >
           {status.kind === "sending" ? <Loader2 className="size-5 animate-spin" aria-hidden /> : <Send className="size-5" aria-hidden />}
-          {status.kind === "sending" ? "Envoi en cours…" : "Envoyer le message"}
+          {status.kind === "sending" ? "Envoi en cours…" : compact ? "Envoyer le message" : "Envoyer ma demande"}
         </button>
         <p className="mt-3 text-xs text-muted-foreground">
           Vos informations servent uniquement à répondre à votre demande. Voir notre{" "}

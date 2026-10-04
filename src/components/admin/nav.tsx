@@ -32,11 +32,11 @@ export function AdminNav({ items, onNavigate }: { items: NavItem[]; onNavigate?:
             href={item.href}
             onClick={onNavigate}
             aria-current={active ? "page" : undefined}
-            className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition ${
-              active ? "bg-brand text-white shadow-lg shadow-brand/30" : "text-white/75 hover:bg-white/5 hover:text-white"
+            className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold transition ${
+              active ? "bg-brand-soft text-brand" : "text-muted-foreground hover:bg-muted hover:text-ink"
             }`}
           >
-            <Icon className="size-5" aria-hidden />
+            <Icon className="size-[18px]" aria-hidden />
             <span className="flex-1">{item.label}</span>
             {item.badge ? <span className="rounded-full bg-danger px-2 py-0.5 text-xs font-semibold text-white">{item.badge}</span> : null}
           </Link>
@@ -48,18 +48,16 @@ export function AdminNav({ items, onNavigate }: { items: NavItem[]; onNavigate?:
 
 export function SiteLink({ onNavigate }: { onNavigate?: () => void }) {
   return (
-    <div className="border-t border-white/10 pt-5">
-      <p className="flex items-center gap-2 px-4 text-xs font-semibold uppercase tracking-widest text-accent">
-        Site web <ExternalLink className="size-3.5" aria-hidden />
-      </p>
+    <div className="border-t border-border pt-5">
+      <p className="px-3 text-[10px] font-bold uppercase tracking-[0.16em] text-subtle">Site public</p>
       <a
         href="/"
         target="_blank"
         rel="noopener"
         onClick={onNavigate}
-        className="mt-2 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-white/75 transition hover:bg-white/5 hover:text-white"
+        className="mt-2 flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold text-muted-foreground transition hover:bg-muted hover:text-ink"
       >
-        <ExternalLink className="size-5" aria-hidden /> Voir le site
+        <ExternalLink className="size-[18px]" aria-hidden /> Voir le site
       </a>
     </div>
   );
