@@ -21,28 +21,28 @@ export function MobileMenu({ items }: { items: readonly Item[] }) {
         onClick={() => setOpenOn(open ? null : pathname)}
         aria-expanded={open}
         aria-controls="menu-mobile"
-        className="inline-flex size-11 items-center justify-center rounded-xl text-white hover:bg-white/10"
+        className="inline-flex size-11 items-center justify-center rounded-lg text-ink hover:bg-muted"
       >
         {open ? <X className="size-6" aria-hidden /> : <Menu className="size-6" aria-hidden />}
         <span className="sr-only">{open ? "Fermer le menu" : "Ouvrir le menu"}</span>
       </button>
       {open ? (
-        <nav id="menu-mobile" aria-label="Menu" className="absolute inset-x-0 top-full max-h-[calc(100dvh-4.5rem)] overflow-y-auto border-t border-white/10 bg-navy-950 px-4 pb-6 shadow-2xl animate-rise">
+        <nav id="menu-mobile" aria-label="Menu" className="absolute inset-x-0 top-full max-h-[calc(100dvh-4rem)] overflow-y-auto border-b border-t border-border bg-white px-4 pb-6 shadow-[var(--shadow-lift)] animate-rise">
           <ul className="space-y-1 pt-3">
             {items.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
                   aria-current={isActive(pathname, item.href) ? "page" : undefined}
-                  className="block rounded-xl px-4 py-3 text-base font-medium text-white/85 hover:bg-white/5 aria-[current=page]:bg-brand/20 aria-[current=page]:text-white"
+                  className="block rounded-lg px-4 py-3 text-base font-medium text-ink hover:bg-muted aria-[current=page]:bg-brand-soft aria-[current=page]:text-brand"
                 >
                   {item.label}
                 </Link>
               </li>
             ))}
           </ul>
-          <Link href="/contact" className="mt-4 block rounded-full bg-brand px-4 py-3 text-center font-semibold text-white">
-            Nous contacter
+          <Link href="/contact" className="mt-4 block rounded-lg bg-brand px-4 py-3 text-center font-semibold text-white">
+            Lancer un projet
           </Link>
         </nav>
       ) : null}

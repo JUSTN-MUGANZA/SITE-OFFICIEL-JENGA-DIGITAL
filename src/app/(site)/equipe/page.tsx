@@ -13,10 +13,10 @@ export default async function TeamPage() {
   const team = await listLive("team");
   return (
     <>
-      <PageHero title="Notre équipe" intro="Des talents passionnés à votre service." crumbs={[{ href: "/", label: "Accueil" }, { label: "Équipe" }]} />
+      <PageHero eyebrow="Les personnes derrière JENGA" title="Notre équipe" intro="Développeurs, designers et communicants : les talents qui conçoivent et font vivre vos projets." crumbs={[{ href: "/", label: "Accueil" }, { label: "Équipe" }]} />
       <section className={`py-16 sm:py-20 ${container}`}>
         {team.length > 0 ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {team.map((m) => (
               <TeamCard key={m.id} member={m} />
             ))}
@@ -25,7 +25,7 @@ export default async function TeamPage() {
           <EmptyState title="Notre équipe sera bientôt présentée" text="Nous préparons cette page. En attendant, écrivez-nous : nous serons ravis d'échanger avec vous." />
         )}
       </section>
-      <CtaBand title="Rejoignez notre équipe !" text="Nous sommes toujours à la recherche de talents passionnés." label="Nous contacter" />
+      <CtaBand chip="Talents bienvenus" title="Envie de construire avec nous ?" text="Nous sommes toujours à la recherche de talents passionnés." label="Nous contacter" />
     </>
   );
 }

@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 /** Logo officiel : version claire pour les fonds sombres, version d'origine sinon. */
-export function Logo({ agencyName, logoUrl, dark = true, className = "h-11 w-auto" }: { agencyName: string; logoUrl?: string; dark?: boolean; className?: string }) {
+export function Logo({ agencyName, logoUrl, dark = false, className = "h-11 w-auto" }: { agencyName: string; logoUrl?: string; dark?: boolean; className?: string }) {
   if (logoUrl) {
     // Logo personnalisé saisi dans les paramètres (adresse externe).
     // eslint-disable-next-line @next/next/no-img-element

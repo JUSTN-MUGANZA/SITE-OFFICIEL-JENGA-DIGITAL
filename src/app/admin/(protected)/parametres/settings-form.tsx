@@ -76,7 +76,7 @@ export function SettingsForm({ settings }: { settings: SiteSettings }) {
         </div>
       </Card>
 
-      <div className="sticky bottom-4 flex flex-col gap-3 rounded-xl border border-border bg-background/95 p-4 shadow-sm backdrop-blur sm:flex-row sm:items-center sm:justify-between">
+      <div className="sticky bottom-4 flex flex-col gap-3 rounded-xl border border-border bg-white/95 p-4 shadow-[var(--shadow-lift)] backdrop-blur sm:flex-row sm:items-center sm:justify-between">
         <div className="sm:flex-1">
           {state.status === "success" ? <Alert tone="success">{state.message}</Alert> : null}
           {state.status === "error" ? <Alert tone="error">{state.message}</Alert> : null}

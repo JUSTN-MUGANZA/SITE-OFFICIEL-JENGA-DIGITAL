@@ -24,7 +24,7 @@ export async function GET() {
     `- [Services](${base}/services)`,
     `- [Projets](${base}/realisations)`,
     `- [À propos](${base}/a-propos)`,
-    `- [Notre histoire](${base}/histoire)`,
+    `- [Notre histoire](${base}/a-propos#histoire)`,
     `- [Équipe](${base}/equipe)`,
     `- [Témoignages](${base}/temoignages)`,
     `- [FAQ](${base}/faq)`,

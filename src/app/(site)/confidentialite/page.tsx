@@ -14,7 +14,7 @@ export default async function PrivacyPage() {
   const contact = settings.email ? <a href={`mailto:${settings.email}`}>{settings.email}</a> : <a href="/contact">notre formulaire de contact</a>;
   return (
     <>
-      <PageHero title="Politique de confidentialité" intro="Vos données servent à vous répondre, rien de plus." crumbs={[{ href: "/", label: "Accueil" }, { label: "Confidentialité" }]} />
+      <PageHero eyebrow="Vos données" title="Politique de confidentialité" intro="Vos données servent à vous répondre, rien de plus." crumbs={[{ href: "/", label: "Accueil" }, { label: "Confidentialité" }]} />
       <LegalBody updated="octobre 2026">
         <div>
           <h2>Données collectées</h2>

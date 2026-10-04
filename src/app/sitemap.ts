@@ -8,7 +8,6 @@ const STATIC_PAGES: { path: string; priority: number }[] = [
   { path: "/services", priority: 0.9 },
   { path: "/realisations", priority: 0.9 },
   { path: "/a-propos", priority: 0.7 },
-  { path: "/histoire", priority: 0.5 },
   { path: "/equipe", priority: 0.6 },
   { path: "/temoignages", priority: 0.6 },
   { path: "/contact", priority: 0.8 },
