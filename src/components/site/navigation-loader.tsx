@@ -73,7 +73,7 @@ function Loader() {
     <div role="status" aria-live="polite" className="fixed inset-0 z-[70] flex items-center justify-center bg-black/55 backdrop-blur-[1px] animate-[loader-in_150ms_ease-out]">
       <span className="spinner-dots" aria-hidden>
         {Array.from({ length: 8 }, (_, i) => (
-          <span key={i} style={{ ["--dot" as string]: `rotate(${i * 45}deg) translateY(-14px)`, transform: `rotate(${i * 45}deg) translateY(-14px)`, animationDelay: `${(i - 8) * 0.1}s` }} />
+          <span key={i} style={{ transform: `rotate(${i * 45}deg) translateY(-16px)`, opacity: 0.23 + i * 0.11 }} />
         ))}
       </span>
       <span className="sr-only">Chargement de la page…</span>
