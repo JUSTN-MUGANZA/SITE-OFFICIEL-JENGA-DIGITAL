@@ -2,6 +2,7 @@ import { Clock, Mail, MapPin, MessageCircle, Phone, ShieldCheck, FileText, UserC
 import type { Metadata } from "next";
 import { card } from "@/components/site/cards";
 import { ContactForm } from "@/components/site/contact-form";
+import { ConsentMap } from "@/components/site/cookie-consent";
 import { SocialLinks } from "@/components/site/footer";
 import { container, PageHero } from "@/components/site/section";
 import { fr, getPublicFaqs, getPublicServices } from "@/lib/content/public";
@@ -59,13 +60,7 @@ export default async function ContactPage({ searchParams }: PageProps<"/contact"
           <aside className="space-y-6 lg:col-span-4">
             {settings.address ? (
               <div className={`overflow-hidden ${card}`}>
-                <iframe
-                  title={`Carte : ${settings.address}`}
-                  src={`https://www.google.com/maps?q=${encodeURIComponent(settings.address)}&output=embed`}
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  className="aspect-[16/10] w-full border-b border-border"
-                />
+                <ConsentMap address={settings.address} />
               </div>
             ) : null}
             {details.length > 0 || hasSocials || whatsapp ? (

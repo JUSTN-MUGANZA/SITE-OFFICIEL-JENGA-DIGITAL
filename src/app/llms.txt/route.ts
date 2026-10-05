@@ -1,5 +1,4 @@
-import { fr, getPublicFaqs, getPublicServices } from "@/lib/content/public";
-import { listLive } from "@/lib/content/repository";
+import { fr, getPublicFaqs, getPublicProjects, getPublicServices } from "@/lib/content/public";
 import { SOCIAL_LABELS, SOCIAL_NETWORKS } from "@/lib/settings/schema";
 import { getSiteSettings } from "@/lib/settings/server";
 import { siteUrl } from "@/lib/site";
@@ -12,7 +11,7 @@ export async function GET() {
   const [settings, services, projects, faqs] = await Promise.all([
     getSiteSettings(),
     getPublicServices(),
-    listLive("projects").catch(() => []),
+    getPublicProjects().catch(() => []),
     getPublicFaqs(),
   ]);
   const lines = [

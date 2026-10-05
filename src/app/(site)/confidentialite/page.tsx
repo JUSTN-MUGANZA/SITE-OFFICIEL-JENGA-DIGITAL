@@ -50,11 +50,17 @@ export default async function PrivacyPage() {
             <li>Resend : envoi des emails.</li>
           </ul>
         </div>
-        <div>
+        <div id="cookies" className="scroll-mt-24">
           <h2>Cookies</h2>
           <p>
-            Le site public n&apos;utilise aucun cookie publicitaire ni de suivi. Un cookie technique sert uniquement à la connexion des
-            administrateurs.
+            Le site public n&apos;utilise aucun cookie publicitaire ni de mesure d&apos;audience. Il garde seulement en mémoire, sur votre
+            appareil, votre préférence d&apos;affichage (mode clair ou sombre) et votre choix concernant les cookies. Un cookie technique sert
+            uniquement à la connexion des administrateurs.
+          </p>
+          <p>
+            Avec votre accord (« Tout accepter »), nous affichons aussi des services tiers, comme la carte Google Maps de la page Contact, qui
+            peuvent déposer leurs propres cookies. Si vous refusez, ces services ne sont pas chargés. Vous pouvez modifier votre choix à tout
+            moment grâce au lien « Gérer les cookies » en bas de chaque page.
           </p>
         </div>
         <div>

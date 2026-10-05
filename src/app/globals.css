@@ -34,8 +34,8 @@
 }
 
 /*
- * Mode sombre (site public seulement) : il suit le réglage de l'appareil du visiteur,
- * sauf s'il a choisi « clair » ou « sombre » avec le bouton de l'en-tête (attribut data-theme).
+ * Mode sombre (site public seulement) : actif par défaut (attribut data-theme posé par THEME_SCRIPT),
+ * sauf si le visiteur a choisi « clair » avec le bouton de l'en-tête. Sans JavaScript, il suit l'appareil.
  * Inspiré de scalyx.fr : fond presque noir, cartes à peine plus claires, bleu JENGA éclairci.
  */
 @custom-variant dark {
