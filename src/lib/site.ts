@@ -10,8 +10,15 @@ export function siteUrl(): string {
 /** Pages principales du site public, dans l'ordre du menu. */
 export const NAV_LINKS = [
   { href: "/", label: "Accueil" },
-  { href: "/a-propos", label: "À propos" },
   { href: "/services", label: "Services" },
+  { href: "/realisations", label: "Réalisations" },
+  { href: "/a-propos", label: "À propos" },
+  { href: "/contact", label: "Contact" },
+] as const;
+
+/** Colonne « Entreprise » du pied de page : toutes les pages, y compris celles hors du menu. */
+export const FOOTER_LINKS = [
+  { href: "/a-propos", label: "À propos" },
   { href: "/realisations", label: "Réalisations" },
   { href: "/equipe", label: "Équipe" },
   { href: "/temoignages", label: "Témoignages" },

@@ -41,7 +41,7 @@ export default async function ServicesPage() {
       />
       <section className={`py-20 sm:py-24 ${container}`}>
         <SectionHeading eyebrow="Nos expertises" title={`${services.length} services, une seule équipe`} intro="Choisissez un service pour voir ce qu'il comprend, ou décrivez-nous votre besoin : nous vous orientons." />
-        <div className="mt-12 grid gap-5 md:grid-cols-2">
+        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((s, i) => (
             <ServiceFeatureCard key={s.id} service={s} index={i} />
           ))}

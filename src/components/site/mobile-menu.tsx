@@ -42,7 +42,7 @@ export function MobileMenu({ items }: { items: readonly Item[] }) {
             ))}
           </ul>
           <Link href="/contact" className="mt-4 block rounded-lg bg-brand px-4 py-3 text-center font-semibold text-white">
-            Lancer un projet
+            Demander un devis
           </Link>
         </nav>
       ) : null}

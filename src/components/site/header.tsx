@@ -45,7 +45,7 @@ export function SiteHeader({ agencyName, logoUrl, services }: { agencyName: stri
           )}
         </nav>
         <Link href="/contact" className={`${btnPrimary} !py-2.5 max-lg:!hidden`}>
-          Lancer un projet <ArrowRight className="size-4" aria-hidden />
+          Demander un devis <ArrowRight className="size-4" aria-hidden />
         </Link>
         <MobileMenu items={NAV_LINKS} />
       </div>
