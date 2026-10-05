@@ -10,7 +10,7 @@ export const ROLE_LABELS: Record<Role, string> = {
 
 export const ROLE_DESCRIPTIONS: Record<Role, string> = {
   super_admin: "Tout, y compris les utilisateurs et les paramètres du site",
-  editor: "Contenu du site : projets, services, équipe, histoire, témoignages, FAQ, accueil",
+  editor: "Contenu du site : projets, services, équipe, témoignages, FAQ, accueil",
   sales: "Contacts, réponses et campagnes email",
   viewer: "Consultation du dashboard, sans modification",
 };

@@ -1,4 +1,4 @@
-import { faqSchema, historyStepSchema, serviceSchema, teamMemberSchema, type ContentItem, type ContentMeta } from "./schemas";
+import { faqSchema, serviceSchema, teamMemberSchema, type ContentItem, type ContentMeta } from "./schemas";
 
 /**
  * Contenus affichés tant que rien n'est publié depuis le tableau de bord,
@@ -110,20 +110,6 @@ const FAQS = [
 export const DEFAULT_FAQS: ContentItem<"faqs">[] = FAQS.map((f, i) => ({
   ...faqSchema.parse({ status: "published", question: { fr: f.q }, answer: { fr: f.a } }),
   ...meta(`default-faq-${i}`, i),
-}));
-
-const HISTORY = [
-  { year: 2020, title: "Création de JENGA Digital", text: "Tout a commencé avec une vision : offrir des solutions digitales innovantes et accessibles à tous." },
-  { year: 2021, title: "Premiers projets", text: "Nous avons réalisé nos premiers projets et commencé à construire notre réputation." },
-  { year: 2022, title: "Développement de nouveaux services", text: "Nous avons élargi notre offre au design, à la communication et aux applications mobiles." },
-  { year: 2023, title: "Agrandissement de l'équipe", text: "Nous avons renforcé notre équipe avec des talents passionnés." },
-  { year: 2024, title: "Nouveaux partenariats", text: "De nouveaux partenaires nous ont fait confiance pour accompagner leur croissance digitale." },
-  { year: 2025, title: "Aujourd'hui", text: "JENGA Digital continue d'innover et d'accompagner ses clients vers un avenir digital meilleur." },
-];
-
-export const DEFAULT_HISTORY: ContentItem<"history">[] = HISTORY.map((h, i) => ({
-  ...historyStepSchema.parse({ status: "published", year: h.year, title: { fr: h.title }, description: { fr: h.text } }),
-  ...meta(`default-history-${h.year}`, i),
 }));
 
 /** Membres de l'équipe envoyés par JUSTIN, en attendant leur gestion depuis le tableau de bord. */

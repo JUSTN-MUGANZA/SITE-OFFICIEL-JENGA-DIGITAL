@@ -6,12 +6,12 @@ import { card, CtaBand, StatCard, TeamGrid, textLink } from "@/components/site/c
 import { container, Eyebrow, PageHero, SectionHeading } from "@/components/site/section";
 import { ServiceIcon } from "@/components/site/service-icon";
 import { MediaFrame } from "@/components/site/visuals";
-import { fr, getPublicHistory, getPublicServices, getPublicTeam } from "@/lib/content/public";
+import { fr, getPublicServices, getPublicTeam } from "@/lib/content/public";
 import { getHome } from "@/lib/content/repository";
 
 export const metadata: Metadata = {
-  title: "À propos & histoire",
-  description: "JENGA Digital, agence digitale : notre mission, notre vision, nos valeurs et les grandes étapes de notre histoire.",
+  title: "À propos",
+  description: "JENGA Digital, agence digitale : notre mission, notre vision et nos valeurs.",
   alternates: { canonical: "/a-propos" },
 };
 
@@ -26,14 +26,13 @@ const VALUES = [
 ];
 
 export default async function AboutPage() {
-  const [home, services, history, team] = await Promise.all([getHome(), getPublicServices(), getPublicHistory(), getPublicTeam()]);
+  const [home, services, team] = await Promise.all([getHome(), getPublicServices(), getPublicTeam()]);
   const about = (fr(home.about) || DEFAULT_ABOUT).split(/\n{2,}/);
-  const steps = [...history].sort((a, b) => a.year - b.year);
 
   return (
     <>
       <PageHero
-        eyebrow="Notre histoire & vision"
+        eyebrow="Notre mission & vision"
         title="Construire votre réussite numérique, brique après brique."
         intro={about[0]}
         crumbs={[{ href: "/", label: "Accueil" }, { label: "À propos" }]}
@@ -116,33 +115,7 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      {steps.length > 0 ? (
-        <section id="histoire" className={`scroll-mt-24 py-20 sm:py-28 ${container}`}>
-          <SectionHeading center eyebrow="Chronologie" title={`L'histoire de JENGA Digital`} intro="Les grandes étapes de notre aventure, de la première idée à aujourd'hui." />
-          <ol className="relative mx-auto mt-16 max-w-5xl before:absolute before:bottom-0 before:left-4 before:top-0 before:w-0.5 before:bg-gradient-to-b before:from-brand before:via-brand/40 before:to-brand/5 md:before:left-1/2 md:before:-translate-x-1/2">
-            {steps.map((step, i) => {
-              const right = i % 2 === 1;
-              return (
-                <li key={step.id} className="relative pb-12 pl-12 last:pb-0 md:grid md:grid-cols-2 md:gap-16 md:pl-0">
-                  <span className="absolute left-4 top-1.5 inline-flex size-4 -translate-x-1/2 items-center justify-center rounded-full bg-surface ring-4 ring-brand md:left-1/2" aria-hidden />
-                  <div className={right ? "md:col-start-2" : "md:text-right"}>
-                    <span className={`inline-flex rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] ${i === steps.length - 1 ? "bg-brand text-white" : "bg-brand-soft text-brand"}`}>
-                      {step.date || step.year}
-                    </span>
-                    <h3 className="mt-3 text-xl font-bold text-ink">{fr(step.title)}</h3>
-                    {fr(step.description) ? <p className="mt-2 whitespace-pre-line text-[15px] leading-relaxed text-muted-foreground">{fr(step.description)}</p> : null}
-                    {step.image ? (
-                      <MediaFrame src={step.image} alt={fr(step.title)} sizes="(min-width: 768px) 28rem, 100vw" className="mt-4 aspect-[16/9] rounded-xl" />
-                    ) : null}
-                  </div>
-                </li>
-              );
-            })}
-          </ol>
-        </section>
-      ) : null}
-
-      <section className={steps.length > 0 ? "bg-muted" : ""}>
+      <section className="bg-muted">
         <div className={`py-20 sm:py-24 ${container}`}>
           <SectionHeading
             eyebrow="Notre savoir-faire"
@@ -187,7 +160,7 @@ export default async function AboutPage() {
         </section>
       ) : null}
 
-      <CtaBand chip="Prochaine étape" title="Construisons ensemble la suite de votre histoire" />
+      <CtaBand chip="Prochaine étape" title="Construisons ensemble votre prochain projet digital" />
     </>
   );
 }

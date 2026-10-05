@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans, Unbounded } from "next/font/google";
 import { getSiteSettings } from "@/lib/settings/server";
 import { siteUrl } from "@/lib/site";
+import { THEME_SCRIPT } from "@/lib/theme";
 import "./globals.css";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
@@ -25,7 +26,10 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="fr" className={`${inter.variable} ${jakarta.variable} ${unbounded.variable} h-full antialiased`}>
+    <html lang="fr" className={`${inter.variable} ${jakarta.variable} ${unbounded.variable} h-full antialiased`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body className="flex min-h-full flex-col font-sans">{children}</body>
     </html>
   );

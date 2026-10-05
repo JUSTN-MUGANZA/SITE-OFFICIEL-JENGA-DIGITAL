@@ -6,6 +6,7 @@ import { Logo } from "./logo";
 import { MobileMenu } from "./mobile-menu";
 import { NavLink } from "./nav-link";
 import { ServiceIcon } from "./service-icon";
+import { ThemeToggle } from "./theme-toggle";
 
 type ServiceLink = { slug: string; title: string; icon: string };
 
@@ -44,10 +45,13 @@ export function SiteHeader({ agencyName, logoUrl, services }: { agencyName: stri
             ),
           )}
         </nav>
-        <Link href="/contact" className={`${btnPrimary} !py-2.5 max-lg:!hidden`}>
-          Demander un devis <ArrowRight className="size-4" aria-hidden />
-        </Link>
-        <MobileMenu items={NAV_LINKS} />
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <Link href="/contact" className={`${btnPrimary} !py-2.5 max-lg:!hidden`}>
+            Demander un devis <ArrowRight className="size-4" aria-hidden />
+          </Link>
+          <MobileMenu items={NAV_LINKS} />
+        </div>
       </div>
     </header>
   );
