@@ -262,7 +262,7 @@ export function StatCard({ label, value, text }: { label: string; value: string;
   return (
     <div className={`p-6 ${card}`}>
       <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-brand">{label}</p>
-      <p className="mt-2 font-display text-4xl font-extrabold tracking-tight text-ink">{value}</p>
+      <p className="mt-2 font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">{value}</p>
       {text ? <p className="mt-2 text-sm text-muted-foreground">{text}</p> : null}
     </div>
   );

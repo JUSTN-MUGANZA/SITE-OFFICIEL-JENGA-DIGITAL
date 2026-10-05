@@ -3,7 +3,7 @@
 /*
  * Charte « Kinetic Precision » (maquette Google Stitch de JENGA Digital) :
  * fond clair légèrement bleuté, bleu électrique #0052FF, sections nuit #070E1E,
- * titres Plus Jakarta Sans, texte Inter.
+ * titres Unbounded et étiquettes JetBrains Mono (comme scalyx.fr), texte Inter.
  */
 :root {
   --background: #faf8ff;
@@ -124,9 +124,8 @@
   --color-success: var(--success);
   --color-warning: var(--warning);
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-jakarta), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-hero: var(--font-unbounded), var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-display: var(--font-unbounded), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SFMono-Regular", Menlo, monospace;
   --shadow-card: 0 1px 2px rgb(19 27 46 / 0.04), 0 4px 16px -6px rgb(19 27 46 / 0.08);
   --shadow-lift: 0 12px 40px -12px rgb(19 27 46 / 0.18);
   --shadow-electric: 0 8px 30px -4px rgb(0 82 255 / 0.25);
@@ -143,6 +142,8 @@ h3,
 h4 {
   font-family: var(--font-display);
   text-wrap: balance;
+  /* Police large : un mot très long passe à la ligne au lieu de dépasser sur petit écran. */
+  overflow-wrap: break-word;
 }
 
 /* Sections nuit : bleu « deep void » avec un halo électrique discret. */

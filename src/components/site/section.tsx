@@ -6,14 +6,14 @@ export const container = "mx-auto w-full max-w-[1320px] px-4 sm:px-6 lg:px-10";
 
 /** Petite étiquette en capitales au-dessus des titres. */
 export function Eyebrow({ children, light = false, className = "" }: { children: ReactNode; light?: boolean; className?: string }) {
-  return <p className={`text-xs font-semibold uppercase tracking-[0.14em] ${light ? "text-accent-light" : "text-brand"} ${className}`}>{children}</p>;
+  return <p className={`font-mono text-xs font-semibold uppercase tracking-[0.1em] ${light ? "text-accent-light" : "text-brand"} ${className}`}>{children}</p>;
 }
 
 /** Pastille arrondie avec point lumineux (haut des pages). */
 export function Chip({ children, light = false }: { children: ReactNode; light?: boolean }) {
   return (
     <span
-      className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] ${
+      className={`inline-flex items-center gap-2 rounded-full px-3 py-1 font-mono text-[11px] font-semibold uppercase tracking-[0.08em] ${
         light ? "bg-white/10 text-white/80 ring-1 ring-white/15" : "bg-surface text-ink/80 shadow-[var(--shadow-card)] ring-1 ring-border"
       }`}
     >
@@ -134,7 +134,7 @@ export function PageHero({
         <div className={`grid gap-10 lg:grid-cols-12 lg:items-end ${crumbs ? "mt-6" : ""}`}>
           <div className={aside ? "lg:col-span-8" : "lg:col-span-9"}>
             {eyebrow ? <Chip>{eyebrow}</Chip> : null}
-            <h1 className="mt-5 animate-rise text-[2.4rem] font-extrabold leading-[1.08] tracking-[-0.03em] text-ink sm:text-5xl lg:text-[3.6rem]">
+            <h1 className="mt-5 animate-rise text-[1.85rem] font-semibold leading-[1.12] tracking-[-0.03em] text-ink sm:text-5xl lg:text-[3.6rem]">
               {title}
               {accent ? (
                 <>
