@@ -15,9 +15,11 @@ const meta = (id: string, order: number): ContentMeta => ({
   updatedBy: null,
 });
 
+/** Photos libres de droits (licence Unsplash), en attendant des photos de l'agence. */
 const SERVICES = [
   {
     slug: "developpement-web",
+    image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1600&q=80",
     icon: "code",
     title: "Développement Web",
     shortDescription: "Sites vitrines, plateformes web et applications sur mesure, modernes et performants.",
@@ -25,6 +27,7 @@ const SERVICES = [
   },
   {
     slug: "applications-mobiles",
+    image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=1600&q=80",
     icon: "smartphone",
     title: "Applications Mobiles",
     shortDescription: "Des applications sur mesure pour iOS et Android, simples à utiliser et fiables.",
@@ -32,6 +35,7 @@ const SERVICES = [
   },
   {
     slug: "design-graphique",
+    image: "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=1600&q=80",
     icon: "pen-tool",
     title: "Design Graphique",
     shortDescription: "Logos, identité visuelle et supports de communication qui marquent les esprits.",
@@ -39,6 +43,7 @@ const SERVICES = [
   },
   {
     slug: "communication-digitale",
+    image: "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?auto=format&fit=crop&w=1600&q=80",
     icon: "megaphone",
     title: "Communication Digitale",
     shortDescription: "Stratégie et gestion de vos réseaux sociaux pour gagner en visibilité.",
@@ -46,6 +51,7 @@ const SERVICES = [
   },
   {
     slug: "maintenance-informatique",
+    image: "https://images.unsplash.com/photo-1604754742629-3e5728249d73?auto=format&fit=crop&w=1600&q=80",
     icon: "settings",
     title: "Maintenance Informatique",
     shortDescription: "Mises à jour, sécurité et assistance technique pour vos sites et vos systèmes.",
@@ -53,6 +59,7 @@ const SERVICES = [
   },
   {
     slug: "formation-et-accompagnement",
+    image: "https://images.unsplash.com/photo-1573164574572-cb89e39749b4?auto=format&fit=crop&w=1600&q=80",
     icon: "graduation-cap",
     title: "Formation & Accompagnement",
     shortDescription: "Montée en compétences de vos équipes et conseils pour réussir votre transformation digitale.",
@@ -65,6 +72,7 @@ export const DEFAULT_SERVICES: ContentItem<"services">[] = SERVICES.map((s, i) =
     status: "published",
     slug: s.slug,
     icon: s.icon,
+    image: s.image,
     title: { fr: s.title },
     shortDescription: { fr: s.shortDescription },
     deliverables: s.deliverables,
