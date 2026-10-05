@@ -5,7 +5,7 @@ import { btnOutline, btnPrimary, card, CtaBand, ProjectCard, ServiceCard, StatCa
 import { HeroSlideshow, RotatingWords } from "@/components/site/hero-motion";
 import { Chip, container, SectionHeading } from "@/components/site/section";
 import { ServiceIcon } from "@/components/site/service-icon";
-import { ProjectConsole } from "@/components/site/visuals";
+import { DEFAULT_HERO_IMAGES } from "@/lib/content/defaults";
 import { fr, getPublicFaqs, getPublicServices, getPublicTeam } from "@/lib/content/public";
 import { getHome, listLive } from "@/lib/content/repository";
 import { METHOD } from "@/lib/content/method";
@@ -73,7 +73,8 @@ export default async function HomePage() {
   const visible = (key: string) => home.sections.find((s) => s.key === key)?.visible ?? true;
   const featured = (projects.some((p) => p.featured) ? projects.filter((p) => p.featured) : projects).slice(0, 3);
   const serviceName = new Map(services.map((s) => [s.id, fr(s.title)]));
-  const heroImages = [home.hero.image, ...home.hero.images].filter(Boolean);
+  const chosenImages = [home.hero.image, ...home.hero.images].filter(Boolean);
+  const heroImages = chosenImages.length > 0 ? chosenImages : DEFAULT_HERO_IMAGES;
 
   return (
     <>
@@ -105,11 +106,7 @@ export default async function HomePage() {
             </ul>
           </div>
           <div className="lg:col-span-5">
-            {heroImages.length > 0 ? (
-              <HeroSlideshow images={heroImages} />
-            ) : (
-              <ProjectConsole location="Bukavu, RDC" />
-            )}
+            <HeroSlideshow images={heroImages} />
           </div>
         </div>
       </section>
