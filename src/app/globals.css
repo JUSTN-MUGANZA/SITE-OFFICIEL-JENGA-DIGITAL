@@ -200,3 +200,34 @@ h4 {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Chargement d'une page : cercle de 8 points qui tourne (voir navigation-loader.tsx). */
+@keyframes loader-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes spinner-dot {
+  0%, 100% { opacity: 0.25; transform: var(--dot) scale(0.75); }
+  12.5% { opacity: 1; transform: var(--dot) scale(1); }
+}
+.spinner-dots {
+  position: relative;
+  display: block;
+  width: 40px;
+  height: 40px;
+}
+.spinner-dots > span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 9999px;
+  background: #fff;
+  opacity: 0.25;
+  animation: spinner-dot 0.8s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .spinner-dots > span { animation-duration: 2.4s; }
+}
