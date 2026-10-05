@@ -40,7 +40,8 @@ export default async function AboutPage() {
       >
         <div className={`mt-12 grid items-center gap-8 p-5 sm:p-6 md:grid-cols-2 lg:max-w-4xl ${card}`}>
           <MediaFrame src={home.hero.image} alt="" sizes="(min-width: 768px) 28rem, 100vw" className="aspect-[16/9] rounded-xl">
-            <Image src="/brand/logo-jenga-digital-transparent.png" alt="" width={640} height={276} className="h-14 w-auto sm:h-16" />
+            <Image src="/brand/logo-jenga-digital-transparent.png" alt="" width={640} height={276} className="h-14 w-auto sm:h-16 dark:hidden" />
+            <Image src="/brand/logo-jenga-digital-white.png" alt="" width={720} height={310} className="hidden h-14 w-auto sm:h-16 dark:block" />
           </MediaFrame>
           <div>
             <Eyebrow>Pourquoi « Jenga » ?</Eyebrow>
@@ -123,7 +124,7 @@ export default async function AboutPage() {
               const right = i % 2 === 1;
               return (
                 <li key={step.id} className="relative pb-12 pl-12 last:pb-0 md:grid md:grid-cols-2 md:gap-16 md:pl-0">
-                  <span className="absolute left-4 top-1.5 inline-flex size-4 -translate-x-1/2 items-center justify-center rounded-full bg-white ring-4 ring-brand md:left-1/2" aria-hidden />
+                  <span className="absolute left-4 top-1.5 inline-flex size-4 -translate-x-1/2 items-center justify-center rounded-full bg-surface ring-4 ring-brand md:left-1/2" aria-hidden />
                   <div className={right ? "md:col-start-2" : "md:text-right"}>
                     <span className={`inline-flex rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] ${i === steps.length - 1 ? "bg-brand text-white" : "bg-brand-soft text-brand"}`}>
                       {step.date || step.year}

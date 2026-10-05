@@ -58,7 +58,7 @@ export default async function ProjectPage({ params }: PageProps<"/realisations/[
           <Breadcrumbs crumbs={[{ href: "/", label: "Accueil" }, { href: "/realisations", label: "Réalisations" }, { label: fr(project.title) }]} />
           <div className="mt-6 flex flex-wrap gap-2">
             {category ? <span className="rounded-full bg-brand px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-white">{category}</span> : null}
-            {project.year ? <span className="rounded-full bg-white px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-ink/70 ring-1 ring-border">Année {project.year}</span> : null}
+            {project.year ? <span className="rounded-full bg-surface px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-ink/70 ring-1 ring-border">Année {project.year}</span> : null}
           </div>
           <div className="mt-5 grid gap-8 lg:grid-cols-12 lg:items-end">
             <div className="lg:col-span-8">
@@ -179,7 +179,7 @@ export default async function ProjectPage({ params }: PageProps<"/realisations/[
                 <ul className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
                   {project.gallery.map((img) => (
                     <li key={img.url}>
-                      <a href={img.url} target="_blank" rel="noopener noreferrer" className="relative block aspect-[4/3] overflow-hidden rounded-2xl bg-white ring-1 ring-border">
+                      <a href={img.url} target="_blank" rel="noopener noreferrer" className="relative block aspect-[4/3] overflow-hidden rounded-2xl bg-surface ring-1 ring-border">
                         <Image src={img.url} alt={img.alt || fr(project.title)} fill sizes="(min-width: 640px) 20rem, 50vw" className="object-cover transition hover:scale-[1.03]" />
                       </a>
                     </li>

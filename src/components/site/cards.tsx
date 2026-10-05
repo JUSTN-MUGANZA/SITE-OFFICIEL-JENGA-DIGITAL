@@ -13,12 +13,12 @@ const fr = (v: { fr: string } | undefined) => v?.fr ?? "";
 export const btnPrimary =
   "inline-flex items-center justify-center gap-2 rounded-lg bg-brand px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-mid hover:shadow-[var(--shadow-electric)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand";
 export const btnOutline =
-  "inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-white px-5 py-3 text-sm font-semibold text-ink shadow-[var(--shadow-card)] transition hover:border-brand/40 hover:text-brand";
+  "inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-surface px-5 py-3 text-sm font-semibold text-ink shadow-[var(--shadow-card)] transition hover:border-brand/40 hover:text-brand";
 export const btnOutlineLight =
   "inline-flex items-center justify-center gap-2 rounded-lg bg-white/10 px-5 py-3 text-sm font-semibold text-white ring-1 ring-white/15 transition hover:bg-white/15";
 export const textLink = "inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition hover:gap-2.5";
 
-export const card = "rounded-2xl border border-border bg-white shadow-[var(--shadow-card)]";
+export const card = "rounded-2xl border border-border bg-surface shadow-[var(--shadow-card)]";
 export const cardHover = "transition duration-300 hover:-translate-y-1 hover:border-brand/25 hover:shadow-[var(--shadow-lift)]";
 
 /** Carte de service : icône, texte, livrables en étiquettes. */
@@ -33,7 +33,7 @@ export function ServiceCard({ service, index }: { service: ContentItem<"services
             <ServiceIcon name={service.icon} className="size-6" />
           </span>
           {number ? (
-            <span className="absolute right-4 top-4 rounded-full bg-white/95 px-2.5 py-1 font-display text-xs font-bold text-brand shadow-sm">{number}</span>
+            <span className="absolute right-4 top-4 rounded-full bg-surface/95 px-2.5 py-1 font-display text-xs font-bold text-brand shadow-sm">{number}</span>
           ) : null}
         </div>
       ) : null}
@@ -76,7 +76,7 @@ export function ProjectCard({ project, tag }: { project: ContentItem<"projects">
       <div className="relative">
         <MediaFrame src={project.coverImage} alt={project.coverAlt || fr(project.title)} sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="aspect-[16/10]" />
         {label ? (
-          <span className="absolute left-4 top-4 rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-ink shadow-sm">{label}</span>
+          <span className="absolute left-4 top-4 rounded-full bg-surface/95 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-ink shadow-sm">{label}</span>
         ) : null}
       </div>
       <div className="flex flex-1 flex-col p-6">
@@ -224,7 +224,7 @@ export function TeamProfileCard({ member }: { member: ContentItem<"team"> }) {
         ) : (
           <Initials name={member.name} className="absolute inset-0 text-6xl" />
         )}
-        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-white/70 to-transparent" aria-hidden />
+        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-surface/70 to-transparent" aria-hidden />
         {member.location ? (
           <span className="absolute left-4 top-4 rounded-md bg-navy-950/80 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-white backdrop-blur">
             {member.location}
@@ -323,7 +323,7 @@ export function CtaBand({
 
 export function EmptyState({ title, text, action }: { title: string; text: string; action?: ReactNode }) {
   return (
-    <div className="rounded-2xl border border-dashed border-border-strong bg-white/60 px-6 py-16 text-center">
+    <div className="rounded-2xl border border-dashed border-border-strong bg-surface/60 px-6 py-16 text-center">
       <p className="font-display text-lg font-bold text-ink">{title}</p>
       <p className="mx-auto mt-2 max-w-md text-muted-foreground">{text}</p>
       {action ? <div className="mt-6">{action}</div> : null}
