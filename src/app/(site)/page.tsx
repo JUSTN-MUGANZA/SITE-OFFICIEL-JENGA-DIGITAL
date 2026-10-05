@@ -2,9 +2,10 @@ import { ArrowRight, ChevronDown, Handshake, Layers, PlayCircle, ShieldCheck } f
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { btnOutline, btnPrimary, card, CtaBand, ProjectCard, ServiceCard, StepCard, TestimonialCard, textLink } from "@/components/site/cards";
+import { btnOutline, btnPrimary, card, CtaBand, EmptyState, ProjectCard, ServiceCard, StepCard, TestimonialCard, textLink } from "@/components/site/cards";
 import { RotatingWords } from "@/components/site/hero-motion";
 import { Chip, container, Rich, SectionHeading } from "@/components/site/section";
+import { Showreel } from "@/components/site/showreel";
 import { fr, getPublicFaqs, getPublicServices } from "@/lib/content/public";
 import { getHome, listLive } from "@/lib/content/repository";
 import { METHOD } from "@/lib/content/method";
@@ -14,10 +15,10 @@ import { getSiteSettings } from "@/lib/settings/server";
 export async function generateMetadata(): Promise<Metadata> {
   const [home, settings] = await Promise.all([getHome(), getSiteSettings()]);
   return pageMetadata({
-    title: home.seo.title || `${settings.agencyName} | Agence digitale : site web, Google et visibilité IA`,
+    title: home.seo.title || `${settings.agencyName} | Agence digitale à Bukavu : site web, Google et visibilité IA`,
     description:
       home.seo.description ||
-      "JENGA Digital crée votre site web et optimise votre présence sur Google, en référencement local et dans les moteurs de recherche IA, pour que vos clients vous trouvent plus facilement.",
+      "Agence digitale à Bukavu (Sud-Kivu, RDC) : JENGA Digital crée votre site web et optimise votre présence sur Google et dans les moteurs de recherche IA.",
     path: "/",
     absoluteTitle: true,
   });
@@ -121,12 +122,19 @@ export default async function HomePage() {
             </ul>
           </div>
           <a
-            href="#services"
+            href="#presentation"
             aria-label="Voir la suite"
             className="absolute bottom-6 left-1/2 inline-flex size-11 -translate-x-1/2 items-center justify-center rounded-full bg-surface text-brand shadow-[var(--shadow-card)] ring-1 ring-border transition hover:text-ink"
           >
             <ChevronDown className="size-5 animate-bounce motion-reduce:animate-none" aria-hidden />
           </a>
+        </div>
+      </section>
+
+      <section id="presentation" className={`scroll-mt-16 pb-4 pt-16 sm:pt-24 ${container}`}>
+        <SectionHeading center eyebrow="En 30 secondes" title="Découvrez JENGA Digital" />
+        <div className="mx-auto mt-10 max-w-5xl">
+          <Showreel />
         </div>
       </section>
 
@@ -145,7 +153,7 @@ export default async function HomePage() {
         </section>
       ) : null}
 
-      {visible("projects") && featured.length > 0 ? (
+      {visible("projects") ? (
         <section className={`py-20 sm:py-28 ${container}`}>
           <SectionHeading
             eyebrow="Études de cas"
@@ -156,16 +164,30 @@ export default async function HomePage() {
               </Link>
             }
           />
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {featured.map((p) => (
-              <ProjectCard key={p.id} project={p} tag={p.serviceIds.map((id) => serviceName.get(id)).find(Boolean)} />
-            ))}
-          </div>
+          {featured.length > 0 ? (
+            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {featured.map((p) => (
+                <ProjectCard key={p.id} project={p} tag={p.serviceIds.map((id) => serviceName.get(id)).find(Boolean)} />
+              ))}
+            </div>
+          ) : (
+            <div className="mt-12">
+              <EmptyState
+                title="Nos études de cas arrivent bientôt"
+                text="Nous préparons la présentation détaillée de nos projets. En attendant, parlons du vôtre."
+                action={
+                  <Link href="/contact" className={btnPrimary}>
+                    Démarrer votre projet <ArrowRight className="size-4" aria-hidden />
+                  </Link>
+                }
+              />
+            </div>
+          )}
         </section>
       ) : null}
 
       {visible("about") ? (
-        <section className={featured.length > 0 && visible("projects") ? "bg-muted" : ""}>
+        <section className={visible("projects") ? "bg-muted" : ""}>
           <div className={`py-20 sm:py-28 ${container}`}>
             <SectionHeading center eyebrow="Notre méthode" title="Un projet mené en 4 temps" intro="Un cadre simple et transparent, pour avancer sans mauvaise surprise." />
             <ol className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">

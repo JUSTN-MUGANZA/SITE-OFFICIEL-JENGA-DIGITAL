@@ -43,9 +43,10 @@ describe("withDefaults", () => {
   });
 
   it("reprend les coordonnées officielles quand les champs sont vides", () => {
-    const s = withDefaults({ email: "", phone: "" }, "secours@agence.com");
+    const s = withDefaults({ email: "", phone: "", address: "" }, "secours@agence.com");
     expect(s.email).toBe(OFFICIAL_CONTACT.email);
     expect(s.phone).toBe(OFFICIAL_CONTACT.phone);
+    expect(s.address).toContain("Bukavu");
     expect(s.socials.whatsapp).toBe("https://wa.me/243971897692");
   });
 

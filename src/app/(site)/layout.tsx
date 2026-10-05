@@ -3,7 +3,7 @@ import { SiteHeader } from "@/components/site/header";
 import { JsonLd } from "@/components/site/section";
 import { WhatsAppButton } from "@/components/site/whatsapp-button";
 import { fr, getPublicServices } from "@/lib/content/public";
-import { SOCIAL_NETWORKS } from "@/lib/settings/schema";
+import { OFFICIAL_LOCATION, SOCIAL_NETWORKS } from "@/lib/settings/schema";
 import { getSiteSettings } from "@/lib/settings/server";
 import { siteUrl } from "@/lib/site";
 
@@ -31,7 +31,20 @@ export default async function SiteLayout({ children }: LayoutProps<"/">) {
           "Agence digitale : création de sites web et d'applications, référencement Google, référencement local et visibilité dans les moteurs de recherche IA.",
         ...(settings.email ? { email: settings.email } : {}),
         ...(settings.phone ? { telephone: settings.phone } : {}),
-        ...(settings.address ? { address: settings.address } : {}),
+        // Adresse structurée tant que l'adresse affichée est celle de Bukavu (sinon, texte libre).
+        address: settings.address.includes(OFFICIAL_LOCATION.locality)
+          ? {
+              "@type": "PostalAddress",
+              addressLocality: OFFICIAL_LOCATION.locality,
+              addressRegion: OFFICIAL_LOCATION.region,
+              addressCountry: OFFICIAL_LOCATION.countryCode,
+            }
+          : settings.address || undefined,
+        areaServed: [
+          { "@type": "City", name: OFFICIAL_LOCATION.locality },
+          { "@type": "AdministrativeArea", name: OFFICIAL_LOCATION.region },
+          { "@type": "Country", name: OFFICIAL_LOCATION.countryName },
+        ],
         contactPoint: {
           "@type": "ContactPoint",
           contactType: "customer service",
