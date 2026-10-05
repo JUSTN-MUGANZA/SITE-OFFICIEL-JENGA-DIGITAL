@@ -145,3 +145,12 @@ export const DEFAULT_TEAM: ContentItem<"team">[] = [
     ...meta("default-team-justin-muganza", 0),
   },
 ];
+
+const unsplash = (id: string) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1600&q=80`;
+
+/** Photos de l'accueil (licence Unsplash), utilisées tant qu'aucune photo n'est choisie dans le tableau de bord. */
+export const DEFAULT_HERO_IMAGES = [
+  unsplash("photo-1531498860502-7c67cf02f657"),
+  unsplash("photo-1573164574397-dd250bc8a598"),
+  unsplash("photo-1549086802-bb458f399f05"),
+];
