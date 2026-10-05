@@ -23,26 +23,42 @@ export const cardHover = "transition duration-300 hover:-translate-y-1 hover:bor
 
 /** Carte de service : icône, texte, livrables en étiquettes. */
 export function ServiceCard({ service, index }: { service: ContentItem<"services">; index?: number }) {
+  const number = index !== undefined ? String(index + 1).padStart(2, "0") : null;
   return (
-    <Link href={`/services/${service.slug}`} className={`group flex h-full flex-col p-7 sm:p-8 ${card} ${cardHover}`}>
-      <div className="flex items-start justify-between gap-4">
-        <span className="inline-flex size-12 items-center justify-center rounded-xl bg-brand-soft text-brand transition group-hover:bg-brand group-hover:text-white">
-          <ServiceIcon name={service.icon} className="size-6" />
-        </span>
-        {index !== undefined ? <span className="font-display text-sm font-bold text-brand/35">{String(index + 1).padStart(2, "0")}</span> : null}
-      </div>
-      <h3 className="mt-6 text-xl font-bold text-ink">{fr(service.title)}</h3>
-      <p className="mt-2.5 flex-1 text-[15px] leading-relaxed text-muted-foreground">{fr(service.shortDescription)}</p>
-      {service.deliverables.length > 0 ? (
-        <div className="mt-5 flex flex-wrap gap-2">
-          {service.deliverables.slice(0, 4).map((d) => (
-            <Tag key={d}>{d}</Tag>
-          ))}
+    <Link href={`/services/${service.slug}`} className={`group flex h-full flex-col overflow-hidden ${card} ${cardHover}`}>
+      {service.image ? (
+        <div className="relative">
+          <MediaFrame src={service.image} alt="" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="aspect-[16/10]" />
+          <span className="absolute -bottom-6 left-7 inline-flex size-12 items-center justify-center rounded-xl bg-brand text-white shadow-[var(--shadow-electric)] sm:left-8">
+            <ServiceIcon name={service.icon} className="size-6" />
+          </span>
+          {number ? (
+            <span className="absolute right-4 top-4 rounded-full bg-white/95 px-2.5 py-1 font-display text-xs font-bold text-brand shadow-sm">{number}</span>
+          ) : null}
         </div>
       ) : null}
-      <span className={`${textLink} mt-6`}>
-        Découvrir ce service <ArrowRight className="size-4" aria-hidden />
-      </span>
+      <div className={`flex flex-1 flex-col p-7 sm:p-8 ${service.image ? "pt-10 sm:pt-10" : ""}`}>
+        {service.image ? null : (
+          <div className="flex items-start justify-between gap-4">
+            <span className="inline-flex size-12 items-center justify-center rounded-xl bg-brand-soft text-brand transition group-hover:bg-brand group-hover:text-white">
+              <ServiceIcon name={service.icon} className="size-6" />
+            </span>
+            {number ? <span className="font-display text-sm font-bold text-brand/35">{number}</span> : null}
+          </div>
+        )}
+        <h3 className={`text-xl font-bold text-ink ${service.image ? "" : "mt-6"}`}>{fr(service.title)}</h3>
+        <p className="mt-2.5 flex-1 text-[15px] leading-relaxed text-muted-foreground">{fr(service.shortDescription)}</p>
+        {service.deliverables.length > 0 ? (
+          <div className="mt-5 flex flex-wrap gap-2">
+            {service.deliverables.slice(0, 4).map((d) => (
+              <Tag key={d}>{d}</Tag>
+            ))}
+          </div>
+        ) : null}
+        <span className={`${textLink} mt-6`}>
+          Découvrir ce service <ArrowRight className="size-4" aria-hidden />
+        </span>
+      </div>
     </Link>
   );
 }

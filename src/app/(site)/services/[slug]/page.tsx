@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { btnPrimary, card, CtaBand, ProjectCard, StepCard } from "@/components/site/cards";
 import { container, Eyebrow, JsonLd, PageHero, SectionHeading } from "@/components/site/section";
 import { ServiceIcon } from "@/components/site/service-icon";
+import { MediaFrame } from "@/components/site/visuals";
 import { METHOD } from "@/lib/content/method";
 import { fr, getPublicService } from "@/lib/content/public";
 import { listLive } from "@/lib/content/repository";
@@ -49,6 +50,11 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
           </div>
         }
       />
+      {service.image ? (
+        <div className={`pt-10 sm:pt-14 ${container}`}>
+          <MediaFrame src={service.image} alt="" priority sizes="(min-width: 1320px) 1240px, 100vw" className="aspect-[16/9] rounded-2xl sm:aspect-[21/8]" />
+        </div>
+      ) : null}
       <section className={`grid gap-10 py-20 lg:grid-cols-12 ${container}`}>
         <div className="lg:col-span-7">
           {fr(service.body) ? (

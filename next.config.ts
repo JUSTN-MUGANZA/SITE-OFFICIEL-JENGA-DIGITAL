@@ -23,6 +23,8 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "firebasestorage.googleapis.com" },
       // Images envoyées depuis le tableau de bord (Vercel Blob).
       { protocol: "https", hostname: "*.public.blob.vercel-storage.com" },
+      // Photos libres de droits des services par défaut.
+      { protocol: "https", hostname: "images.unsplash.com" },
     ],
   },
 };

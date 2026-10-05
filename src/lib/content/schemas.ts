@@ -78,6 +78,7 @@ export const serviceSchema = z.object({
   slug,
   title: localized(100),
   icon: z.string().trim().max(40).default(""),
+  image: imageUrl.default(""),
   shortDescription: localized(300),
   body: localized(20000, false),
   deliverables: z.array(z.string().trim().max(120)).max(30).default([]),
