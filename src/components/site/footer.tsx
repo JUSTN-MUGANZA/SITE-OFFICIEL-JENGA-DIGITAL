@@ -1,7 +1,7 @@
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
 import { SOCIAL_LABELS, SOCIAL_NETWORKS, type SiteSettings } from "@/lib/settings/schema";
-import { DEFAULT_TAGLINE, NAV_LINKS } from "@/lib/site";
+import { DEFAULT_TAGLINE, FOOTER_LINKS } from "@/lib/site";
 import { Logo } from "./logo";
 import { SocialIcon } from "./social-icons";
 import { TechLines } from "./visuals";
@@ -64,7 +64,7 @@ export function SiteFooter({ settings, services }: { settings: SiteSettings; ser
         <div className="lg:col-span-2">
           <h2 className={heading}>Entreprise</h2>
           <ul className="mt-5 space-y-3">
-            {NAV_LINKS.filter((l) => l.href !== "/" && l.href !== "/services").map((l) => (
+            {FOOTER_LINKS.map((l) => (
               <li key={l.href}>
                 <Link href={l.href} className={link}>
                   {l.label}
