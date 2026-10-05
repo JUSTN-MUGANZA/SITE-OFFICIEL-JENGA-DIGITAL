@@ -5,12 +5,13 @@ import { container, PageHero, SectionHeading } from "@/components/site/section";
 import { METHOD } from "@/lib/content/method";
 import { fr, getPublicServices } from "@/lib/content/public";
 import { listLive } from "@/lib/content/repository";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Nos réalisations",
-  description: "Sites web, applications et projets digitaux réalisés par JENGA Digital pour ses clients.",
-  alternates: { canonical: "/realisations" },
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Nos réalisations : sites web et projets digitaux",
+  description: "Découvrez les sites web, applications et projets digitaux conçus par JENGA Digital pour ses clients, avec les objectifs, les solutions et les résultats.",
+  path: "/realisations",
+});
 
 export default async function ProjectsPage({ searchParams }: PageProps<"/realisations">) {
   const [{ categorie }, projects, services] = await Promise.all([searchParams, listLive("projects"), getPublicServices()]);

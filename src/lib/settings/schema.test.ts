@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { DEFAULT_SETTINGS, siteSettingsSchema, withDefaults } from "./schema";
+import { DEFAULT_SETTINGS, OFFICIAL_CONTACT, siteSettingsSchema, withDefaults } from "./schema";
 
 const valid = {
   ...DEFAULT_SETTINGS,
@@ -38,7 +38,15 @@ describe("withDefaults", () => {
   it("complète les réseaux sociaux manquants", () => {
     const s = withDefaults({ socials: { facebook: "https://fb.com/x" } as never });
     expect(s.socials.facebook).toBe("https://fb.com/x");
-    expect(s.socials.instagram).toBe("");
+    expect(s.socials.instagram).toBe(OFFICIAL_CONTACT.socials.instagram);
+    expect(s.socials.linkedin).toBe("");
+  });
+
+  it("reprend les coordonnées officielles quand les champs sont vides", () => {
+    const s = withDefaults({ email: "", phone: "" }, "secours@agence.com");
+    expect(s.email).toBe(OFFICIAL_CONTACT.email);
+    expect(s.phone).toBe(OFFICIAL_CONTACT.phone);
+    expect(s.socials.whatsapp).toBe("https://wa.me/243971897692");
   });
 
   it("refuse un lien de pied de page dangereux ou externe sans protocole", () => {

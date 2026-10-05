@@ -9,18 +9,20 @@ import { MediaFrame } from "@/components/site/visuals";
 import { fr, getPublicServices } from "@/lib/content/public";
 import { getLiveBySlug } from "@/lib/content/repository";
 import { siteUrl } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 
 export async function generateMetadata({ params }: PageProps<"/realisations/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const project = await getLiveBySlug("projects", slug);
   if (!project) return {};
   const image = project.seo.ogImage || project.coverImage;
-  return {
+  return pageMetadata({
     title: project.seo.title || fr(project.title),
     description: project.seo.description || fr(project.summary),
-    alternates: { canonical: `/realisations/${project.slug}` },
-    openGraph: image ? { images: [image] } : undefined,
-  };
+    path: `/realisations/${project.slug}`,
+    image: image || undefined,
+    type: "article",
+  });
 }
 
 /** Sépare le texte en paragraphes de présentation et en liste de fonctionnalités (lignes « - … »). */
@@ -194,12 +196,17 @@ export default async function ProjectPage({ params }: PageProps<"/realisations/[
       <JsonLd
         data={{
           "@context": "https://schema.org",
-          "@type": "CreativeWork",
-          name: fr(project.title),
+          "@type": "Article",
+          headline: fr(project.title),
           description: fr(project.summary),
           url: `${url}/realisations/${project.slug}`,
+          mainEntityOfPage: `${url}/realisations/${project.slug}`,
+          inLanguage: "fr",
           ...(project.coverImage ? { image: project.coverImage } : {}),
-          creator: { "@id": `${url}/#organisation` },
+          ...(project.publishedAt ? { datePublished: project.publishedAt } : {}),
+          ...(project.updatedAt ? { dateModified: project.updatedAt } : {}),
+          author: { "@id": `${url}/#organisation` },
+          publisher: { "@id": `${url}/#organisation` },
         }}
       />
     </>

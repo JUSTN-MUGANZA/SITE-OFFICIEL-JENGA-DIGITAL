@@ -1,6 +1,7 @@
 import { SiteFooter } from "@/components/site/footer";
 import { SiteHeader } from "@/components/site/header";
 import { JsonLd } from "@/components/site/section";
+import { WhatsAppButton } from "@/components/site/whatsapp-button";
 import { fr, getPublicServices } from "@/lib/content/public";
 import { SOCIAL_NETWORKS } from "@/lib/settings/schema";
 import { getSiteSettings } from "@/lib/settings/server";
@@ -11,19 +12,54 @@ export default async function SiteLayout({ children }: LayoutProps<"/">) {
   const serviceLinks = services.map((s) => ({ slug: s.slug, title: fr(s.title), icon: s.icon }));
   const url = siteUrl();
 
-  const organization = {
+  // Identité de l'agence pour Google, Bing et les assistants IA : qui, quoi, comment la joindre.
+  const sameAs = SOCIAL_NETWORKS.filter((n) => n !== "whatsapp")
+    .map((n) => settings.socials[n])
+    .filter(Boolean);
+  const structuredData = {
     "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    "@id": `${url}/#organisation`,
-    name: settings.agencyName,
-    url,
-    logo: `${url}/brand/logo-jenga-digital.png`,
-    image: `${url}/opengraph-image.jpg`,
-    description: settings.tagline || "Agence digitale : création de sites web, applications, référencement et marketing digital.",
-    ...(settings.email ? { email: settings.email } : {}),
-    ...(settings.phone ? { telephone: settings.phone } : {}),
-    ...(settings.address ? { address: settings.address } : {}),
-    sameAs: SOCIAL_NETWORKS.map((n) => settings.socials[n]).filter(Boolean),
+    "@graph": [
+      {
+        "@type": ["Organization", "ProfessionalService"],
+        "@id": `${url}/#organisation`,
+        name: settings.agencyName,
+        url,
+        logo: `${url}/brand/logo-jenga-digital.png`,
+        image: `${url}/opengraph-image.jpg`,
+        description:
+          settings.tagline ||
+          "Agence digitale : création de sites web et d'applications, référencement Google, référencement local et visibilité dans les moteurs de recherche IA.",
+        ...(settings.email ? { email: settings.email } : {}),
+        ...(settings.phone ? { telephone: settings.phone } : {}),
+        ...(settings.address ? { address: settings.address } : {}),
+        contactPoint: {
+          "@type": "ContactPoint",
+          contactType: "customer service",
+          availableLanguage: ["French"],
+          ...(settings.email ? { email: settings.email } : {}),
+          ...(settings.phone ? { telephone: settings.phone } : {}),
+          url: `${url}/contact`,
+        },
+        knowsAbout: ["Création de sites web", "Applications mobiles", "Référencement naturel (SEO)", "Référencement local", "Visibilité dans les moteurs de recherche IA", "Design graphique", "Communication digitale"],
+        hasOfferCatalog: {
+          "@type": "OfferCatalog",
+          name: "Services",
+          itemListElement: services.map((s) => ({
+            "@type": "Offer",
+            itemOffered: { "@type": "Service", name: fr(s.title), url: `${url}/services/${s.slug}` },
+          })),
+        },
+        sameAs,
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${url}/#site`,
+        url,
+        name: settings.agencyName,
+        inLanguage: "fr",
+        publisher: { "@id": `${url}/#organisation` },
+      },
+    ],
   };
 
   return (
@@ -37,7 +73,8 @@ export default async function SiteLayout({ children }: LayoutProps<"/">) {
         {children}
       </main>
       <SiteFooter settings={settings} services={serviceLinks} />
-      <JsonLd data={organization} />
+      <WhatsAppButton link={settings.socials.whatsapp} />
+      <JsonLd data={structuredData} />
     </div>
   );
 }

@@ -3,12 +3,13 @@ import type { Metadata } from "next";
 import { card, CtaBand } from "@/components/site/cards";
 import { container, JsonLd, PageHero } from "@/components/site/section";
 import { fr, getPublicFaqs } from "@/lib/content/public";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Questions fréquentes",
-  description: "Délais, prix, accompagnement, paiement : les réponses aux questions les plus fréquentes sur nos services.",
-  alternates: { canonical: "/faq" },
-};
+  description: "Délais, prix, référencement, accompagnement et paiement : les réponses aux questions les plus fréquentes sur les services de JENGA Digital.",
+  path: "/faq",
+});
 
 export default async function FaqPage() {
   const faqs = await getPublicFaqs();

@@ -4,12 +4,13 @@ import { card, CtaBand, ServiceFeatureCard, StepCard } from "@/components/site/c
 import { container, PageHero, SectionHeading } from "@/components/site/section";
 import { METHOD } from "@/lib/content/method";
 import { getPublicServices } from "@/lib/content/public";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Nos services",
-  description: "Développement web, applications mobiles, design graphique, communication digitale, maintenance et formation : des solutions digitales sur mesure.",
-  alternates: { canonical: "/services" },
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Services digitaux : sites web, applications, design et visibilité",
+  description: "Création de sites web, applications mobiles, design graphique, communication digitale, référencement Google et maintenance : les services sur mesure de JENGA Digital.",
+  path: "/services",
+});
 
 const PROMISES = ["Un interlocuteur unique du début à la fin", "Un devis clair avant de commencer", "Des démonstrations à chaque étape", "Un suivi après la mise en ligne"];
 
