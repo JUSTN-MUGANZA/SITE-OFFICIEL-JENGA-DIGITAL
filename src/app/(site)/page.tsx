@@ -4,19 +4,23 @@ import Image from "next/image";
 import Link from "next/link";
 import { btnOutline, btnPrimary, card, CtaBand, ProjectCard, ServiceCard, StepCard, TestimonialCard, textLink } from "@/components/site/cards";
 import { RotatingWords } from "@/components/site/hero-motion";
-import { Chip, container, SectionHeading } from "@/components/site/section";
+import { Chip, container, Rich, SectionHeading } from "@/components/site/section";
 import { fr, getPublicFaqs, getPublicServices } from "@/lib/content/public";
 import { getHome, listLive } from "@/lib/content/repository";
 import { METHOD } from "@/lib/content/method";
+import { pageMetadata } from "@/lib/seo";
 import { getSiteSettings } from "@/lib/settings/server";
 
 export async function generateMetadata(): Promise<Metadata> {
   const [home, settings] = await Promise.all([getHome(), getSiteSettings()]);
-  return {
-    title: { absolute: home.seo.title || `${settings.agencyName} | Agence digitale` },
-    description: home.seo.description || fr(home.hero.subtitle) || settings.tagline || undefined,
-    alternates: { canonical: "/" },
-  };
+  return pageMetadata({
+    title: home.seo.title || `${settings.agencyName} | Agence digitale : site web, Google et visibilité IA`,
+    description:
+      home.seo.description ||
+      "JENGA Digital crée votre site web et optimise votre présence sur Google, en référencement local et dans les moteurs de recherche IA, pour que vos clients vous trouvent plus facilement.",
+    path: "/",
+    absoluteTitle: true,
+  });
 }
 
 const TRUST = [
@@ -89,8 +93,14 @@ export default async function HomePage() {
             </h1>
             {lead ? (
               <p className="mt-7 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-                <span className="font-medium text-ink">{lead}</span>
-                {rest ? <span className="mt-2 block">{rest}</span> : null}
+                <span className="block">
+                  <Rich text={lead} />
+                </span>
+                {rest ? (
+                  <span className="mt-2 block">
+                    <Rich text={rest} />
+                  </span>
+                ) : null}
               </p>
             ) : null}
             <div className="mt-9 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
@@ -125,7 +135,7 @@ export default async function HomePage() {
           <SectionHeading
             eyebrow="Expertise & savoir-faire"
             title="Des briques solides pour chaque besoin digital"
-            intro="Du site web à l'application mobile, de l'identité visuelle à la maintenance : chaque service est pensé pour durer."
+            intro={<Rich text="Du **site web** à l'**application mobile**, de l'**identité visuelle** à la **maintenance** : chaque service est pensé pour durer." />}
           />
           <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {services.slice(0, 6).map((s) => (

@@ -7,12 +7,14 @@ import { container, PageHero } from "@/components/site/section";
 import { fr, getPublicFaqs, getPublicServices } from "@/lib/content/public";
 import { SOCIAL_NETWORKS } from "@/lib/settings/schema";
 import { getSiteSettings } from "@/lib/settings/server";
+import { pageMetadata } from "@/lib/seo";
+import { whatsappHref } from "@/components/site/whatsapp-button";
 
-export const metadata: Metadata = {
-  title: "Contact & devis",
-  description: "Parlez-nous de votre projet de site web, d'application ou de communication digitale : devis gratuit et sans engagement.",
-  alternates: { canonical: "/contact" },
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Contact et devis gratuit",
+  description: "Contactez JENGA Digital par formulaire, e-mail ou WhatsApp pour votre site web, votre application ou votre visibilité sur Google : devis gratuit et sans engagement.",
+  path: "/contact",
+});
 
 const COMMITMENTS = [
   { icon: ShieldCheck, title: "Confidentialité", text: "Vos informations et vos idées restent entre nous." },
@@ -90,7 +92,7 @@ export default async function ContactPage({ searchParams }: PageProps<"/contact"
                 </ul>
                 {whatsapp ? (
                   <a
-                    href={whatsapp}
+                    href={whatsappHref(whatsapp)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-6 flex items-center justify-center gap-2 rounded-lg bg-success px-5 py-3 text-sm font-semibold text-white transition hover:opacity-90"

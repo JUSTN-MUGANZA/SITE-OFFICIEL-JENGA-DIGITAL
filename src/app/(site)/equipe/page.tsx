@@ -4,12 +4,13 @@ import Link from "next/link";
 import { btnOutline, btnPrimary, card, CtaBand, EmptyState, TeamProfileCard } from "@/components/site/cards";
 import { Breadcrumbs, Chip, container, SectionHeading } from "@/components/site/section";
 import { getPublicTeam } from "@/lib/content/public";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Notre équipe",
-  description: "Les personnes qui conçoivent et développent vos projets digitaux chez JENGA Digital.",
-  alternates: { canonical: "/equipe" },
-};
+  description: "Les développeurs, designers et communicants de JENGA Digital qui conçoivent et réalisent vos sites web, applications et projets digitaux.",
+  path: "/equipe",
+});
 
 const VALUES = [
   {

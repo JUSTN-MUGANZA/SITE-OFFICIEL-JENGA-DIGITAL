@@ -8,12 +8,13 @@ import { ServiceIcon } from "@/components/site/service-icon";
 import { MediaFrame } from "@/components/site/visuals";
 import { fr, getPublicServices, getPublicTeam } from "@/lib/content/public";
 import { getHome } from "@/lib/content/repository";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "À propos",
-  description: "JENGA Digital, agence digitale : notre mission, notre vision et nos valeurs.",
-  alternates: { canonical: "/a-propos" },
-};
+export const metadata: Metadata = pageMetadata({
+  title: "À propos de JENGA Digital, agence digitale",
+  description: "JENGA Digital conçoit des sites web, des applications et des stratégies de visibilité en ligne pour les entreprises, organisations et particuliers : notre mission, notre vision et nos valeurs.",
+  path: "/a-propos",
+});
 
 const DEFAULT_ABOUT =
   "JENGA Digital est une agence digitale spécialisée dans la création de solutions numériques. Nous accompagnons les entreprises, les organisations et les particuliers dans leur transformation digitale.\n\n« Jenga » veut dire « construire » : comprendre votre activité, poser des bases solides et faire évoluer vos outils digitaux avec vous.";

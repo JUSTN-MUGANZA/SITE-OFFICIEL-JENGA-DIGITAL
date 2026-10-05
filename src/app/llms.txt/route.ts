@@ -1,5 +1,6 @@
 import { fr, getPublicFaqs, getPublicServices } from "@/lib/content/public";
 import { listLive } from "@/lib/content/repository";
+import { SOCIAL_LABELS, SOCIAL_NETWORKS } from "@/lib/settings/schema";
 import { getSiteSettings } from "@/lib/settings/server";
 import { siteUrl } from "@/lib/site";
 
@@ -17,7 +18,7 @@ export async function GET() {
   const lines = [
     `# ${settings.agencyName}`,
     "",
-    `> ${settings.tagline || "Agence digitale : création de sites web, applications, e-commerce, référencement et marketing digital."}`,
+    `> ${settings.tagline || "Agence digitale : création de sites web et d'applications, référencement Google, référencement local et visibilité dans les moteurs de recherche IA."}`,
     "",
     "## Pages principales",
     `- [Accueil](${base}/)`,
@@ -36,5 +37,16 @@ export async function GET() {
     lines.push("", "## Réalisations", ...projects.map((p) => `- [${fr(p.title)}](${base}/realisations/${p.slug}): ${fr(p.summary)}`));
   }
   lines.push("", "## Questions fréquentes", ...faqs.map((f) => `- ${fr(f.question)} ${fr(f.answer).replace(/\s+/g, " ")}`));
+  const socials = SOCIAL_NETWORKS.filter((n) => n !== "whatsapp" && settings.socials[n]).map((n) => `- ${SOCIAL_LABELS[n]} : ${settings.socials[n]}`);
+  lines.push(
+    "",
+    "## Contact",
+    ...(settings.email ? [`- E-mail : ${settings.email}`] : []),
+    ...(settings.phone ? [`- Téléphone : ${settings.phone}`] : []),
+    ...(settings.socials.whatsapp ? [`- WhatsApp : ${settings.socials.whatsapp}`] : []),
+    ...(settings.address ? [`- Adresse : ${settings.address.replace(/\s+/g, " ")}`] : []),
+    `- Formulaire de contact et devis gratuit : ${base}/contact`,
+    ...socials,
+  );
   return new Response(lines.join("\n") + "\n", { headers: { "Content-Type": "text/plain; charset=utf-8" } });
 }

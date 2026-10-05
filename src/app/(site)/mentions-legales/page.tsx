@@ -3,11 +3,13 @@ import { LegalBody } from "@/components/site/legal";
 import { PageHero } from "@/components/site/section";
 import { getSiteSettings } from "@/lib/settings/server";
 import { siteUrl } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Mentions légales",
-  alternates: { canonical: "/mentions-legales" },
-};
+  description: "Mentions légales du site JENGA Digital : éditeur, hébergement et propriété intellectuelle.",
+  path: "/mentions-legales",
+});
 
 export default async function LegalNoticePage() {
   const settings = await getSiteSettings();

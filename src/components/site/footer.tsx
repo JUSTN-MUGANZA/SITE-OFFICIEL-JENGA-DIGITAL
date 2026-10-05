@@ -114,7 +114,7 @@ export function SiteFooter({ settings, services }: { settings: SiteSettings; ser
         </div>
       </div>
       <div className="relative border-t border-white/10">
-        <div className="mx-auto flex w-full max-w-[1320px] flex-col gap-3 px-4 py-6 text-xs text-white/50 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-10">
+        <div className="mx-auto flex w-full max-w-[1320px] flex-col gap-3 px-4 pt-6 pb-24 text-xs text-white/50 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-10">
           <p>
             © {year} {settings.agencyName}. Tous droits réservés.
           </p>

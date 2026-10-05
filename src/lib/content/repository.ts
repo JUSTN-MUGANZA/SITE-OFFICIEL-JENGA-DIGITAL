@@ -2,6 +2,7 @@ import "server-only";
 import { FieldValue, type DocumentSnapshot } from "firebase-admin/firestore";
 import { revalidateTag, unstable_cache } from "next/cache";
 import { adminDb, isAdminConfigured } from "@/lib/firebase/admin";
+import { pingIndexNow } from "@/lib/indexnow";
 import {
   CONTENT_SCHEMAS,
   SLUGGED,
@@ -92,8 +93,19 @@ async function nextOrder(collection: ContentCollection): Promise<number> {
   return typeof last === "number" ? last + 1 : 0;
 }
 
+/** Pages publiques à signaler aux moteurs (IndexNow) quand une collection change. */
+const INDEXNOW_PATHS: Partial<Record<ContentCollection, string[]>> = {
+  projects: ["/", "/realisations"],
+  services: ["/", "/services"],
+  team: ["/equipe", "/a-propos"],
+  testimonials: ["/", "/temoignages"],
+  faqs: ["/", "/faq"],
+};
+
 function revalidate(collection: ContentCollection) {
   revalidateTag(contentTag(collection), "max");
+  const paths = INDEXNOW_PATHS[collection];
+  if (paths) pingIndexNow(paths);
 }
 
 export async function createContent<C extends ContentCollection>(collection: C, data: ContentData<C>, userId: string): Promise<string> {
@@ -187,7 +199,7 @@ export const DEFAULT_HOME: HomeContent = homeSchema.parse({
   hero: {
     title: { fr: "Construisons ensemble votre avenir digital" },
     subtitle: {
-      fr: "Site web, Google, référencement local et visibilité IA.\nNous optimisons votre présence en ligne pour que vos clients vous trouvent plus facilement sur Google et les moteurs de recherche alimentés par l’IA.",
+      fr: "**Site web, Google, référencement local et visibilité IA.**\nNous optimisons votre **présence en ligne** pour que vos clients vous trouvent plus facilement sur **Google** et les **moteurs de recherche alimentés par l’IA**.",
     },
     ctaLabel: { fr: "Découvrir nos services" },
     ctaHref: "/services",
@@ -217,4 +229,5 @@ export async function saveHome(data: HomeContent, userId: string) {
     .doc("home")
     .set({ ...data, updatedAt: FieldValue.serverTimestamp(), updatedBy: userId });
   revalidateTag(contentTag("home"), "max");
+  pingIndexNow(["/"]);
 }

@@ -8,6 +8,9 @@ import { siteUrl } from "@/lib/site";
 const AI_AND_SEARCH_BOTS = [
   "Googlebot",
   "Bingbot",
+  "Slurp",
+  "DuckDuckBot",
+  "YandexBot",
   "Google-Extended",
   "GPTBot",
   "OAI-SearchBot",
@@ -15,6 +18,9 @@ const AI_AND_SEARCH_BOTS = [
   "ClaudeBot",
   "Claude-SearchBot",
   "PerplexityBot",
+  "Perplexity-User",
+  "GoogleOther",
+  "Gemini-Deep-Research",
   "Applebot",
   "Applebot-Extended",
 ];
@@ -27,5 +33,6 @@ export default function robots(): MetadataRoute.Robots {
       { userAgent: "*", allow: "/", disallow },
     ],
     sitemap: `${siteUrl()}/sitemap.xml`,
+    host: siteUrl(),
   };
 }

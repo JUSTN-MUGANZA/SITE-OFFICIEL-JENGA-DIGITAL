@@ -54,18 +54,33 @@ export const siteSettingsSchema = z.object({
 
 export type SiteSettings = z.infer<typeof siteSettingsSchema>;
 
+/**
+ * Coordonnées officielles de JENGA Digital, données par JUSTIN le 5 octobre 2026.
+ * Elles s'affichent tant que le champ correspondant est vide dans les paramètres du tableau de bord.
+ */
+export const OFFICIAL_CONTACT = {
+  email: "jengadigital8@gmail.com",
+  phone: "+243 971 897 692",
+  socials: {
+    instagram: "https://www.instagram.com/digital.jenga/",
+    facebook: "https://www.facebook.com/profile.php?id=61576473515257",
+    x: "https://x.com/digital_je45455",
+    whatsapp: "https://wa.me/243971897692",
+  } satisfies Partial<Record<SocialNetwork, string>>,
+};
+
 export const DEFAULT_SETTINGS: SiteSettings = {
   agencyName: "JENGA Digital",
   tagline: "",
   logoUrl: "",
   faviconUrl: "",
-  email: "",
+  email: OFFICIAL_CONTACT.email,
   contactRecipientEmail: "",
-  phone: "",
+  phone: OFFICIAL_CONTACT.phone,
   address: "",
   mapsUrl: "",
   hours: "",
-  socials: Object.fromEntries(SOCIAL_NETWORKS.map((n) => [n, ""])) as Record<SocialNetwork, string>,
+  socials: { ...(Object.fromEntries(SOCIAL_NETWORKS.map((n) => [n, ""])) as Record<SocialNetwork, string>), ...OFFICIAL_CONTACT.socials },
   links: [],
   footerText: "",
   maintenance: false,
@@ -79,7 +94,10 @@ export function withDefaults(data: Partial<SiteSettings> | undefined, fallbackEm
     socials: { ...DEFAULT_SETTINGS.socials, ...(data?.socials ?? {}) },
     links: data?.links ?? [],
   };
+  // Un champ laissé vide dans le tableau de bord reprend les coordonnées officielles.
+  for (const n of SOCIAL_NETWORKS) if (!merged.socials[n]) merged.socials[n] = DEFAULT_SETTINGS.socials[n];
+  if (!merged.phone) merged.phone = OFFICIAL_CONTACT.phone;
   if (!merged.contactRecipientEmail) merged.contactRecipientEmail = fallbackEmail;
-  if (!merged.email) merged.email = fallbackEmail;
+  if (!merged.email) merged.email = OFFICIAL_CONTACT.email;
   return merged;
 }

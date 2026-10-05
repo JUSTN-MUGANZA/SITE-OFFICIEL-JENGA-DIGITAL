@@ -4,12 +4,13 @@ import { container, JsonLd, PageHero } from "@/components/site/section";
 import { fr } from "@/lib/content/public";
 import { listLive } from "@/lib/content/repository";
 import { siteUrl } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Témoignages",
-  description: "Ce que nos clients disent de leur collaboration avec JENGA Digital.",
-  alternates: { canonical: "/temoignages" },
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Témoignages clients",
+  description: "Ce que les clients de JENGA Digital disent de leur site web, de leur application et de leur accompagnement.",
+  path: "/temoignages",
+});
 
 export default async function TestimonialsPage() {
   const testimonials = await listLive("testimonials");

@@ -9,18 +9,19 @@ import { MediaFrame } from "@/components/site/visuals";
 import { METHOD } from "@/lib/content/method";
 import { fr, getPublicService } from "@/lib/content/public";
 import { listLive } from "@/lib/content/repository";
+import { pageMetadata } from "@/lib/seo";
 import { siteUrl } from "@/lib/site";
 
 export async function generateMetadata({ params }: PageProps<"/services/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const service = await getPublicService(slug);
   if (!service) return {};
-  return {
-    title: service.seo.title || fr(service.title),
-    description: service.seo.description || fr(service.shortDescription),
-    alternates: { canonical: `/services/${service.slug}` },
-    openGraph: service.seo.ogImage ? { images: [service.seo.ogImage] } : undefined,
-  };
+  return pageMetadata({
+    title: service.seo.title || `${fr(service.title)} sur mesure`,
+    description: service.seo.description || `${fr(service.shortDescription)} Devis gratuit avec JENGA Digital.`,
+    path: `/services/${service.slug}`,
+    image: service.seo.ogImage || service.image || undefined,
+  });
 }
 
 export default async function ServicePage({ params }: PageProps<"/services/[slug]">) {
@@ -131,9 +132,12 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
           "@context": "https://schema.org",
           "@type": "Service",
           name: fr(service.title),
+          serviceType: fr(service.title),
           description: fr(service.shortDescription),
           url: `${url}/services/${service.slug}`,
+          ...(service.image ? { image: service.image } : {}),
           provider: { "@id": `${url}/#organisation` },
+          offers: { "@type": "Offer", url: `${url}${quoteHref}`, description: "Devis gratuit et sans engagement" },
         }}
       />
     </>

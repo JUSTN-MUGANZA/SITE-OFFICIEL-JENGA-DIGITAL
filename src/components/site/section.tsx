@@ -1,8 +1,26 @@
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { siteUrl } from "@/lib/site";
 
 export const container = "mx-auto w-full max-w-[1320px] px-4 sm:px-6 lg:px-10";
+
+/** Texte où les passages entre **double astérisque** sont mis en gras pour attirer l'œil. */
+export function Rich({ text }: { text: string }) {
+  return (
+    <>
+      {text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+        part.startsWith("**") && part.endsWith("**") && part.length > 4 ? (
+          <strong key={i} className="font-semibold text-ink">
+            {part.slice(2, -2)}
+          </strong>
+        ) : (
+          part
+        ),
+      )}
+    </>
+  );
+}
 
 /** Petite étiquette en capitales au-dessus des titres. */
 export function Eyebrow({ children, light = false, className = "" }: { children: ReactNode; light?: boolean; className?: string }) {
@@ -85,9 +103,23 @@ export function SectionHeading({
 
 type Crumb = { href?: string; label: string };
 
+/** Fil d'Ariane visible, doublé de sa version BreadcrumbList pour Google et les IA. */
 export function Breadcrumbs({ crumbs }: { crumbs: Crumb[] }) {
+  const base = siteUrl();
   return (
     <nav aria-label="Fil d'Ariane" className="text-xs font-medium text-subtle">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: crumbs.map((c, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            name: c.label,
+            ...(c.href ? { item: `${base}${c.href === "/" ? "" : c.href}` } : {}),
+          })),
+        }}
+      />
       <ol className="flex flex-wrap items-center gap-1.5">
         {crumbs.map((c, i) => (
           <li key={c.label} className="flex items-center gap-1.5">

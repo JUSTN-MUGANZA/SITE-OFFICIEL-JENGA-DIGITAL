@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import { LegalBody } from "@/components/site/legal";
 import { PageHero } from "@/components/site/section";
 import { getSiteSettings } from "@/lib/settings/server";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Politique de confidentialité",
-  description: "Quelles données nous collectons, pourquoi, combien de temps nous les gardons et comment exercer vos droits.",
-  alternates: { canonical: "/confidentialite" },
-};
+  description: "Quelles données JENGA Digital collecte, pourquoi, combien de temps elles sont gardées et comment exercer vos droits.",
+  path: "/confidentialite",
+});
 
 export default async function PrivacyPage() {
   const settings = await getSiteSettings();

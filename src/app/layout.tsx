@@ -19,8 +19,13 @@ export async function generateMetadata(): Promise<Metadata> {
     title: { default: `${settings.agencyName} | Agence digitale`, template: `%s | ${settings.agencyName}` },
     description,
     openGraph: { type: "website", locale: "fr_FR", siteName: settings.agencyName, description },
-    twitter: { card: "summary_large_image" },
+    twitter: { card: "summary_large_image", site: "@digital_je45455" },
     icons: settings.faviconUrl ? { icon: settings.faviconUrl } : undefined,
+    // Codes de validation Google Search Console et Bing Webmaster Tools (variables d'environnement Vercel).
+    verification: {
+      ...(process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : {}),
+      ...(process.env.BING_SITE_VERIFICATION ? { other: { "msvalidate.01": process.env.BING_SITE_VERIFICATION } } : {}),
+    },
   };
 }
 
