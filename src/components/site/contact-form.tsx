@@ -7,7 +7,7 @@ type ServiceOption = { id: string; title: string };
 type Status = { kind: "idle" | "sending" } | { kind: "ok" | "error"; message: string };
 
 const input =
-  "mt-1.5 w-full rounded-lg border border-border-strong/70 bg-white px-3.5 py-3 text-sm text-ink outline-none transition placeholder:text-subtle/80 focus:border-brand focus:ring-4 focus:ring-brand/10";
+  "mt-1.5 w-full rounded-lg border border-border-strong/70 bg-surface px-3.5 py-3 text-sm text-ink outline-none transition placeholder:text-subtle/80 focus:border-brand focus:ring-4 focus:ring-brand/10";
 const label = "text-[13px] font-semibold text-ink";
 const chip =
   "inline-flex cursor-pointer items-center rounded-lg border border-border bg-muted px-3 py-2 text-[13px] font-semibold text-ink/80 transition hover:border-brand/40 has-[:checked]:border-brand has-[:checked]:bg-brand-soft has-[:checked]:text-brand has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-brand/15";

@@ -27,7 +27,7 @@ export function MobileMenu({ items }: { items: readonly Item[] }) {
         <span className="sr-only">{open ? "Fermer le menu" : "Ouvrir le menu"}</span>
       </button>
       {open ? (
-        <nav id="menu-mobile" aria-label="Menu" className="absolute inset-x-0 top-full max-h-[calc(100dvh-4rem)] overflow-y-auto border-b border-t border-border bg-white px-4 pb-6 shadow-[var(--shadow-lift)] animate-rise">
+        <nav id="menu-mobile" aria-label="Menu" className="absolute inset-x-0 top-full max-h-[calc(100dvh-4rem)] overflow-y-auto border-b border-t border-border bg-surface px-4 pb-6 shadow-[var(--shadow-lift)] animate-rise">
           <ul className="space-y-1 pt-3">
             {items.map((item) => (
               <li key={item.href}>

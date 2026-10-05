@@ -33,6 +33,35 @@
   --warning: #d97706;
 }
 
+/*
+ * Mode sombre (site public seulement), selon le réglage de l'appareil du visiteur.
+ * Inspiré de scalyx.fr : fond presque noir, cartes à peine plus claires, bleu JENGA éclairci.
+ */
+@media (prefers-color-scheme: dark) {
+  :root:has(.site-theme) {
+    color-scheme: dark;
+    --background: #0a0e16;
+    --foreground: #e6eaf2;
+    --surface: #111722;
+    --muted: #0d121b;
+    --muted-strong: #161d2b;
+    --muted-foreground: #a3adbf;
+    --subtle: #7a8598;
+    --border: #1e2633;
+    --border-strong: #2d3747;
+    --brand: #3d7bff;
+    --brand-mid: #2a63e6;
+    --brand-soft: #142039;
+    --brand-tint: #1b2b4d;
+    --teal: #7bd0ff;
+    --ink: #f1f4fa;
+    --navy-950: #070b12;
+    --navy-900: #0c121d;
+    --shadow-card: 0 1px 2px rgb(0 0 0 / 0.3), 0 4px 16px -6px rgb(0 0 0 / 0.4);
+    --shadow-lift: 0 12px 40px -12px rgb(0 0 0 / 0.6);
+  }
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

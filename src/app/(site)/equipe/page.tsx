@@ -70,7 +70,7 @@ export default async function TeamPage() {
             intro="Développement, design et communication : chaque projet est porté par des personnes passionnées par leur métier."
             action={
               team.length > 0 ? (
-                <span className="inline-flex rounded-full bg-white px-3 py-1 text-xs font-semibold text-ink/70 ring-1 ring-border">
+                <span className="inline-flex rounded-full bg-surface px-3 py-1 text-xs font-semibold text-ink/70 ring-1 ring-border">
                   {team.length} {team.length > 1 ? "membres" : "membre"}
                 </span>
               ) : undefined

@@ -14,7 +14,7 @@ export function Chip({ children, light = false }: { children: ReactNode; light?:
   return (
     <span
       className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] ${
-        light ? "bg-white/10 text-white/80 ring-1 ring-white/15" : "bg-white text-ink/80 shadow-[var(--shadow-card)] ring-1 ring-border"
+        light ? "bg-white/10 text-white/80 ring-1 ring-white/15" : "bg-surface text-ink/80 shadow-[var(--shadow-card)] ring-1 ring-border"
       }`}
     >
       <span className={`size-1.5 rounded-full ${light ? "bg-accent" : "bg-brand"}`} aria-hidden />

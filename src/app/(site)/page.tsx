@@ -105,7 +105,7 @@ export default async function HomePage() {
           <a
             href="#services"
             aria-label="Voir la suite"
-            className="absolute bottom-6 left-1/2 inline-flex size-11 -translate-x-1/2 items-center justify-center rounded-full bg-white text-brand shadow-[var(--shadow-card)] ring-1 ring-border transition hover:text-ink"
+            className="absolute bottom-6 left-1/2 inline-flex size-11 -translate-x-1/2 items-center justify-center rounded-full bg-surface text-brand shadow-[var(--shadow-card)] ring-1 ring-border transition hover:text-ink"
           >
             <ChevronDown className="size-5 animate-bounce motion-reduce:animate-none" aria-hidden />
           </a>
