@@ -1,6 +1,7 @@
 import { SiteFooter } from "@/components/site/footer";
 import { SiteHeader } from "@/components/site/header";
 import { CookieBanner } from "@/components/site/cookie-consent";
+import { NavigationLoader } from "@/components/site/navigation-loader";
 import { JsonLd } from "@/components/site/section";
 import { WhatsAppButton } from "@/components/site/whatsapp-button";
 import { fr, getPublicServices } from "@/lib/content/public";
@@ -89,6 +90,7 @@ export default async function SiteLayout({ children }: LayoutProps<"/">) {
       <SiteFooter settings={settings} services={serviceLinks} />
       <WhatsAppButton link={settings.socials.whatsapp} />
       <CookieBanner />
+      <NavigationLoader />
       <JsonLd data={structuredData} />
     </div>
   );
