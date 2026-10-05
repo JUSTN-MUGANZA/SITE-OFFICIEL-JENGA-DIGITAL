@@ -1,6 +1,6 @@
 import { permanentRedirect } from "next/navigation";
 
-/** L'histoire est désormais présentée sur la page « À propos ». */
+/** Ancienne page « Histoire », retirée : les anciens liens mènent à « À propos ». */
 export default function HistoryPage() {
-  permanentRedirect("/a-propos#histoire");
+  permanentRedirect("/a-propos");
 }
