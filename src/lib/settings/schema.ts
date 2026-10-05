@@ -61,12 +61,21 @@ export type SiteSettings = z.infer<typeof siteSettingsSchema>;
 export const OFFICIAL_CONTACT = {
   email: "jengadigital8@gmail.com",
   phone: "+243 971 897 692",
+  address: "Bukavu, Sud-Kivu, République démocratique du Congo",
   socials: {
     instagram: "https://www.instagram.com/digital.jenga/",
     facebook: "https://www.facebook.com/profile.php?id=61576473515257",
     x: "https://x.com/digital_je45455",
     whatsapp: "https://wa.me/243971897692",
   } satisfies Partial<Record<SocialNetwork, string>>,
+};
+
+/** Siège de l'agence, sous une forme lisible par Google (référencement local). */
+export const OFFICIAL_LOCATION = {
+  locality: "Bukavu",
+  region: "Sud-Kivu",
+  countryCode: "CD",
+  countryName: "République démocratique du Congo",
 };
 
 export const DEFAULT_SETTINGS: SiteSettings = {
@@ -77,7 +86,7 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   email: OFFICIAL_CONTACT.email,
   contactRecipientEmail: "",
   phone: OFFICIAL_CONTACT.phone,
-  address: "",
+  address: OFFICIAL_CONTACT.address,
   mapsUrl: "",
   hours: "",
   socials: { ...(Object.fromEntries(SOCIAL_NETWORKS.map((n) => [n, ""])) as Record<SocialNetwork, string>), ...OFFICIAL_CONTACT.socials },
@@ -97,6 +106,7 @@ export function withDefaults(data: Partial<SiteSettings> | undefined, fallbackEm
   // Un champ laissé vide dans le tableau de bord reprend les coordonnées officielles.
   for (const n of SOCIAL_NETWORKS) if (!merged.socials[n]) merged.socials[n] = DEFAULT_SETTINGS.socials[n];
   if (!merged.phone) merged.phone = OFFICIAL_CONTACT.phone;
+  if (!merged.address) merged.address = OFFICIAL_CONTACT.address;
   if (!merged.contactRecipientEmail) merged.contactRecipientEmail = fallbackEmail;
   if (!merged.email) merged.email = OFFICIAL_CONTACT.email;
   return merged;
