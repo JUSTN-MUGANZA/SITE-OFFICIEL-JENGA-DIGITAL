@@ -148,9 +148,12 @@ export const DEFAULT_TEAM: ContentItem<"team">[] = [
 
 const unsplash = (id: string) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1600&q=80`;
 
-/** Photos de l'accueil (licence Unsplash), utilisées tant qu'aucune photo n'est choisie dans le tableau de bord. */
+/**
+ * Photos de l'accueil (licence Unsplash), utilisées tant qu'aucune photo n'est choisie dans le tableau de bord.
+ * Volontairement sans personnes : du code, un bureau, un poste de travail.
+ */
 export const DEFAULT_HERO_IMAGES = [
-  unsplash("photo-1531498860502-7c67cf02f657"),
-  unsplash("photo-1573164574397-dd250bc8a598"),
-  unsplash("photo-1549086802-bb458f399f05"),
+  unsplash("photo-1607706009771-de8808640bcf"),
+  unsplash("photo-1519086588705-c935fdedcc14"),
+  unsplash("photo-1609921212029-bb5a28e60960"),
 ];
