@@ -3,8 +3,7 @@ import Link from "next/link";
 import { card, CtaBand, EmptyState, ProjectCard, StepCard } from "@/components/site/cards";
 import { container, PageHero, SectionHeading } from "@/components/site/section";
 import { METHOD } from "@/lib/content/method";
-import { fr, getPublicServices } from "@/lib/content/public";
-import { listLive } from "@/lib/content/repository";
+import { fr, getPublicProjects, getPublicServices } from "@/lib/content/public";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -14,7 +13,7 @@ export const metadata: Metadata = pageMetadata({
 });
 
 export default async function ProjectsPage({ searchParams }: PageProps<"/realisations">) {
-  const [{ categorie }, projects, services] = await Promise.all([searchParams, listLive("projects"), getPublicServices()]);
+  const [{ categorie }, projects, services] = await Promise.all([searchParams, getPublicProjects(), getPublicServices()]);
   const used = services.filter((s) => projects.some((p) => p.serviceIds.includes(s.id)));
   const active = used.find((s) => s.slug === categorie);
   const shown = active ? projects.filter((p) => p.serviceIds.includes(active.id)) : projects;

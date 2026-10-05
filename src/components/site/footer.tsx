@@ -2,6 +2,7 @@ import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
 import { SOCIAL_LABELS, SOCIAL_NETWORKS, type SiteSettings } from "@/lib/settings/schema";
 import { DEFAULT_TAGLINE, FOOTER_LINKS } from "@/lib/site";
+import { ManageCookiesButton } from "./cookie-consent";
 import { Logo } from "./logo";
 import { SocialIcon } from "./social-icons";
 import { TechLines } from "./visuals";
@@ -119,6 +120,9 @@ export function SiteFooter({ settings, services }: { settings: SiteSettings; ser
             © {year} {settings.agencyName}. Tous droits réservés.
           </p>
           <ul className="flex flex-wrap gap-x-6 gap-y-2">
+            <li>
+              <ManageCookiesButton className="hover:text-white" />
+            </li>
             {settings.links.map((l) => (
               <li key={l.url}>
                 <a href={l.url} className="hover:text-white" {...(l.url.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}>

@@ -6,14 +6,13 @@ import { notFound } from "next/navigation";
 import { btnOutline, btnPrimary, card, CtaBand } from "@/components/site/cards";
 import { Breadcrumbs, container, Eyebrow, JsonLd, Tag } from "@/components/site/section";
 import { MediaFrame } from "@/components/site/visuals";
-import { fr, getPublicServices } from "@/lib/content/public";
-import { getLiveBySlug } from "@/lib/content/repository";
+import { fr, getPublicProject, getPublicServices } from "@/lib/content/public";
 import { siteUrl } from "@/lib/site";
 import { pageMetadata } from "@/lib/seo";
 
 export async function generateMetadata({ params }: PageProps<"/realisations/[slug]">): Promise<Metadata> {
   const { slug } = await params;
-  const project = await getLiveBySlug("projects", slug);
+  const project = await getPublicProject(slug);
   if (!project) return {};
   const image = project.seo.ogImage || project.coverImage;
   return pageMetadata({
@@ -39,7 +38,7 @@ function splitBody(text: string) {
 
 export default async function ProjectPage({ params }: PageProps<"/realisations/[slug]">) {
   const { slug } = await params;
-  const project = await getLiveBySlug("projects", slug);
+  const project = await getPublicProject(slug);
   if (!project) notFound();
   const services = (await getPublicServices()).filter((s) => project.serviceIds.includes(s.id));
   const url = siteUrl();
@@ -182,7 +181,7 @@ export default async function ProjectPage({ params }: PageProps<"/realisations/[
                   {project.gallery.map((img) => (
                     <li key={img.url}>
                       <a href={img.url} target="_blank" rel="noopener noreferrer" className="relative block aspect-[4/3] overflow-hidden rounded-2xl bg-surface ring-1 ring-border">
-                        <Image src={img.url} alt={img.alt || fr(project.title)} fill sizes="(min-width: 640px) 20rem, 50vw" className="object-cover transition hover:scale-[1.03]" />
+                        <Image src={img.url} alt={img.alt || fr(project.title)} fill sizes="(min-width: 640px) 20rem, 50vw" className="object-contain p-2 transition hover:scale-[1.03]" />
                       </a>
                     </li>
                   ))}

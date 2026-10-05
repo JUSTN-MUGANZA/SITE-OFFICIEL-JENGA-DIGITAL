@@ -7,8 +7,7 @@ import { container, Eyebrow, JsonLd, PageHero, SectionHeading } from "@/componen
 import { ServiceIcon } from "@/components/site/service-icon";
 import { MediaFrame } from "@/components/site/visuals";
 import { METHOD } from "@/lib/content/method";
-import { fr, getPublicService } from "@/lib/content/public";
-import { listLive } from "@/lib/content/repository";
+import { fr, getPublicProjects, getPublicService } from "@/lib/content/public";
 import { pageMetadata } from "@/lib/seo";
 import { siteUrl } from "@/lib/site";
 
@@ -28,7 +27,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
   const { slug } = await params;
   const service = await getPublicService(slug);
   if (!service) notFound();
-  const projects = (await listLive("projects")).filter((p) => p.serviceIds.includes(service.id)).slice(0, 3);
+  const projects = (await getPublicProjects()).filter((p) => p.serviceIds.includes(service.id)).slice(0, 3);
   const url = siteUrl();
   const quoteHref = `/contact?service=${encodeURIComponent(service.slug)}`;
 

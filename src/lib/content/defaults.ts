@@ -1,4 +1,4 @@
-import { faqSchema, serviceSchema, teamMemberSchema, type ContentItem, type ContentMeta } from "./schemas";
+import { faqSchema, projectSchema, serviceSchema, teamMemberSchema, type ContentItem, type ContentMeta } from "./schemas";
 
 /**
  * Contenus affichés tant que rien n'est publié depuis le tableau de bord,
@@ -118,17 +118,89 @@ export const DEFAULT_TEAM: ContentItem<"team">[] = [
     ...teamMemberSchema.parse({
       status: "published",
       name: "Justin Muganza",
-      role: { fr: "Fondateur & développeur" },
-      bio: { fr: "Crée des expériences web modernes et interactives, avec une attention particulière aux détails et à l'expérience utilisateur." },
-      skills: ["React", "JavaScript", "HTML5 & CSS3", "Sass", "Figma", "Git & GitHub"],
+      role: { fr: "Ingénieur logiciel" },
+      bio: {
+        fr: "Conçoit, développe et met en ligne des applications web fiables, rapides et faciles à faire évoluer. De l'architecture à la mise en production, il transforme les besoins des clients en solutions concrètes, avec une attention particulière à la qualité du code, à la sécurité et à l'expérience utilisateur.",
+      },
+      skills: ["Angular", "Next.js", "React", "Firebase", "Supabase", "Git & GitHub"],
       photo: "/team/justin-muganza.jpg",
+      location: "Bukavu",
       socials: {
         github: "https://github.com/JUSTN-MUGANZA",
         linkedin: "https://www.linkedin.com/in/justin-muganza-35a0182b0/",
+        x: "https://x.com/JustinMuganzaL",
         website: "https://lubunga-portfolio.netlify.app/",
       },
     }),
     ...meta("default-team-justin-muganza", 0),
+  },
+  {
+    ...teamMemberSchema.parse({
+      status: "published",
+      name: "Calliste Mukamba Songa",
+      role: { fr: "Développeur mobile" },
+      bio: {
+        fr: "Développe des applications mobiles Android pensées pour le terrain : simples à prendre en main, rapides et fiables, de la maquette jusqu'à la publication.",
+      },
+      skills: ["Android", "Kotlin", "Applications mobiles"],
+      photo: "/team/calliste-mukamba-songa.jpg",
+      location: "Bukavu",
+      socials: {
+        linkedin: "https://www.linkedin.com/in/calliste-mukamba-songa-265182301",
+        x: "https://x.com/CallisteM92422",
+      },
+    }),
+    ...meta("default-team-calliste-mukamba-songa", 1),
+  },
+];
+
+const MAYUNDO = "/realisations/mayundo-party-caisse";
+
+/** Réalisations envoyées par JUSTIN, affichées tant qu'aucun projet n'est publié depuis le tableau de bord. */
+export const DEFAULT_PROJECTS: ContentItem<"projects">[] = [
+  {
+    ...projectSchema.parse({
+      status: "published",
+      slug: "mayundo-party-caisse",
+      title: { fr: "MAYUNDO Party : application de gestion de caisse" },
+      client: "Étudiants de BAC 3 Informatique de gestion, ISP",
+      sector: "Événementiel",
+      year: 2026,
+      summary: {
+        fr: "Une application web pour encaisser les paiements, enregistrer les sorties et suivre en temps réel la caisse de la fête Mayundo Party.",
+      },
+      body: {
+        fr: [
+          "Les étudiants de BAC 3 Informatique de gestion de l'ISP organisaient la fête Mayundo Party et devaient suivre de nombreux petits paiements : frais de fête, t-shirts, défense, frais de comité. Tenue à la main, la caisse devenait difficile à vérifier.",
+          "Nous avons réalisé une application web accessible depuis un simple téléphone, qui s'installe comme une application. Le caissier enregistre chaque paiement en quelques secondes et toute l'équipe dispose d'un historique clair et vérifiable.",
+          [
+            "- Espace caissier sécurisé, avec connexion",
+            "- Plusieurs frais encaissés en une seule fois (fête, t-shirt, défense…)",
+            "- Paiements en dollars (USD) et en francs congolais (FC)",
+            "- Enregistrement des sorties de caisse",
+            "- Historique regroupé par personne, avec recherche et filtres",
+            "- Suivi précis des membres du comité",
+            "- E-mail de confirmation après chaque paiement",
+            "- Vue d'ensemble de la caisse",
+          ].join("\n"),
+        ].join("\n\n"),
+      },
+      coverImage: `${MAYUNDO}/couverture.jpg`,
+      coverAlt: "Écrans de l'application MAYUNDO Party Caisse sur téléphone : historique des paiements et enregistrement d'un paiement",
+      gallery: [
+        { url: `${MAYUNDO}/ecran-historique.jpg`, alt: "Écran d'accueil de l'espace caissier avec l'historique récent des paiements" },
+        { url: `${MAYUNDO}/ecran-paiement.jpg`, alt: "Formulaire d'enregistrement d'un paiement avec type de frais, devise et montant" },
+      ],
+      serviceIds: ["default-developpement-web"],
+      technologies: ["Application web (PWA)", "Firebase"],
+      liveUrl: "https://suivi-de-caisse.web.app/",
+      featured: true,
+      seo: {
+        title: "MAYUNDO Party : application web de gestion de caisse",
+        description: "Étude de cas : application web de caisse pour la fête Mayundo Party (ISP Bukavu) : paiements en USD et FC, sorties, historique et e-mails de confirmation.",
+      },
+    }),
+    ...meta("default-project-mayundo-party-caisse", 0),
   },
 ];
 

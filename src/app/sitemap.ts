@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getPublicServices } from "@/lib/content/public";
-import { listLive } from "@/lib/content/repository";
+import { getPublicProjects, getPublicServices } from "@/lib/content/public";
 import { siteUrl } from "@/lib/site";
 
 const STATIC_PAGES: { path: string; priority: number }[] = [
@@ -20,7 +19,7 @@ export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = siteUrl();
-  const [services, projects] = await Promise.all([getPublicServices(), listLive("projects").catch(() => [])]);
+  const [services, projects] = await Promise.all([getPublicServices(), getPublicProjects().catch(() => [])]);
   const at = (date: string | null) => (date ? new Date(date) : undefined);
   return [
     ...STATIC_PAGES.map((p) => ({ url: `${base}${p.path === "/" ? "" : p.path}`, priority: p.priority })),

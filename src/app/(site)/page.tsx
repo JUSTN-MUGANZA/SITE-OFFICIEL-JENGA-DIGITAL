@@ -6,7 +6,7 @@ import { btnOutline, btnPrimary, card, CtaBand, EmptyState, ProjectCard, Service
 import { RotatingWords } from "@/components/site/hero-motion";
 import { Chip, container, Rich, SectionHeading } from "@/components/site/section";
 import { Showreel } from "@/components/site/showreel";
-import { fr, getPublicFaqs, getPublicServices } from "@/lib/content/public";
+import { fr, getPublicFaqs, getPublicProjects, getPublicServices } from "@/lib/content/public";
 import { getHome, listLive } from "@/lib/content/repository";
 import { METHOD } from "@/lib/content/method";
 import { pageMetadata } from "@/lib/seo";
@@ -61,7 +61,7 @@ export default async function HomePage() {
     getHome(),
     getSiteSettings(),
     getPublicServices(),
-    listLive("projects"),
+    getPublicProjects(),
     listLive("testimonials"),
     getPublicFaqs(),
   ]);
