@@ -43,7 +43,7 @@ export default async function TeamPage() {
           <Breadcrumbs crumbs={[{ href: "/", label: "Accueil" }, { label: "Équipe" }]} />
           <div className="mx-auto mt-8 flex max-w-3xl flex-col items-center text-center">
             <Chip>L&apos;équipe JENGA Digital</Chip>
-            <h1 className="mt-5 animate-rise text-[2.4rem] font-extrabold leading-[1.08] tracking-[-0.03em] text-ink sm:text-5xl lg:text-[3.4rem]">
+            <h1 className="mt-5 animate-rise text-[1.85rem] font-semibold leading-[1.12] tracking-[-0.03em] text-ink sm:text-5xl lg:text-[3.4rem]">
               Les personnes qui construisent vos projets digitaux
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">

@@ -62,6 +62,9 @@ export default async function HomePage() {
   ]);
   const visible = (key: string) => home.sections.find((s) => s.key === key)?.visible ?? true;
   const featured = (projects.some((p) => p.featured) ? projects.filter((p) => p.featured) : projects).slice(0, 3);
+  // Sous-titre : la première ligne est mise en avant, la suite l'explique.
+  const [lead, ...restLines] = fr(home.hero.subtitle).split("\n").filter(Boolean);
+  const rest = restLines.join(" ");
   const serviceName = new Map(services.map((s) => [s.id, fr(s.title)]));
 
   return (
@@ -76,15 +79,20 @@ export default async function HomePage() {
           aria-hidden
           width={256}
           height={256}
-          className="pointer-events-none absolute left-1/2 top-1/2 w-[26rem] -translate-x-1/2 -translate-y-1/2 select-none opacity-[0.05] sm:w-[38rem]"
+          className="pointer-events-none absolute left-1/2 top-1/2 w-[26rem] -translate-x-1/2 -translate-y-1/2 select-none opacity-[0.05] sm:w-[38rem] dark:opacity-[0.14]"
         />
         <div className={`relative flex min-h-[calc(100svh-4rem)] flex-col items-center justify-center pb-24 pt-12 text-center lg:min-h-[calc(100svh-4.5rem)] ${container}`}>
           <div className="flex max-w-4xl animate-rise flex-col items-center">
             <Chip>Agence digitale & technologies</Chip>
-            <h1 className="mt-7 font-hero! text-[1.9rem] font-semibold leading-[1.15] tracking-[-0.03em] text-ink sm:text-5xl lg:text-[4rem]">
+            <h1 className="mt-7 text-[1.9rem] font-semibold leading-[1.15] tracking-[-0.03em] text-ink sm:text-5xl lg:text-[4rem]">
               <HeroTitle text={fr(home.hero.title)} />
             </h1>
-            {fr(home.hero.subtitle) ? <p className="mt-7 max-w-2xl text-lg leading-relaxed text-muted-foreground">{fr(home.hero.subtitle)}</p> : null}
+            {lead ? (
+              <p className="mt-7 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+                <span className="font-medium text-ink">{lead}</span>
+                {rest ? <span className="mt-2 block">{rest}</span> : null}
+              </p>
+            ) : null}
             <div className="mt-9 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
               <Link href="/contact" className={btnPrimary}>
                 Démarrer votre projet <ArrowRight className="size-4" aria-hidden />

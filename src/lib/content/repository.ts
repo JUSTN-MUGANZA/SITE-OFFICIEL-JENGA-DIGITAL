@@ -187,7 +187,7 @@ export const DEFAULT_HOME: HomeContent = homeSchema.parse({
   hero: {
     title: { fr: "Construisons ensemble votre avenir digital" },
     subtitle: {
-      fr: "JENGA Digital accompagne les entreprises, organisations et particuliers dans la conception de solutions numériques modernes, performantes et sur mesure.",
+      fr: "Site web, Google, référencement local et visibilité IA.\nNous optimisons votre présence en ligne pour que vos clients vous trouvent plus facilement sur Google et les moteurs de recherche alimentés par l’IA.",
     },
     ctaLabel: { fr: "Découvrir nos services" },
     ctaHref: "/services",

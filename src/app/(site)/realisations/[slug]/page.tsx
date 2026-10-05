@@ -62,7 +62,7 @@ export default async function ProjectPage({ params }: PageProps<"/realisations/[
           </div>
           <div className="mt-5 grid gap-8 lg:grid-cols-12 lg:items-end">
             <div className="lg:col-span-8">
-              <h1 className="animate-rise text-[2.4rem] font-extrabold leading-[1.08] tracking-[-0.03em] text-ink sm:text-5xl lg:text-[3.4rem]">{fr(project.title)}</h1>
+              <h1 className="animate-rise text-[1.85rem] font-semibold leading-[1.12] tracking-[-0.03em] text-ink sm:text-5xl lg:text-[3.4rem]">{fr(project.title)}</h1>
               {fr(project.summary) ? <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">{fr(project.summary)}</p> : null}
             </div>
             {project.liveUrl ? (
