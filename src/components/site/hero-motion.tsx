@@ -3,11 +3,14 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-/** Change d'élément toutes les `delay` ms, sauf si le visiteur préfère moins d'animations. */
+/**
+ * Change d'élément toutes les `delay` ms. Quand le visiteur préfère moins
+ * d'animations, le contenu change toujours, mais sans effet de transition.
+ */
 function useCycle(length: number, delay: number) {
   const [index, setIndex] = useState(0);
   useEffect(() => {
-    if (length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (length < 2) return;
     const id = window.setInterval(() => setIndex((i) => (i + 1) % length), delay);
     return () => window.clearInterval(id);
   }, [length, delay]);
@@ -27,7 +30,7 @@ export function RotatingWords({ words, className = "" }: { words: string[]; clas
         <span
           key={w}
           aria-hidden
-          className={`col-start-1 row-start-1 transition-all duration-500 ease-out ${
+          className={`col-start-1 row-start-1 transition-all duration-500 ease-out motion-reduce:transition-none ${
             i === index ? "translate-y-0 opacity-100" : i === (index + words.length - 1) % words.length ? "-translate-y-3 opacity-0" : "translate-y-3 opacity-0"
           }`}
         >
@@ -51,7 +54,7 @@ export function HeroSlideshow({ images }: { images: string[] }) {
           fill
           priority={i === 0}
           sizes="(min-width: 1024px) 40vw, 100vw"
-          className={`object-cover transition-opacity duration-1000 ${i === index ? "opacity-100" : "opacity-0"}`}
+          className={`object-cover transition-opacity duration-1000 motion-reduce:transition-none ${i === index ? "opacity-100" : "opacity-0"}`}
         />
       ))}
       {images.length > 1 ? (
