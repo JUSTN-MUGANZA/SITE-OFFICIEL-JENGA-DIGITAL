@@ -3,9 +3,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { btnOutline, btnPrimary, card, CtaBand, ProjectCard, ServiceCard, StepCard, TestimonialCard, textLink } from "@/components/site/cards";
-import { HeroSlideshow, RotatingWords } from "@/components/site/hero-motion";
+import { RotatingWords } from "@/components/site/hero-motion";
 import { Chip, container, SectionHeading } from "@/components/site/section";
-import { DEFAULT_HERO_IMAGES } from "@/lib/content/defaults";
 import { fr, getPublicFaqs, getPublicServices } from "@/lib/content/public";
 import { getHome, listLive } from "@/lib/content/repository";
 import { METHOD } from "@/lib/content/method";
@@ -36,7 +35,18 @@ function HeroTitle({ text }: { text: string }) {
   const tail = words.slice(-2).join(" ");
   return (
     <>
-      {words.slice(0, -2).join(" ")} <RotatingWords words={[tail, ...ROTATING.filter((w) => w !== tail)]} className="text-brand" />
+      {words.slice(0, -2).join(" ")}{" "}
+      <span className="block">
+        <RotatingWords
+          words={[tail, ...ROTATING.filter((w) => w !== tail)]}
+          className="text-brand"
+          decoration={
+            <svg viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden className="absolute -bottom-2 left-0 h-2.5 w-full text-brand/40 sm:-bottom-3 sm:h-3">
+              <path d="M2 9 C 80 2, 220 2, 298 8" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+            </svg>
+          }
+        />
+      </span>
     </>
   );
 }
@@ -53,14 +63,12 @@ export default async function HomePage() {
   const visible = (key: string) => home.sections.find((s) => s.key === key)?.visible ?? true;
   const featured = (projects.some((p) => p.featured) ? projects.filter((p) => p.featured) : projects).slice(0, 3);
   const serviceName = new Map(services.map((s) => [s.id, fr(s.title)]));
-  const chosenImages = [home.hero.image, ...home.hero.images].filter(Boolean);
-  const heroImages = chosenImages.length > 0 ? chosenImages : DEFAULT_HERO_IMAGES;
 
   return (
     <>
-      {/* En-tête */}
+      {/* En-tête : centré, il occupe le premier écran et invite à faire défiler. */}
       <section className="hero-glow relative overflow-hidden">
-        <div className="tech-grid absolute inset-0 [mask-image:radial-gradient(ellipse_at_top_left,black,transparent_70%)]" aria-hidden />
+        <div className="tech-grid absolute inset-0 [mask-image:radial-gradient(ellipse_at_top,black,transparent_70%)]" aria-hidden />
         {/* Filigrane : l'emblème JENGA, très pâle, derrière le titre. */}
         <Image
           src="/brand/mark-transparent.png"
@@ -68,16 +76,16 @@ export default async function HomePage() {
           aria-hidden
           width={256}
           height={256}
-          className="pointer-events-none absolute -right-24 top-28 w-[24rem] select-none opacity-[0.06] sm:-right-10 sm:w-[30rem] lg:left-[18%] lg:right-auto lg:top-10 lg:w-[34rem]"
+          className="pointer-events-none absolute left-1/2 top-1/2 w-[26rem] -translate-x-1/2 -translate-y-1/2 select-none opacity-[0.05] sm:w-[38rem]"
         />
-        <div className={`relative grid items-center gap-16 pb-20 pt-12 sm:pt-16 lg:grid-cols-12 lg:pb-28 lg:pt-20 ${container}`}>
-          <div className="animate-rise lg:col-span-7">
+        <div className={`relative flex min-h-[calc(100svh-4rem)] flex-col items-center justify-center pb-24 pt-12 text-center lg:min-h-[calc(100svh-4.5rem)] ${container}`}>
+          <div className="flex max-w-4xl animate-rise flex-col items-center">
             <Chip>Agence digitale & technologies</Chip>
-            <h1 className="mt-6 text-[2.6rem] font-extrabold leading-[1.06] tracking-[-0.035em] text-ink sm:text-6xl lg:text-[4.4rem]">
+            <h1 className="mt-7 font-hero! text-[1.9rem] font-semibold leading-[1.15] tracking-[-0.03em] text-ink sm:text-5xl lg:text-[4rem]">
               <HeroTitle text={fr(home.hero.title)} />
             </h1>
-            {fr(home.hero.subtitle) ? <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">{fr(home.hero.subtitle)}</p> : null}
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            {fr(home.hero.subtitle) ? <p className="mt-7 max-w-2xl text-lg leading-relaxed text-muted-foreground">{fr(home.hero.subtitle)}</p> : null}
+            <div className="mt-9 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
               <Link href="/contact" className={btnPrimary}>
                 Démarrer votre projet <ArrowRight className="size-4" aria-hidden />
               </Link>
@@ -85,7 +93,7 @@ export default async function HomePage() {
                 <PlayCircle className="size-4 text-brand" aria-hidden /> {fr(home.hero.ctaLabel) || "Découvrir nos réalisations"}
               </Link>
             </div>
-            <ul className="mt-10 flex flex-wrap gap-x-7 gap-y-3">
+            <ul className="mt-10 flex flex-wrap justify-center gap-x-7 gap-y-3">
               {TRUST.map(({ icon: Icon, label }) => (
                 <li key={label} className="flex items-center gap-2 text-sm font-medium text-ink/80">
                   <Icon className="size-4 text-brand" aria-hidden />
@@ -94,14 +102,18 @@ export default async function HomePage() {
               ))}
             </ul>
           </div>
-          <div className="hidden lg:col-span-5 lg:block">
-            <HeroSlideshow images={heroImages} />
-          </div>
+          <a
+            href="#services"
+            aria-label="Voir la suite"
+            className="absolute bottom-6 left-1/2 inline-flex size-11 -translate-x-1/2 items-center justify-center rounded-full bg-white text-brand shadow-[var(--shadow-card)] ring-1 ring-border transition hover:text-ink"
+          >
+            <ChevronDown className="size-5 animate-bounce motion-reduce:animate-none" aria-hidden />
+          </a>
         </div>
       </section>
 
       {visible("services") ? (
-        <section className={`py-20 sm:py-28 ${container}`}>
+        <section id="services" className={`scroll-mt-16 py-20 sm:py-28 ${container}`}>
           <SectionHeading
             eyebrow="Expertise & savoir-faire"
             title="Des briques solides pour chaque besoin digital"
