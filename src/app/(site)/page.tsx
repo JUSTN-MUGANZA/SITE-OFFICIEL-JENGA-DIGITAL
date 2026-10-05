@@ -1,5 +1,6 @@
 import { ArrowRight, ChevronDown, Handshake, Layers, PlayCircle, ShieldCheck } from "lucide-react";
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { btnOutline, btnPrimary, card, CtaBand, ProjectCard, ServiceCard, StepCard, TestimonialCard, textLink } from "@/components/site/cards";
 import { HeroSlideshow, RotatingWords } from "@/components/site/hero-motion";
@@ -60,6 +61,15 @@ export default async function HomePage() {
       {/* En-tête */}
       <section className="hero-glow relative overflow-hidden">
         <div className="tech-grid absolute inset-0 [mask-image:radial-gradient(ellipse_at_top_left,black,transparent_70%)]" aria-hidden />
+        {/* Filigrane : l'emblème JENGA, très pâle, derrière le titre. */}
+        <Image
+          src="/brand/mark-transparent.png"
+          alt=""
+          aria-hidden
+          width={256}
+          height={256}
+          className="pointer-events-none absolute -right-24 top-28 w-[24rem] select-none opacity-[0.06] sm:-right-10 sm:w-[30rem] lg:left-[18%] lg:right-auto lg:top-10 lg:w-[34rem]"
+        />
         <div className={`relative grid items-center gap-16 pb-20 pt-12 sm:pt-16 lg:grid-cols-12 lg:pb-28 lg:pt-20 ${container}`}>
           <div className="animate-rise lg:col-span-7">
             <Chip>Agence digitale & technologies</Chip>
@@ -84,7 +94,7 @@ export default async function HomePage() {
               ))}
             </ul>
           </div>
-          <div className="lg:col-span-5">
+          <div className="hidden lg:col-span-5 lg:block">
             <HeroSlideshow images={heroImages} />
           </div>
         </div>
